@@ -1,0 +1,221 @@
+<link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
+<div class="layui-fluid" lay-title="产品管理">
+    <div class="layui-row layui-col-space15">
+
+
+        <div class="layui-col-md12">
+            <form class="layui-card layui-form" layui-filter="add-role">
+                <div class="layui-card-header" id="rolebd_status">添加产品</div>
+                <div class="layui-card-body layui-row layui-col-space10">
+                    <div class="layui-col-md6">
+                        <input type="text" name="name" placeholder="名称" autocomplete="off" lay-verify="required" class="layui-input">
+                    </div>
+                    <div class="layui-col-md6">
+                        <input type="text" name="cas" placeholder="cas" autocomplete="off" class="layui-input">
+                    </div>
+                       <div class="layui-col-md6">
+                        <input type="text" name="chemical" placeholder="化学式" autocomplete="off" class="layui-input">
+                    </div>
+
+                    <div class="layui-col-md6">
+                            
+                            <label class="layui-form-label">类别</label>
+                            <div class="layui-input-block">
+                              <select name="cate" id="cate" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+                     <div class="layui-col-md6">
+                        <input type="text" name="brand" placeholder="品牌" autocomplete="off" class="layui-input">
+                    </div>
+                     <div class="layui-col-md6">
+                        <input type="text" name="pack" placeholder="包装" autocomplete="off" class="layui-input">
+                    </div>
+                     <div class="layui-col-md6">
+                        <input type="text" name="market" placeholder="市场行情" autocomplete="off" class="layui-input">
+                    </div>
+
+                      <div class="layui-col-md6">
+                        <input type="text" name="properties" placeholder="性状" autocomplete="off" class="layui-input">
+                    </div>
+
+                      <div class="layui-col-md6">
+                        <input type="text" name="content" placeholder="含量" autocomplete="off" class="layui-input">
+                    </div>
+
+                      <div class="layui-col-md6">
+                        <input type="text" name="usefor" placeholder="用途" autocomplete="off" class="layui-input">
+                    </div>
+
+                          <div class="layui-col-md12">
+                        <input type="text" name="remark" placeholder="备注" autocomplete="off" class="layui-input">
+                    </div>
+
+                          <div class="layui-col-md12">
+                        <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
+                    </div>
+                   
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="add-product">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 添加角色结束 -->
+
+       
+    </div>
+</div>
+<!-- 角色列表bar tool -->
+<script type="text/html" id="role_bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
+        var $ = layui.jquery;
+        var element = layui.element;
+        var laytpl = layui.laytpl;
+        var formSelects = layui.formSelects;
+        var table = layui.table;
+        var rolebd_status_value = 'add';
+        var form = layui.form;
+
+        // 加载权限列表
+        admin.post({
+            api: 'getcatelist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                    });
+                    $("#cate").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+        // 加载角色列表
+        admin.renderTable({
+            elem: '#role_list'
+            ,api: 'getAllRole'
+            ,page: false //开启分页
+            ,cols: [[ //表头
+                {field: 'role_id', title: '角色id'}
+                ,{field: 'role_name', title: '角色名'}
+                // ,{field: 'role_status', title: '角色状态'
+                //     ,templet: function(d){
+                //         return d.role_status === 0 ? '正常' : '禁用';
+                //     }
+                // }
+                ,{toolbar: '#role_bar'}
+            ]]
+        });
+        // 添加角色添加
+        form.on('submit(add-product)', function (data) {
+            switch (rolebd_status_value) {
+                case 'add':
+                    admin.post({
+                        api: "addproduct",
+                        data: data.field,
+                        success:function (res) {
+                            layer.alert("添加产品成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                    break;
+                case 'edit':
+                    admin.post({
+                        api: "ediRole",
+                        data: data.field,
+                        success:function (res) {
+                            layer.alert("编辑角色成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                    break;
+            }
+
+            return false;
+        });
+
+        formSelects.render();
+        form.render();
+
+        //监听工具条
+        table.on('tool(role_table)', function(obj){
+            let data = obj.data;
+            let layEvent = obj.event;
+            let tr = obj.tr;
+
+            if(layEvent === 'detail'){
+                //do somehing
+            } else if(layEvent === 'del'){
+                layer.confirm('真的删除行么?用户权限会失效的!', function(index){
+                    admin.post({
+                        api: "delRole",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除角色成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
+            } else if(layEvent === 'edit'){
+                // 请求信息接口，然后打开弹窗
+                admin.post({
+                    api: 'getRoleInfo',
+                    data: {
+                        role_id:data.role_id
+                    },
+                    success:function (res) {
+                        rolebd_status_value = 'edit';
+                        $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
+                        $("input[name=role_name]").val(res.result.role_name);
+                        $("input[name=role_id]").val(res.result.role_id);
+                        form.render();
+                        formSelects.value('role_auth', res.result.role_auth.split(","));
+                    }
+                })
+            }
+        });
+
+        // 恢复编辑面板为添加
+        $('body').on('click', '#reset_add_role', function () {
+            $('#rolebd_status').html("添加角色");
+            rolebd_status_value = 'add';
+            $("input[name=role_name]").val('');
+            formSelects.value('role_auth', []);
+            form.render();
+        })
+
+    });
+</script>

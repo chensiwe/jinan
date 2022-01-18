@@ -1,0 +1,9 @@
+#!/bin/bash
+
+datetime=$(date '+%Y-%m-%d %H:%M:%S')
+
+FILE="./Log/siam.txt"
+echo $datetime >> $FILE
+
+# stop server
+php easyswoole server restart -d;
