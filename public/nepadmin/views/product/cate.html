@@ -15,7 +15,7 @@
                         
 
                     </div>
-                    <table id="list-table" lay-filter="list-table"></table>
+                    <table id="calist" lay-filter="calist"></table>
                 </div>
             </div>
         </div>
@@ -90,42 +90,12 @@
         var view = $('#VIEW-list-table');
 
         var formSelects = layui.formSelects;
-        var roleName = [];
-        var authList = [];
-        admin.post({
-            api: 'getAllRole',
-            async: false,
-            success:function (res) {
-                if (!res.result.list){ layer.alert('获取角色列表失败'); }
-                let html = '';
-                $.each(res.result.list, function (index, item) {
-                    roleName[item.role_id] = item.role_name;
-                    html += '<option value="'+item.role_id+'">'+item.role_name+'</option>';
-                });
-                $('#u_role').html(html);
-            }
-        });
-
-        admin.post({
-            api: 'getAllAuth',
-            async: false,
-            success:function (res) {
-                if (!res.result.list){ layer.alert('获取权限列表失败'); }
-                let html = '';
-                $.each(res.result.list, function (index, item) {
-                    authList[item.auth_id] = item;
-                    html += '<option value="'+item.auth_id+'">'+item.auth_name+'</option>';
-                });
-                $('#u_auth').html(html);
-            }
-        });
-
-        formSelects.render();
+   
 
         var tableFilter = 'list-table';
         form.render();
         admin.renderTable({
-            elem: '[lay-filter="' + tableFilter + '"]',
+            elem: '#calist',
             id: 'user-table',
             api: 'getcatelist',
             page: true,
@@ -133,7 +103,7 @@
                 { title: '分类名称', field: 'name', fixed: true},
                
                 { title: '添加时间', field: 'createtime'},
-                { title: '用户状态', field: 'status',templet: function(d){
+                { title: '状态', field: 'status',templet: function(d){
                     return d.status == 1 ? '正常' : '禁用';
                 }},
                 { title: '', fixed: 'right', toolbar:'#user_bar'},

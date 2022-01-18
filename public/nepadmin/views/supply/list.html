@@ -15,7 +15,7 @@
                         <a href="#/supply/addsupply" class="layui-btn layui-btn-xs">添加供应商</a>
 
                     </div>
-                    <table id="list-table" lay-filter="list-table"></table>
+                    <table id="sulist" lay-filter="sulist"></table>
                 </div>
             </div>
         </div>
@@ -111,41 +111,13 @@
         var formSelects = layui.formSelects;
         var roleName = [];
         var authList = [];
-        admin.post({
-            api: 'getAllRole',
-            async: false,
-            success:function (res) {
-                if (!res.result.list){ layer.alert('获取角色列表失败'); }
-                let html = '';
-                $.each(res.result.list, function (index, item) {
-                    roleName[item.role_id] = item.role_name;
-                    html += '<option value="'+item.role_id+'">'+item.role_name+'</option>';
-                });
-                $('#u_role').html(html);
-            }
-        });
-
-        admin.post({
-            api: 'getAllAuth',
-            async: false,
-            success:function (res) {
-                if (!res.result.list){ layer.alert('获取权限列表失败'); }
-                let html = '';
-                $.each(res.result.list, function (index, item) {
-                    authList[item.auth_id] = item;
-                    html += '<option value="'+item.auth_id+'">'+item.auth_name+'</option>';
-                });
-                $('#u_auth').html(html);
-            }
-        });
-
-        formSelects.render();
+  
 
         var tableFilter = 'list-table';
         form.render();
         admin.renderTable({
-            elem: '[lay-filter="' + tableFilter + '"]',
-            id: 'user-table',
+            elem: '#sulist',
+            id: 'sulist',
             api: 'getsupplylist',
             page: true,
             cols: [[
