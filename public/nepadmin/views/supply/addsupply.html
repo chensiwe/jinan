@@ -14,24 +14,63 @@
                         <input type="text" name="name" placeholder="供应商名称" autocomplete="off" lay-verify="required" class="layui-input">
                     </div>
                     <div class="layui-col-md6">
-                        <input type="text" name="address" placeholder="地址" autocomplete="off" class="layui-input">
+                        <input type="text" name="address" placeholder="地址" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
                        <div class="layui-col-md6">
-                        <input type="text" name="contactor" placeholder="联系人" autocomplete="off" class="layui-input">
+                        <input type="text" name="contactor" placeholder="联系人" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
                      <div class="layui-col-md6">
-                        <input type="text" name="phone" placeholder="phonr number" autocomplete="off" class="layui-input">
+                        <input type="text" name="phone" placeholder="phonr number" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
                      <div class="layui-col-md6">
-                        <input type="text" name="info" placeholder="info" autocomplete="off" class="layui-input">
+                        <input type="text" name="info" placeholder="info" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
                      <div class="layui-col-md6">
-                        <input type="text" name="remark" placeholder="remark" autocomplete="off" class="layui-input">
+                        <input type="text" name="remark" placeholder="remark" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
-                    <div class="layui-col-md12">
-                        <select name="role_auth" xm-select="role_auth" xm-select-search="" xm-select-search-type="dl" id="role_auth">
-                        </select>
+                
+
+                        <div class="layui-form-item">
+                       
+                            <a class="layui-btn addcon" >添加联系人</a>
+                 
                     </div>
+
+                    <div class="layui-col-md12" id="lxr"></div>
+
+
+<!-- <div class="layui-col-md12" >
+                            <div class="layui-form-item">
+                <label class="layui-form-label">产品</label>
+                <div class="layui-input-block">
+                    <select name="conitem" xm-select="conname" class="itembox" xm-select-search="" xm-select-search-type="dl">
+                    <option value="2">大青菜</option><option value="1">d</option>
+                    </select>
+                </div>
+            </div>
+
+
+                    </div> -->
+    
+
+
+  
+                   <!--  <div class="layui-col-md12">
+                           <div class="layui-col-md4">
+                        <input type="text" name="name" placeholder="联系人姓名" autocomplete="off" class="layui-input">
+                    </div>
+
+                      <div class="layui-col-md4">
+                        <input type="text" name="phone" placeholder="联系人手机号码" autocomplete="off" class="layui-input">
+                    </div>
+
+                       <button class="layui-btn addcon" >添加产品</button>
+
+
+
+                    </div> -->
+
+
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <button class="layui-btn" lay-submit lay-filter="add-supply">立即提交</button>
@@ -79,6 +118,26 @@
             }
         });
 
+
+        // admin.post({
+        //     api: 'getproducts',
+        //     async: false,
+        //     success:function (res) {
+        //         if (!res.result.list){ layer.alert('获取产品列表失败'); }
+        //         let html = '';
+        //         $.each(res.result.list, function (index, item) {
+                    
+        //             html += '<option value="'+item.id+'">'+item.name+'</option>';
+        //         });
+
+        //         console.log(html);
+        //         $('.itembox').html(html);
+        //     }
+        // });
+
+
+
+
         // 加载角色列表
         admin.renderTable({
             elem: '#role_list'
@@ -103,7 +162,7 @@
                         api: "addSupply",
                         data: data.field,
                         success:function (res) {
-                            layer.alert("添加角色成功",{
+                            layer.alert("添加供应商成功",{
                                 yes:function () {
                                     layui.view.tab.refresh();
                                     layer.closeAll();
@@ -189,7 +248,90 @@
             $("input[name=role_name]").val('');
             formSelects.value('role_auth', []);
             form.render();
-        })
+        });
+
+
+         $('body').on('click', '.addcon', function () {
+            var con = "";
+
+
+            con+=` <div class="layui-col-md12">
+                           <div class="layui-col-md4">
+                        <input type="text" name="conname[]" placeholder="联系人姓名" autocomplete="off" class="layui-input" lay-verify="required">
+                             </div>
+
+                      <div class="layui-col-md4">
+                        <input type="text" name="conphone[]" placeholder="联系人手机号码" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+
+                       <a class="layui-btn additem" >添加产品</a>
+
+
+                    </div>`;
+
+                    $("#lxr").append(con);
+
+
+
+
+        });
+
+
+
+
+
+
+         $('body').on('click', '.additem', function (event) {
+            var con = "";
+
+
+
+        admin.post({
+            api: 'getproducts',
+            async: false,
+            success:function (res) {
+                if (!res.result.list){ layer.alert('获取产品列表失败'); }
+                let html = '';
+                $.each(res.result.list, function (index, item) {
+                    
+                    html += '<option value="'+item.id+'">'+item.name+'</option>';
+                });
+
+                console.log(html);
+              
+
+
+
+
+            con+=` <div class="layui-col-md12" >
+                            <div class="layui-form-item">
+                <label class="layui-form-label">产品</label>
+                <div class="layui-input-block">
+                    <select name="name" xm-select="name" class="itembox" xm-select-search="" xm-select-search-type="dl">
+                    `+html+`
+                    </select>
+                </div>
+            </div>
+
+
+                    </div>`;
+                    console.log(con);
+
+                $("#lxr").append(con);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+        });
+
 
     });
 </script>

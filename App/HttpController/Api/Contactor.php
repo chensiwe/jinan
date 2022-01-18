@@ -2,7 +2,6 @@
 
 namespace App\HttpController\Api;
 
-use App\Model\SupplyModel;
 use App\Model\ContactorModel;
 use EasySwoole\Component\Context\ContextManager;
 use EasySwoole\HttpAnnotation\AnnotationController;
@@ -22,17 +21,17 @@ use EasySwoole\Http\Message\Status;
 use EasySwoole\Validate\Validate;
 
 /**
- * Supply
- * Class Supply
+ * Contactor
+ * Class Contactor
  * Create With ClassGeneration
- * @ApiGroup(groupName="/Api.Supply")
+ * @ApiGroup(groupName="/Api.Contactor")
  * @ApiGroupAuth(name="")
  * @ApiGroupDescription("")
  */
-class Supply extends AnnotationController
+class Contactor extends AnnotationController
 {
 	/**
-	 * @Api(name="add",path="/Api/Supply/add")
+	 * @Api(name="add",path="/Api/Contactor/add")
 	 * @ApiDescription("新增数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -41,52 +40,26 @@ class Supply extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="name",lengthMax="100",required="")
-	 * @Param(name="contactor",lengthMax="10",required="")
-	 * @Param(name="phone",lengthMax="11",required="")
-	 * @Param(name="address",lengthMax="150",required="")
-	 * @Param(name="remark",lengthMax="200",required="")
-	 * @Param(name="info",required="")
+	 * @Param(name="name",lengthMax="20",required="")
+	 * @Param(name="phone",lengthMax="12",required="")
+	 * @Param(name="addtime",lengthMax="16",required="")
 	 */
 	public function add()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$data = [
 		    'name'=>$param['name'],
-		    'contactor'=>$param['contactor'],
 		    'phone'=>$param['phone'],
-		    'address'=>$param['address'],
-		    'remark'=>$param['remark'],
-		    'info'=>$param['info'],
-		    'createtime'=>time(),
-		    'status'=>1,
+		    'addtime'=>$param['addtime'],
 		];
-		$model = new SupplyModel($data);
-		$sid = $model->save();
-
-		$con_phones = $param['conphone'];
-		$con_names = $param['conname'];
-
-		$datas = $this->request()->getRequestParam();
-		$con_names = $datas['conname'];
-		$con_phones = $datas['conphone'];
-		$size = count($con_phones);
-		if ($sid) {
-			$conmodel = new ContactorModel();
-				for ($i=0; $i < $size; $i++) { 
-					
-					$conmodel->addData($con_names[$i],$con_phones[$i],time());
-				}
-
-		}
-
-
+		$model = new ContactorModel($data);
+		$model->save();
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
 
 	/**
-	 * @Api(name="update",path="/Api/Supply/update")
+	 * @Api(name="update",path="/Api/Contactor/update")
 	 * @ApiDescription("更新数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -96,19 +69,14 @@ class Supply extends AnnotationController
 	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
 	 * @Param(name="id",required="")
-	 * @Param(name="name",lengthMax="100",optional="")
-	 * @Param(name="contactor",lengthMax="10",optional="")
-	 * @Param(name="phone",lengthMax="11",optional="")
-	 * @Param(name="address",lengthMax="150",optional="")
-	 * @Param(name="remark",lengthMax="200",optional="")
-	 * @Param(name="info",optional="")
-	 * @Param(name="createtime",lengthMax="15",optional="")
-	 * @Param(name="status",lengthMax="1",optional="")
+	 * @Param(name="name",lengthMax="20",optional="")
+	 * @Param(name="phone",lengthMax="12",optional="")
+	 * @Param(name="addtime",lengthMax="16",optional="")
 	 */
 	public function update()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new SupplyModel();
+		$model = new ContactorModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (empty($info)) {
 		    $this->writeJson(Status::CODE_BAD_REQUEST, [], '该数据不存在');
@@ -117,20 +85,15 @@ class Supply extends AnnotationController
 		$updateData = [];
 
 		$updateData['name']=$param['name'] ?? $info->name;
-		$updateData['contactor']=$param['contactor'] ?? $info->contactor;
 		$updateData['phone']=$param['phone'] ?? $info->phone;
-		$updateData['address']=$param['address'] ?? $info->address;
-		$updateData['remark']=$param['remark'] ?? $info->remark;
-		$updateData['info']=$param['info'] ?? $info->info;
-		$updateData['createtime']=$param['createtime'] ?? $info->createtime;
-		$updateData['status']=$param['status'] ?? $info->status;
+		$updateData['addtime']=$param['addtime'] ?? $info->addtime;
 		$info->update($updateData);
 		$this->writeJson(Status::CODE_OK, $info, "更新数据成功");
 	}
 
 
 	/**
-	 * @Api(name="getOne",path="/Api/Supply/getOne")
+	 * @Api(name="getOne",path="/Api/Contactor/getOne")
 	 * @ApiDescription("获取一条数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -142,25 +105,20 @@ class Supply extends AnnotationController
 	 * @Param(name="id",required="")
 	 * @ApiSuccessParam(name="result.id",description="")
 	 * @ApiSuccessParam(name="result.name",description="")
-	 * @ApiSuccessParam(name="result.contactor",description="")
 	 * @ApiSuccessParam(name="result.phone",description="")
-	 * @ApiSuccessParam(name="result.address",description="")
-	 * @ApiSuccessParam(name="result.remark",description="")
-	 * @ApiSuccessParam(name="result.info",description="")
-	 * @ApiSuccessParam(name="result.createtime",description="")
-	 * @ApiSuccessParam(name="result.status",description="")
+	 * @ApiSuccessParam(name="result.addtime",description="")
 	 */
 	public function getOne()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new SupplyModel();
+		$model = new ContactorModel();
 		$info = $model->get(['id' => $param['id']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
 
 
 	/**
-	 * @Api(name="getList",path="/Api/Supply/getList")
+	 * @Api(name="getList",path="/Api/Contactor/getList")
 	 * @ApiDescription("获取数据列表")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -173,20 +131,15 @@ class Supply extends AnnotationController
 	 * @Param(name="pageSize", from={GET,POST}, alias="每页总数", optional="")
 	 * @ApiSuccessParam(name="result[].id",description="")
 	 * @ApiSuccessParam(name="result[].name",description="")
-	 * @ApiSuccessParam(name="result[].contactor",description="")
 	 * @ApiSuccessParam(name="result[].phone",description="")
-	 * @ApiSuccessParam(name="result[].address",description="")
-	 * @ApiSuccessParam(name="result[].remark",description="")
-	 * @ApiSuccessParam(name="result[].info",description="")
-	 * @ApiSuccessParam(name="result[].createtime",description="")
-	 * @ApiSuccessParam(name="result[].status",description="")
+	 * @ApiSuccessParam(name="result[].addtime",description="")
 	 */
 	public function getList()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
-		$model = new SupplyModel();
+		$model = new ContactorModel();
 
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
@@ -194,7 +147,7 @@ class Supply extends AnnotationController
 
 
 	/**
-	 * @Api(name="delete",path="/Api/Supply/delete")
+	 * @Api(name="delete",path="/Api/Contactor/delete")
 	 * @ApiDescription("删除数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -208,7 +161,7 @@ class Supply extends AnnotationController
 	public function delete()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new SupplyModel();
+		$model = new ContactorModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (!$info) {
 		    $this->writeJson(Status::CODE_OK, $info, "数据不存在.");
