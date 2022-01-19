@@ -37,6 +37,18 @@ layui.define([], function (exports) {
         addproduct:'product/add',
         getproducts:'product/getList',
 
+        //借贷列表
+        getborrows:'borrow/getList',
+        addborrow:'borrow/add',
+
+        getbanks:'bank/getList',
+        getxds:'xd/getList',
+        getmjs:'mj/getList',
+        getcards:'card/getList',
+        getways:'ways/getList',
+        getcustypes:'Custype/getList',
+        readreminder:'borrow/setread',
+
 
     });
 });

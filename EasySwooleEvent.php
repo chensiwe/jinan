@@ -19,10 +19,11 @@ use EasySwoole\Http\Response;
 use EasySwoole\ORM\Db\Connection;
 use EasySwoole\ORM\DbManager;
 use EasySwoole\Spl\SplArray;
+use EasySwoole\Redis\Config\RedisConfig;
 use EasySwoole\Utility\File;
 use Siam\Plugs\common\utils\PlugsHook;
 use Siam\Plugs\PlugsInitialization;
-
+use App\Libs\RedisUtil;
 class EasySwooleEvent implements Event
 {
     public static function initialize()
@@ -89,6 +90,14 @@ class EasySwooleEvent implements Event
 
     public static function mainServerCreate(EventRegister $register)
     {
+        Di::getInstance()->set('REDIS', RedisUtil::getInstance());
+
+
+
+        $config = new \EasySwoole\Pool\Config();
+        $redisConfig1 = new \EasySwoole\Redis\Config\RedisConfig(\EasySwoole\EasySwoole\Config::getInstance()->getConf('REDIS'));
+        \EasySwoole\Pool\Manager::getInstance()->register(new \App\Libs\RedisPool($config,$redisConfig1),'redis');
+
         // 注册onWorkerStart事件 处理自动加载
         $register->add(EventRegister::onWorkerStart, function (\swoole_server $server, $workerIds) {
             PlugsInitialization::initAutoload();
@@ -153,6 +162,13 @@ class EasySwooleEvent implements Event
             echo "[Warn] --> fast-cache注册失败\n";
         } catch (RuntimeError $e) {
             echo "[Warn] --> fast-cache注册失败\n";
+        }
+
+
+        if ($workerId == 0) {
+            \EasySwoole\Component\Timer::getInstance()->loop(5 * 1000, function () {
+                \App\Service\Money::check();
+            });
         }
 
     }

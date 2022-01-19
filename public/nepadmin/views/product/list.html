@@ -4,7 +4,7 @@
         top:unset !important;
     }
 </style>
-<div class="layui-fluid" id="VIEW-list-table" lay-title="产品列表">
+<div class="layui-fluid" id="VIEW-plist" lay-title="产品列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
             <div class="layui-card">
@@ -25,18 +25,31 @@
                 <div class="layui-card-body">
                     <form class="layui-row layui-col-space10 layui-form">
                         <div class="layui-col-md12 layui-col-xs4">
-                            <input type="text" class="layui-input" name="name" placeholder="用户名" >
+                            <input type="text" class="layui-input" name="name" placeholder="产品名称" >
+                        
+                             <label class="layui-form-label">类别</label>
+                            
+                              <select name="cate" id="catefilter" lay-verify="required">
+                                
+                              </select>
+                     
                         </div>
+
+
                         <div class="layui-col-md12 layui-col-xs12">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-user">筛选</div>
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-pro">筛选</div>
                                 </div>
                                 <div class="layui-col-xs6">
                                     <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
                                 </div>
                             </div>
                         </div>
+
+
+
+
                     </form>
                 </div>
             </div>
@@ -57,8 +70,7 @@
     </div>
 </div>
 
-<!-- 用户列表bar tool -->
-<script type="text/html" id="user_bar">
+<script type="text/html" id="pro_bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -67,12 +79,31 @@
 
 <script>
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
-        var view = $('#VIEW-list-table');
+        var view = $('#VIEW-plist');
 
         var formSelects = layui.formSelects;
    
 
         var tableFilter = 'plist';
+
+          // 加载权限列表
+        admin.post({
+            api: 'getcatelist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                    });
+                    $("#catefilter").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
        
         admin.renderTable({
             elem: '[lay-filter="' + tableFilter + '"]',
@@ -87,10 +118,76 @@
                 { title: '品牌', field: 'brand'},
                 { title: '包装', field: 'pack'},
                 { title: '含量', field: 'content'},
-                { title: '', fixed: 'right', toolbar:'#user_bar'},
+                { title: '', fixed: 'right', toolbar:'#pro_bar'},
 
             ]]
         });
+
+         // filter the data
+        form.on('submit(search-pro)', function (data) {
+            table.reload( 'plist', {
+                where: {
+                    keyword:data.field.name,
+                    cate:data.field.cate
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            return false;
+        });
+
+
+
+
+
+
+         table.on('tool(plist)', function(obj){
+            let data = obj.data;
+            let layEvent = obj.event;
+            let tr = obj.tr;
+
+            console.log(layEvent);
+            console.log(data);
+
+            // if(layEvent === 'detail'){
+            //     //do somehing
+            // } else if(layEvent === 'del'){
+            //     layer.confirm('真的删除行么?用户权限会失效的!', function(index){
+            //         admin.post({
+            //             api: "delRole",
+            //             data: data,
+            //             success:function (res) {
+            //                 layer.alert("删除角色成功",{
+            //                     yes:function () {
+            //                         layui.view.tab.refresh();
+            //                         layer.closeAll();
+            //                         formSelects.render();
+            //                         form.render();
+            //                     }
+            //                 })
+            //             }
+            //         });
+            //     });
+            // } else if(layEvent === 'edit'){
+            //     // 请求信息接口，然后打开弹窗
+            //     admin.post({
+            //         api: 'getRoleInfo',
+            //         data: {
+            //             role_id:data.role_id
+            //         },
+            //         success:function (res) {
+            //             rolebd_status_value = 'edit';
+            //             $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
+            //             $("input[name=role_name]").val(res.result.role_name);
+            //             $("input[name=role_id]").val(res.result.role_id);
+            //             form.render();
+            //             formSelects.value('role_auth', res.result.role_auth.split(","));
+            //         }
+            //     })
+            // }
+        });
+
 
        
        

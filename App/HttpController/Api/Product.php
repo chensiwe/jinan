@@ -199,6 +199,14 @@ class Product extends AnnotationController
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
 		$model = new ProductModel();
+		$datas = $this->request()->getRequestParam();
+		 if (isset($datas['keyword'])){
+            $model->where('name', "%{$datas['keyword']}%", 'like');
+        }
+
+        if (isset($datas['cate'])){
+            $model->where(['cate'=>$datas['cate']]);
+        }
 
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');

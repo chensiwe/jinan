@@ -4,7 +4,7 @@
         top:unset !important;
     }
 </style>
-<div class="layui-fluid" id="VIEW-list-table" lay-title="供应商列表">
+<div class="layui-fluid" id="VIEW-sulist" lay-title="供应商列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
             <div class="layui-card">
@@ -63,50 +63,11 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-<!-- 添加用户面板 -->
-<div id="add_user_bd" hidden>
-    <div style="padding: 10px;">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-block">
-                    <input type="text" name="u_name" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">密码</label>
-                <div class="layui-input-block">
-                    <input type="password" name="u_password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">角色</label>
-                <div class="layui-input-block">
-                    <select name="role_id" xm-select="u_role" xm-select-search="" xm-select-search-type="dl" lay-verify="required" id="u_role">
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">权限</label>
-                <div class="layui-input-block">
-                    <select name="u_auth" xm-select="u_auth" xm-select-search="" xm-select-search-type="dl" id="u_auth">
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="add-user">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
-            </div>
-        </form>
 
-    </div>
-</div>
 
 <script>
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
-        var view = $('#VIEW-list-table');
+        var view = $('#VIEW-sulist');
 
         var formSelects = layui.formSelects;
         var roleName = [];
@@ -190,7 +151,7 @@
         });
 
         //监听工具条
-        table.on('tool(list-table)', function(obj){
+        table.on('tool(sulist)', function(obj){
             let data = obj.data;
             let layEvent = obj.event;
             let tr = obj.tr;

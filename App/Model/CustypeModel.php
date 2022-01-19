@@ -5,17 +5,15 @@ namespace App\Model;
 use EasySwoole\ORM\AbstractModel;
 
 /**
- * ContactorModel
- * Class ContactorModel
+ * CustypeModel
+ * Class CustypeModel
  * Create With ClassGeneration
  * @property int $id //
  * @property string $name //
- * @property string $phone //
- * @property string $addtime //
  */
-class ContactorModel extends AbstractModel
+class CustypeModel extends AbstractModel
 {
-	protected $tableName = 'siam_contactor';
+	protected $tableName = 'siam_custype';
 
 
 	public function getList(int $page = 1, int $pageSize = 10, string $field = '*'): array
@@ -38,12 +36,10 @@ class ContactorModel extends AbstractModel
 	}
 
 
-	public function addData(string $name, string $phone, string $addtime): self
+	public function addData(string $name): self
 	{
 		$data = [
 		    'name'=>$name,
-		    'phone'=>$phone,
-		    'addtime'=>$addtime,
 		];
 		$model = new self($data);
 		$model->save();
