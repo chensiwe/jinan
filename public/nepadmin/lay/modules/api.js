@@ -47,11 +47,22 @@ layui.define([], function (exports) {
         getcards:'card/getList',
         getways:'ways/getList',
         getcustypes:'Custype/getList',
+        delutype:'Custype/delete',
+        addusertype:'Custype/add',
         readreminder:'borrow/setread',
         addbank:'bank/add',
         delbank:'bank/delete',
         addmj:'mj/add',
         delmj:'mj/delete',
+        delcard:'card/delete',
+        addcard:'card/add',
+        addfrom:'from/add',
+        getfrom:'from/getList',
+        delfrom:'from/delete',
+        addway:'ways/add',
+        getways:'ways/getList',
+        delway:'ways/delete',
+
 
     });
 });

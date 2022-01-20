@@ -4,8 +4,8 @@
         top:unset !important;
     }
 </style>
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<div class="layui-fluid" id="VIEW-borrowlist" lay-title="借贷列表">
+
+<div class="layui-fluid" id="VIEW-from" lay-title="车贷列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
             <div class="layui-card">
@@ -13,80 +13,31 @@
                     <div class="layui-btn-container">
                        <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
 
-                        <a href="#/borrow/add" class="layui-btn layui-btn-xs">录入</a>
+                        <a href="#/card/add" class="layui-btn layui-btn-xs">录入车贷</a>
 
                     </div>
-                    <table id="borrowlist" lay-filter="borrowlist"></table>
+                    <table id="from" lay-filter="from"></table>
                 </div>
             </div>
         </div>
 
         <div class="layui-col-md2">
             <div class="layui-card">
-                <div class="layui-card-header">筛选数据11</div>
+                <div class="layui-card-header">筛选数据</div>
                 <div class="layui-card-body">
                     <form class="layui-row layui-col-space10 layui-form">
                         
                    
-            <div class="layui-col-md12 layui-col-xs4">
-                       
-                    
-                         <label class="layui-form-label">银行</label>
-                            <div class="layui-input-block">
-                              <select  name="bank" id="bank">
-                              
-                              </select>
-                            </div>
-             </div>
+          <div class="layui-col-md12 layui-col-xs4">
+                            <input type="text" class="layui-input" name="name" placeholder="" >
+                        </div>
 
-
-                <div class="layui-col-md12 layui-col-xs4">
-                       
-                    
-                          <label class="layui-form-label">民间</label>
-                            <div class="layui-input-block">
-                              <select name="mj" id="mj" lay-verify="required">
-                               
-                              </select>
-                            </div>
-             </div>
-
-
-                <div class="layui-col-md12 layui-col-xs4">
-                       
-                    
-                         <label class="layui-form-label">信贷</label>
-                            <div class="layui-input-block">
-                              <select name="xd" id="xd" lay-verify="required">
-                               
-                              </select>
-                            </div>
-                     
-             </div>
-
-
-                <div class="layui-col-md12 layui-col-xs4">
-                       
-                     <label class="layui-form-label">车贷</label>
-                            <div class="layui-input-block">
-                              <select name="card" id="card" lay-verify="required">
-                               
-                              </select>
-                            </div>
-                     
-             </div>
-
-                  
-
-
-
-
-
+        
 
                         <div class="layui-col-md12 layui-col-xs12">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-list">筛选</div>
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-from">筛选</div>
                                 </div>
                                 <div class="layui-col-xs6">
                                     <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
@@ -107,200 +58,45 @@
     </div>
 </div>
 
-<!-- 提醒到期面板 -->
-<div id="reminder" hidden>
-    <div style="padding: 10px;">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label">到期还款提醒</label>
-                
-            </div>
 
-               <div class="layui-form-item" id="remindercon">
-              
-                
-            </div>
-
-
-           
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="add-user">我知道了</button>
-                </div>
-            </div>
-        </form>
-
-    </div>
-</div>
-
-
-
-<script type="text/html" id="borrow_bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+<script type="text/html" id="mj_bar">
+  <!--   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 
-
 <script>
 
-//int str uinx 时间戳
-//如果是uinx时间戳记得乘于1000
-function set_time(str){
-  var n = parseInt(str)*1000;
-  var D = new Date(n);
-  var year = D.getFullYear();//四位数年份
 
-  var month = D.getMonth()+1;//月份(0-11),0为一月份
-  month = month<10?('0'+month):month;
-
-  var day = D.getDate();//月的某一天(1-31)
-  day = day<10?('0'+day):day;
-
-  var hours = D.getHours();//小时(0-23)
-  hours = hours<10?('0'+hours):hours;
-
-  var minutes = D.getMinutes();//分钟(0-59)
-  minutes = minutes<10?('0'+minutes):minutes;
-
-  // var seconds = D.getSeconds();//秒(0-59)
-  // seconds = seconds<10?('0'+seconds):seconds;
-  // var week = D.getDay();//周几(0-6),0为周日
-  // var weekArr = ['周日','周一','周二','周三','周四','周五','周六'];
-
-  var now_time = year+'-'+month+'-'+day+' '+hours+':'+minutes;
-  return now_time;
-}
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
-        var view = $('#VIEW-borrowlist');
+        var view = $('#VIEW-from');
 
         var formSelects = layui.formSelects;
    
 
-        var tableFilter = 'borrowlist';
+        var tableFilter = 'from';
 
           // 加载权限列表
-       
-admin.post({
-            api: 'getbanks',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#bank").html(html);
-                }
 
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
- admin.post({
-            api: 'getcustypes',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#customertype").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-         admin.post({
-            api: 'getmjs',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#mj").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-  admin.post({
-            api: 'getxds',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#xd").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-    admin.post({
-            api: 'getcards',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#card").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-       
         admin.renderTable({
             elem: '[lay-filter="' + tableFilter + '"]',
-            id: 'borrowlist',
-            api: 'getborrows',
+            id: 'cards',
+            api: 'getcards',
             page: true,
             cols: [[
-                { title: '客户', field: 'customer'},
-                { title: '电话', field: 'phone'},
-                { title: '银行', field: 'bank'},
-                { title: '民间', field: 'mj'},
-                { title: '信贷', field: 'xd'},
-                { title: '车贷', field: 'card'},
-                { title: '金额', field: 'cash'},
-
-                { title: '放款时间', field: 'approvetime',templet: function(d){
-                    return set_time(d.approvetime);
-                }},
-
-                { title: '到期日', field: 'expiretime',templet: function(d){
-                    return set_time(d.expiretime);
-                }},
-                { title: '还款日', field: 'backtime',templet: function(d){
-                    return set_time(d.backtime);
-                }},
-                { title: '还款方式', field: 'way'},
-                // { title: '', fixed: 'right', toolbar:'#borrow_bar'},
+                { title: '名称', field: 'name'},
+               
+                { title: '', fixed: 'right', toolbar:'#mj_bar'},
 
             ]]
         });
 
          // filter the data
-        form.on('submit(search-list)', function (data) {
-            table.reload( 'plist', {
+        form.on('submit(search-from)', function (data) {
+            table.reload( 'cards', {
                 where: {
                     keyword:data.field.name,
-                    cate:data.field.cate
+                  
                 }
                 ,page: {
                     curr: 1 //重新从第 1 页开始
@@ -311,9 +107,7 @@ admin.post({
 
 
 
-
-
-         table.on('tool(plist)', function(obj){
+         table.on('tool(from)', function(obj){
             let data = obj.data;
             let layEvent = obj.event;
             let tr = obj.tr;
@@ -321,42 +115,26 @@ admin.post({
             console.log(layEvent);
             console.log(data);
 
-            // if(layEvent === 'detail'){
-            //     //do somehing
-            // } else if(layEvent === 'del'){
-            //     layer.confirm('真的删除行么?用户权限会失效的!', function(index){
-            //         admin.post({
-            //             api: "delRole",
-            //             data: data,
-            //             success:function (res) {
-            //                 layer.alert("删除角色成功",{
-            //                     yes:function () {
-            //                         layui.view.tab.refresh();
-            //                         layer.closeAll();
-            //                         formSelects.render();
-            //                         form.render();
-            //                     }
-            //                 })
-            //             }
-            //         });
-            //     });
-            // } else if(layEvent === 'edit'){
-            //     // 请求信息接口，然后打开弹窗
-            //     admin.post({
-            //         api: 'getRoleInfo',
-            //         data: {
-            //             role_id:data.role_id
-            //         },
-            //         success:function (res) {
-            //             rolebd_status_value = 'edit';
-            //             $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
-            //             $("input[name=role_name]").val(res.result.role_name);
-            //             $("input[name=role_id]").val(res.result.role_id);
-            //             form.render();
-            //             formSelects.value('role_auth', res.result.role_auth.split(","));
-            //         }
-            //     })
-            // }
+            if(layEvent === 'detail'){
+                //do somehing
+            } else if(layEvent === 'del'){
+                layer.confirm('真的删除行么?', function(index){
+                    admin.post({
+                        api: "delcard",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
+            } 
         });
 
 
@@ -367,7 +145,7 @@ admin.post({
     })
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
       layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
 
 function hello(){
@@ -454,4 +232,4 @@ var t1 = window.setInterval(hello,6000);
 
 
 })
-</script>
+</script> -->

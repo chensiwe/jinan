@@ -18,7 +18,7 @@
     
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="add-card">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="add-from">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -49,11 +49,11 @@
        
 
         // 添加角色添加
-        form.on('submit(add-card)', function (data) {
+        form.on('submit(add-from)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
                     admin.post({
-                        api: "addcard",
+                        api: "addfrom",
                         data: data.field,
                         success:function (res) {
                             layer.alert("录入成功",{

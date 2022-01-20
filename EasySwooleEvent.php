@@ -166,7 +166,7 @@ class EasySwooleEvent implements Event
 
 
         if ($workerId == 0) {
-            \EasySwoole\Component\Timer::getInstance()->loop(5 * 1000, function () {
+            \EasySwoole\Component\Timer::getInstance()->loop(20 * 1000, function () {
                 \App\Service\Money::check();
             });
         }

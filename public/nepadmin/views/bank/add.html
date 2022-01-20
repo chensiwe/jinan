@@ -100,9 +100,9 @@
             if(layEvent === 'detail'){
                 //do somehing
             } else if(layEvent === 'del'){
-                layer.confirm('真的删除行么?用户权限会失效的!', function(index){
+                layer.confirm('真的删除行么?', function(index){
                     admin.post({
-                        api: "delRole",
+                        api: "delbank",
                         data: data,
                         success:function (res) {
                             layer.alert("删除角色成功",{

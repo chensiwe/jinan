@@ -41,14 +41,13 @@ class From extends AnnotationController
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
 	 * @Param(name="name",lengthMax="30",required="")
-	 * @Param(name="addtime",lengthMax="15",required="")
 	 */
 	public function add()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$data = [
 		    'name'=>$param['name'],
-		    'addtime'=>$param['addtime'],
+		    'addtime'=>time(),
 		];
 		$model = new FromModel($data);
 		$model->save();
@@ -134,7 +133,10 @@ class From extends AnnotationController
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
 		$model = new FromModel();
-
+		$datas = $this->request()->getRequestParam();
+		if (isset($datas['keyword'])){
+            $model->where('name', "%{$datas['keyword']}%", 'like');
+        }
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
 	}

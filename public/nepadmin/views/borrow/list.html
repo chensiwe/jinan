@@ -4,7 +4,7 @@
         top:unset !important;
     }
 </style>
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
 <div class="layui-fluid" id="VIEW-borrowlist" lay-title="借贷列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
@@ -292,7 +292,17 @@ admin.post({
                 { title: '还款方式', field: 'way'},
                 // { title: '', fixed: 'right', toolbar:'#borrow_bar'},
 
-            ]]
+            ]],done:function (res) {
+                console.log(res);
+                res.result.forEach(function (item,index) {
+                    //如果是置顶，修改这行文字颜色
+                    if(item.color == 'red'){
+                        console.log(item);
+                        $(".layui-table-body tbody tr[data-index='"+index+"']").css({'color': "red" });
+                    }
+
+                });
+            }
         });
 
          // filter the data
@@ -450,7 +460,7 @@ var remin = `<div class="layui-card">
         });
 
 //重复执行某个方法
-var t1 = window.setInterval(hello,6000);
+var t1 = window.setInterval(hello,20000);
 
 
 })

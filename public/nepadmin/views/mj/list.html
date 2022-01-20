@@ -4,8 +4,8 @@
         top:unset !important;
     }
 </style>
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<div class="layui-fluid" id="VIEW-mjlist" lay-title="民间列表">
+
+<div class="layui-fluid" id="VIEW-mj-list" lay-title="民间列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
             <div class="layui-card">
@@ -13,10 +13,10 @@
                     <div class="layui-btn-container">
                        <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
 
-                        <a href="#/mj/add" class="layui-btn layui-btn-xs">录入银行</a>
+                        <a href="#/mj/add" class="layui-btn layui-btn-xs">录入民间</a>
 
                     </div>
-                    <table id="mjlist" lay-filter="mjlist"></table>
+                    <table id="mj-list" lay-filter="mj-list"></table>
                 </div>
             </div>
         </div>
@@ -28,65 +28,16 @@
                     <form class="layui-row layui-col-space10 layui-form">
                         
                    
-            <div class="layui-col-md12 layui-col-xs4">
-                       
-                    
-                         <label class="layui-form-label">银行</label>
-                            <div class="layui-input-block">
-                              <select  name="bank" id="bank">
-                              
-                              </select>
-                            </div>
-             </div>
+          <div class="layui-col-md12 layui-col-xs4">
+                            <input type="text" class="layui-input" name="name" placeholder="" >
+                        </div>
 
-
-                <div class="layui-col-md12 layui-col-xs4">
-                       
-                    
-                          <label class="layui-form-label">民间</label>
-                            <div class="layui-input-block">
-                              <select name="mj" id="mj" lay-verify="required">
-                               
-                              </select>
-                            </div>
-             </div>
-
-
-                <div class="layui-col-md12 layui-col-xs4">
-                       
-                    
-                         <label class="layui-form-label">信贷</label>
-                            <div class="layui-input-block">
-                              <select name="xd" id="xd" lay-verify="required">
-                               
-                              </select>
-                            </div>
-                     
-             </div>
-
-
-                <div class="layui-col-md12 layui-col-xs4">
-                       
-                     <label class="layui-form-label">车贷</label>
-                            <div class="layui-input-block">
-                              <select name="card" id="card" lay-verify="required">
-                               
-                              </select>
-                            </div>
-                     
-             </div>
-
-                  
-
-
-
-
-
+        
 
                         <div class="layui-col-md12 layui-col-xs12">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-list">筛选</div>
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-mj-list">筛选</div>
                                 </div>
                                 <div class="layui-col-xs6">
                                     <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
@@ -114,130 +65,19 @@
 </script>
 
 
-
 <script>
 
-//int str uinx 时间戳
-//如果是uinx时间戳记得乘于1000
-function set_time(str){
-  var n = parseInt(str)*1000;
-  var D = new Date(n);
-  var year = D.getFullYear();//四位数年份
 
-  var month = D.getMonth()+1;//月份(0-11),0为一月份
-  month = month<10?('0'+month):month;
-
-  var day = D.getDate();//月的某一天(1-31)
-  day = day<10?('0'+day):day;
-
-  var hours = D.getHours();//小时(0-23)
-  hours = hours<10?('0'+hours):hours;
-
-  var minutes = D.getMinutes();//分钟(0-59)
-  minutes = minutes<10?('0'+minutes):minutes;
-
-  // var seconds = D.getSeconds();//秒(0-59)
-  // seconds = seconds<10?('0'+seconds):seconds;
-  // var week = D.getDay();//周几(0-6),0为周日
-  // var weekArr = ['周日','周一','周二','周三','周四','周五','周六'];
-
-  var now_time = year+'-'+month+'-'+day+' '+hours+':'+minutes;
-  return now_time;
-}
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
-        var view = $('#VIEW-mjlist');
+        var view = $('#VIEW-mj-list');
 
         var formSelects = layui.formSelects;
    
 
-        var tableFilter = 'mjlist';
+        var tableFilter = 'mj-list';
 
           // 加载权限列表
-       
-admin.post({
-            api: 'getbanks',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#bank").html(html);
-                }
 
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
- admin.post({
-            api: 'getcustypes',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#customertype").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-         admin.post({
-            api: 'getmjs',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#mj").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-  admin.post({
-            api: 'getxds',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#xd").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-    admin.post({
-            api: 'getcards',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#card").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-       
         admin.renderTable({
             elem: '[lay-filter="' + tableFilter + '"]',
             id: 'mjlist',
@@ -252,11 +92,11 @@ admin.post({
         });
 
          // filter the data
-        form.on('submit(search-list)', function (data) {
-            table.reload( 'plist', {
+        form.on('submit(search-mj-list)', function (data) {
+            table.reload( 'mjlist', {
                 where: {
                     keyword:data.field.name,
-                    cate:data.field.cate
+                  
                 }
                 ,page: {
                     curr: 1 //重新从第 1 页开始
@@ -267,9 +107,7 @@ admin.post({
 
 
 
-
-
-         table.on('tool(mjlist)', function(obj){
+         table.on('tool(mj-list)', function(obj){
             let data = obj.data;
             let layEvent = obj.event;
             let tr = obj.tr;
@@ -296,23 +134,7 @@ admin.post({
                         }
                     });
                 });
-            } else if(layEvent === 'edit'){
-                // 请求信息接口，然后打开弹窗
-                admin.post({
-                    api: 'getRoleInfo',
-                    data: {
-                        role_id:data.role_id
-                    },
-                    success:function (res) {
-                        rolebd_status_value = 'edit';
-                        $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
-                        $("input[name=role_name]").val(res.result.role_name);
-                        $("input[name=role_id]").val(res.result.role_id);
-                        form.render();
-                        formSelects.value('role_auth', res.result.role_auth.split(","));
-                    }
-                })
-            }
+            } 
         });
 
 
@@ -323,7 +145,7 @@ admin.post({
     })
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
       layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
 
 function hello(){
@@ -410,4 +232,4 @@ var t1 = window.setInterval(hello,6000);
 
 
 })
-</script>
+</script> -->

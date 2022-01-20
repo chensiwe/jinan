@@ -236,12 +236,31 @@ class Borrow extends AnnotationController
 	 */
 	public function getList()
 	{
+
+	$redis=\EasySwoole\Pool\Manager::getInstance()->get('redis')->getObj();
+        
+
+        $allreds = $redis->hkeys("money");
+        for ($i=0; $i < count($allreds); $i++) { 
+        	$allreds[$i] = intval($allreds[$i]);
+        }
+
+        var_dump($allreds);
+
+
+ \EasySwoole\Pool\Manager::getInstance()->get('redis')->recycleObj($redis);
+
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
 		$model = new BorrowModel();
-
 		$data = $model->getList($page, $pageSize);
+		for ($i=0; $i < count($data['list']); $i++) { 
+			if (in_array($data['list'][$i]['id'], $allreds)) {
+			
+				$data['list'][$i]['color'] = "red";
+			}
+		}
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
 	}
 
@@ -304,6 +323,7 @@ class Borrow extends AnnotationController
 
 		$redis=\App\Libs\RedisUtil::getInstance();
 		$redis->hSet("money",intval($id),"1");
+		 \EasySwoole\Pool\Manager::getInstance()->get('redis')->recycleObj($redis);
 		$this->writeJson(Status::CODE_OK, [], "删除成功.");
 
 	}

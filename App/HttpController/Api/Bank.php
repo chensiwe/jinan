@@ -133,6 +133,10 @@ class Bank extends AnnotationController
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
 		$model = new BankModel();
+		$datas = $this->request()->getRequestParam();
+		if (isset($datas['keyword'])){
+            $model->where('name', "%{$datas['keyword']}%", 'like');
+        }
 
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');

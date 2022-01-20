@@ -37,12 +37,21 @@ class BorrowModel extends AbstractModel
 
 	public function getList(int $page = 1, int $pageSize = 10, string $field = '*'): array
 	{
+		
+
+
 		$list = $this
 		    ->withTotalCount()
 			->order($this->schemaInfo()->getPkFiledName(), 'DESC')
 		    ->field($field)
 		    ->page($page, $pageSize)
 		    ->all();
+
+		   for ($i=0; $i < count($list); $i++) { 
+		
+		   			$list[$i]['color'] = "normal";
+		   		
+		   }
 		$total = $this->lastQueryResult()->getTotalCount();
 		$data = [
 		    'page'=>$page,

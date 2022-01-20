@@ -109,9 +109,20 @@
 
                
 
+              
+
                      <div class="layui-col-md6">
-                        <input type="text" name="fromwho" lay-verify="required" placeholder="业务来源" autocomplete="off" class="layui-input">
+                            
+                            <label class="layui-form-label">业务来源</label>
+                            <div class="layui-input-block">
+                              <select name="fromwho" id="fromwho" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
                     </div>
+
+
 
                        <div class="layui-col-md6">
                             
@@ -308,6 +319,24 @@
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
                     $("#way").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+  admin.post({
+            api: 'getfrom',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#fromwho").html(html);
                 }
 
                 formSelects.render();
