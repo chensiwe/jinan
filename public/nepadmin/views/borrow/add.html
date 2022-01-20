@@ -78,8 +78,15 @@
 
 
 
-                    <div class="layui-col-md6">
-                        <input type="text" lay-verify="required" name="helper" placeholder="客服" autocomplete="off" class="layui-input">
+                  <div class="layui-col-md6">
+                            
+                            <label class="layui-form-label">客服</label>
+                            <div class="layui-input-block">
+                              <select name="helper" id="helper" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
                     </div>
 
 
@@ -236,6 +243,26 @@
                         html += '<option value="'+item.id+'">'+item.name+'</option>';
                     });
                     $("#cate").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+
+
+     admin.post({
+            api: 'gethelps',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                    });
+                    $("#helper").html(html);
                 }
 
                 formSelects.render();

@@ -71,6 +71,12 @@ layui.define([], function (exports) {
         addrate:'rate/add',
         getrates:'rate/getList',
         delrate:'rate/delete',
+        addxd:'xd/add',
+        delxd:'xd/delete',
+        getxds:'xd/getList',
+        delhelp:'helps/delete',
+        gethelps:'helps/getList',
+        addhelp:'helps/add',
 
 
     });

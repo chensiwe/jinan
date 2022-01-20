@@ -2,7 +2,7 @@
 
 namespace App\HttpController\Api;
 
-use App\Model\XdModel;
+use App\Model\HelpsModel;
 use EasySwoole\Component\Context\ContextManager;
 use EasySwoole\HttpAnnotation\AnnotationController;
 use EasySwoole\HttpAnnotation\AnnotationTag\Api;
@@ -21,17 +21,17 @@ use EasySwoole\Http\Message\Status;
 use EasySwoole\Validate\Validate;
 
 /**
- * Xd
- * Class Xd
+ * Helps
+ * Class Helps
  * Create With ClassGeneration
- * @ApiGroup(groupName="/Api.Xd")
+ * @ApiGroup(groupName="/Api.Helps")
  * @ApiGroupAuth(name="")
  * @ApiGroupDescription("")
  */
-class Xd extends AnnotationController
+class Helps extends AnnotationController
 {
 	/**
-	 * @Api(name="add",path="/Api/Xd/add")
+	 * @Api(name="add",path="/Api/Helps/add")
 	 * @ApiDescription("新增数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -40,23 +40,22 @@ class Xd extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="name",lengthMax="30",required="")
+	 * @Param(name="name",lengthMax="15",required="")
 	 */
 	public function add()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$data = [
 		    'name'=>$param['name'],
-		    'addtime'=>time(),
 		];
-		$model = new XdModel($data);
+		$model = new HelpsModel($data);
 		$model->save();
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
 
 	/**
-	 * @Api(name="update",path="/Api/Xd/update")
+	 * @Api(name="update",path="/Api/Helps/update")
 	 * @ApiDescription("更新数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -65,14 +64,13 @@ class Xd extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 * @Param(name="id",required="")
-	 * @Param(name="name",lengthMax="30",optional="")
-	 * @Param(name="addtime",lengthMax="15",optional="")
+	 * @Param(name="id",lengthMax="11",required="")
+	 * @Param(name="name",lengthMax="15",optional="")
 	 */
 	public function update()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new XdModel();
+		$model = new HelpsModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (empty($info)) {
 		    $this->writeJson(Status::CODE_BAD_REQUEST, [], '该数据不存在');
@@ -81,14 +79,13 @@ class Xd extends AnnotationController
 		$updateData = [];
 
 		$updateData['name']=$param['name'] ?? $info->name;
-		$updateData['addtime']=$param['addtime'] ?? $info->addtime;
 		$info->update($updateData);
 		$this->writeJson(Status::CODE_OK, $info, "更新数据成功");
 	}
 
 
 	/**
-	 * @Api(name="getOne",path="/Api/Xd/getOne")
+	 * @Api(name="getOne",path="/Api/Helps/getOne")
 	 * @ApiDescription("获取一条数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -97,22 +94,21 @@ class Xd extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"获取成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
-	 * @Param(name="id",required="")
+	 * @Param(name="id",lengthMax="11",required="")
 	 * @ApiSuccessParam(name="result.id",description="")
 	 * @ApiSuccessParam(name="result.name",description="")
-	 * @ApiSuccessParam(name="result.addtime",description="")
 	 */
 	public function getOne()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new XdModel();
+		$model = new HelpsModel();
 		$info = $model->get(['id' => $param['id']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
 
 
 	/**
-	 * @Api(name="getList",path="/Api/Xd/getList")
+	 * @Api(name="getList",path="/Api/Helps/getList")
 	 * @ApiDescription("获取数据列表")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -125,14 +121,13 @@ class Xd extends AnnotationController
 	 * @Param(name="pageSize", from={GET,POST}, alias="每页总数", optional="")
 	 * @ApiSuccessParam(name="result[].id",description="")
 	 * @ApiSuccessParam(name="result[].name",description="")
-	 * @ApiSuccessParam(name="result[].addtime",description="")
 	 */
 	public function getList()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
-		$model = new XdModel();
+		$model = new HelpsModel();
 
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
@@ -140,7 +135,7 @@ class Xd extends AnnotationController
 
 
 	/**
-	 * @Api(name="delete",path="/Api/Xd/delete")
+	 * @Api(name="delete",path="/Api/Helps/delete")
 	 * @ApiDescription("删除数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -149,12 +144,12 @@ class Xd extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="id",required="")
+	 * @Param(name="id",lengthMax="11",required="")
 	 */
 	public function delete()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new XdModel();
+		$model = new HelpsModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (!$info) {
 		    $this->writeJson(Status::CODE_OK, $info, "数据不存在.");

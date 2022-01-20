@@ -5,7 +5,7 @@
     }
 </style>
 
-<div class="layui-fluid" id="VIEW-xd-list" lay-title="民间列表">
+<div class="layui-fluid" id="VIEW-kf-list" lay-title="客服列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
             <div class="layui-card">
@@ -13,17 +13,17 @@
                     <div class="layui-btn-container">
                        <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
 
-                        <a href="#/xd/add" class="layui-btn layui-btn-xs">录入信贷</a>
+                        <a href="#/help/add" class="layui-btn layui-btn-xs">录入客服</a>
 
                     </div>
-                    <table id="xd-list" lay-filter="xd-list"></table>
+                    <table id="kf-list" lay-filter="kf-list"></table>
                 </div>
             </div>
         </div>
 
         <div class="layui-col-md2">
             <div class="layui-card">
-                <div class="layui-card-header">筛选数据</div>
+                <div class="layui-card-header">筛选数据11</div>
                 <div class="layui-card-body">
                     <form class="layui-row layui-col-space10 layui-form">
                         
@@ -37,7 +37,7 @@
                         <div class="layui-col-md12 layui-col-xs12">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-xd-list">筛选</div>
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-kf-list">筛选</div>
                                 </div>
                                 <div class="layui-col-xs6">
                                     <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
@@ -59,7 +59,7 @@
 </div>
 
 
-<script type="text/html" id="xd_bar">
+<script type="text/html" id="kf_bar">
   <!--   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -69,31 +69,31 @@
 
 
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
-        var view = $('#VIEW-xd-list');
+        var view = $('#VIEW-kf-list');
 
         var formSelects = layui.formSelects;
    
 
-        var tableFilter = 'xd-list';
+        var tableFilter = 'kf-list';
 
           // 加载权限列表
 
         admin.renderTable({
             elem: '[lay-filter="' + tableFilter + '"]',
-            id: 'xd',
-            api: 'getxds',
+            id: 'kf',
+            api: 'gethelps',
             page: true,
             cols: [[
                 { title: '名称', field: 'name'},
                
-                { title: '', fixed: 'right', toolbar:'#xd_bar'},
+                { title: '', fixed: 'right', toolbar:'#kf_bar'},
 
             ]]
         });
 
          // filter the data
-        form.on('submit(search-xd-list)', function (data) {
-            table.reload( 'xd', {
+        form.on('submit(search-kf-list)', function (data) {
+            table.reload( 'kf', {
                 where: {
                     keyword:data.field.name,
                   
@@ -107,7 +107,7 @@
 
 
 
-         table.on('tool(xd-list)', function(obj){
+         table.on('tool(kf-list)', function(obj){
             let data = obj.data;
             let layEvent = obj.event;
             let tr = obj.tr;
@@ -120,7 +120,7 @@
             } else if(layEvent === 'del'){
                 layer.confirm('真的删除行么?', function(index){
                     admin.post({
-                        api: "delxd",
+                        api: "delhelp",
                         data: data,
                         success:function (res) {
                             layer.alert("删除成功",{
