@@ -18,7 +18,7 @@
     
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="add-way">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="add-gb">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -30,6 +30,11 @@
        
     </div>
 </div>
+<!-- 角色列表bar tool -->
+<script type="text/html" id="role_bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 
 <script>
     layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
@@ -44,11 +49,11 @@
        
 
         // 添加角色添加
-        form.on('submit(add-way)', function (data) {
+        form.on('submit(add-gb)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
                     admin.post({
-                        api: "addway",
+                        api: "addgb",
                         data: data.field,
                         success:function (res) {
                             layer.alert("录入成功",{

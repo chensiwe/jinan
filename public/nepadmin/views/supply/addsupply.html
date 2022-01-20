@@ -28,6 +28,25 @@
                      <div class="layui-col-md6">
                         <input type="text" name="remark" placeholder="remark" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
+
+                     <div class="layui-col-md12">
+                            
+                            <label class="layui-form-label">供应商分类</label>
+                            <div class="layui-input-block">
+                              <select name="type" id="type" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+
+                      <div class="layui-col-md12">
+                        <label>供应商成交数</label>
+                     <div class="layui-input-block">
+                        <input type="number" name="donemunber" placeholder="" autocomplete="off" class="layui-input" value="1" lay-verify="required">
+                    </div>
+                    </div>
                 
 
                         <div class="layui-form-item">
@@ -119,22 +138,22 @@
         });
 
 
-        // admin.post({
-        //     api: 'getproducts',
-        //     async: false,
-        //     success:function (res) {
-        //         if (!res.result.list){ layer.alert('获取产品列表失败'); }
-        //         let html = '';
-        //         $.each(res.result.list, function (index, item) {
-                    
-        //             html += '<option value="'+item.id+'">'+item.name+'</option>';
-        //         });
+        // 加载权限列表
+        admin.post({
+            api: 'getsupplytypes',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#type").html(html);
+                }
 
-        //         console.log(html);
-        //         $('.itembox').html(html);
-        //     }
-        // });
-
+                formSelects.render();
+                form.render();
+            }
+        });
 
 
 

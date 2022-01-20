@@ -62,6 +62,15 @@ layui.define([], function (exports) {
         addway:'ways/add',
         getways:'ways/getList',
         delway:'ways/delete',
+        delsupply:'supply/delete',
+        getsupplytypes:'supplyType/getList',
+        exportcsv:'borrow/exportCsv',
+        getgbs:'Gb/getList',
+        addgb:'Gb/add',
+        delgb:'Gb/delete',
+        addrate:'rate/add',
+        getrates:'rate/getList',
+        delrate:'rate/delete',
 
 
     });

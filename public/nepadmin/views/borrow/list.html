@@ -7,28 +7,17 @@
 
 <div class="layui-fluid" id="VIEW-borrowlist" lay-title="借贷列表">
     <div class="layui-row layui-col-space10">
-        <div class="layui-col-md10">
+
+
+
+ <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-body nepadmin-pad-l10 nepadmin-pad-r10">
-                    <div class="layui-btn-container">
-                       <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
-
-                        <a href="#/borrow/add" class="layui-btn layui-btn-xs">录入</a>
-
-                    </div>
-                    <table id="borrowlist" lay-filter="borrowlist"></table>
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-col-md2">
-            <div class="layui-card">
-                <div class="layui-card-header">筛选数据11</div>
+               
                 <div class="layui-card-body">
                     <form class="layui-row layui-col-space10 layui-form">
                         
                    
-            <div class="layui-col-md12 layui-col-xs4">
+            <div class="layui-col-md3 layui-col-xs4">
                        
                     
                          <label class="layui-form-label">银行</label>
@@ -40,7 +29,7 @@
              </div>
 
 
-                <div class="layui-col-md12 layui-col-xs4">
+                <div class="layui-col-md3 layui-col-xs4">
                        
                     
                           <label class="layui-form-label">民间</label>
@@ -52,7 +41,7 @@
              </div>
 
 
-                <div class="layui-col-md12 layui-col-xs4">
+                <div class="layui-col-md3 layui-col-xs4">
                        
                     
                          <label class="layui-form-label">信贷</label>
@@ -65,7 +54,7 @@
              </div>
 
 
-                <div class="layui-col-md12 layui-col-xs4">
+                <div class="layui-col-md3 layui-col-xs4">
                        
                      <label class="layui-form-label">车贷</label>
                             <div class="layui-input-block">
@@ -80,13 +69,10 @@
 
 
 
-
-
-
-                        <div class="layui-col-md12 layui-col-xs12">
+                        <div class="layui-col-md3 layui-col-xs12">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-list">筛选</div>
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-bolist">筛选</div>
                                 </div>
                                 <div class="layui-col-xs6">
                                     <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
@@ -95,7 +81,7 @@
                         </div>
 
 
-
+<button class="layui-btn layui-btn-primary layui-border-green" type="button" id="export">导出</button>
 
                     </form>
                 </div>
@@ -104,6 +90,33 @@
            
 
         </div>
+
+
+
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body nepadmin-pad-l10 nepadmin-pad-r10">
+                    <div class="layui-btn-container">
+                       <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
+
+                        <a href="#/borrow/add" class="layui-btn layui-btn-xs">录入</a>
+
+                    </div>
+                    <table id="borrowlist" lay-filter="borrowlist"></table>
+                </div>
+            </div>
+        </div>
+
+       
+
+
+
+
+
+
+
+
     </div>
 </div>
 
@@ -185,8 +198,10 @@ admin.post({
             api: 'getbanks',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                    let html = `<option value="1">全部</option>`;
+
                     $.each(res.result.list, function (index, item) {
+
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
                     $("#bank").html(html);
@@ -219,7 +234,7 @@ admin.post({
             api: 'getmjs',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                     let html = `<option value="1">全部</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -236,7 +251,7 @@ admin.post({
             api: 'getxds',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                    let html = `<option value="1">全部</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -253,7 +268,7 @@ admin.post({
             api: 'getcards',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                    let html = `<option value="1">全部</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -306,17 +321,37 @@ admin.post({
         });
 
          // filter the data
-        form.on('submit(search-list)', function (data) {
-            table.reload( 'plist', {
+        form.on('submit(search-bolist)', function (data) {
+            table.reload( 'borrowlist', {
                 where: {
-                    keyword:data.field.name,
-                    cate:data.field.cate
+                    bank:data.field.bank,
+                    xd:data.field.xd,
+                    mj:data.field.mj,
+                    card:data.field.card,
                 }
                 ,page: {
                     curr: 1 //重新从第 1 页开始
                 }
             });
             return false;
+        });
+
+
+
+
+        $("#export").click(function(){
+
+
+            var xd = $("#xd").val();
+            var bank = $("#bank").val();
+            var card = $("#card").val();
+            var mj = $("#mj").val();
+
+            window.location.href="/api/borrow/exportCsv?xd="+xd;
+            
+
+
+
         });
 
 

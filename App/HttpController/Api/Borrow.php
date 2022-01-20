@@ -245,15 +245,33 @@ class Borrow extends AnnotationController
         	$allreds[$i] = intval($allreds[$i]);
         }
 
-        var_dump($allreds);
-
-
- \EasySwoole\Pool\Manager::getInstance()->get('redis')->recycleObj($redis);
+        \EasySwoole\Pool\Manager::getInstance()->get('redis')->recycleObj($redis);
 
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
 		$model = new BorrowModel();
+
+		$datas = $this->request()->getRequestParam();
+		 if (isset($datas['bank']) && $datas['bank']  != '1'){
+            $model->where(['bank'=>$datas['bank']]);
+        }
+
+        if (isset($datas['xd']) && $datas['xd']  != '1'){
+            $model->where(['xd'=>$datas['xd']]);
+        }
+
+
+        if (isset($datas['card']) && $datas['card']  != '1'){
+            $model->where(['card'=>$datas['card']]);
+        }
+
+         if (isset($datas['mj']) && $datas['mj']  != '1'){
+            $model->where(['mj'=>$datas['mj']]);
+        }
+
+
+
 		$data = $model->getList($page, $pageSize);
 		for ($i=0; $i < count($data['list']); $i++) { 
 			if (in_array($data['list'][$i]['id'], $allreds)) {
@@ -327,6 +345,67 @@ class Borrow extends AnnotationController
 		$this->writeJson(Status::CODE_OK, [], "删除成功.");
 
 	}
+
+
+
+public function exportCsv(){
+
+	$model = new BorrowModel();
+
+		$datas = $this->request()->getRequestParam();
+		 if (isset($datas['bank']) && $datas['bank']  != '1'){
+            $model->where(['bank'=>$datas['bank']]);
+        }
+
+        if (isset($datas['xd']) && $datas['xd']  != '1'){
+            $model->where(['xd'=>$datas['xd']]);
+        }
+
+
+        if (isset($datas['card']) && $datas['card']  != '1'){
+            $model->where(['card'=>$datas['card']]);
+        }
+
+         if (isset($datas['mj']) && $datas['mj']  != '1'){
+            $model->where(['mj'=>$datas['mj']]);
+        }
+
+		$datas = $model->all();
+
+    foreach($datas as $k=>$v){
+        $arrData[] = [
+            'id' => $v['id'],
+            'name' => $v['customer'],
+            "bank"=>$v['bank'],
+            'xd'=>$v['xd'],
+            'card'=>$v['card'],
+            'mj'=>$v['mj'],
+            'cash'=>$v['cash'],
+            'expiretime'=>$v['expiretime']
+
+        ];
+    }
+    $title = [['编号', '用户',['银行'],['信贷'],['车贷'],['民间'],['金额'],['过期时间']],];
+    $arrData = array_merge($title, $arrData);
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    // 设置单元格格式 可以省略
+
+    $spreadsheet->getActiveSheet()->fromArray($arrData);
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+    $writer->setPreCalculateFormulas(false);
+    //这里可以写绝对路径，其他框架到这步就结束了
+    $writer->save('/easyswoole/test.xlsx');
+    //关闭连接，销毁变量
+    $spreadsheet->disconnectWorksheets();
+    unset($spreadsheet);
+    //生成文件后，使用response输出
+    $this->response()->write(file_get_contents('/easyswoole/test.xlsx'));
+    $this->response()->withHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    $this->response()->withHeader('Content-Disposition', 'attachment;filename="test.csv"');
+    $this->response()->withHeader('Cache-Control','max-age=0');
+    $this->response()->end();
+    return false;
+}
 
 
 

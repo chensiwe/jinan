@@ -15,8 +15,10 @@ use EasySwoole\ORM\AbstractModel;
  * @property string $address //
  * @property string $remark //
  * @property string $info //
+ * @property string $type //
  * @property string $createtime //
  * @property int $status //
+ * @property int $donemunber //
  */
 class SupplyModel extends AbstractModel
 {
@@ -50,8 +52,10 @@ class SupplyModel extends AbstractModel
 		string $address,
 		string $remark,
 		string $info,
+		string $type,
 		string $createtime,
-		int $status
+		int $status,
+		int $donemunber
 	): self {
 		$data = [
 		    'name'=>$name,
@@ -60,8 +64,10 @@ class SupplyModel extends AbstractModel
 		    'address'=>$address,
 		    'remark'=>$remark,
 		    'info'=>$info,
+		    'type'=>$type,
 		    'createtime'=>$createtime,
 		    'status'=>$status,
+		    'donemunber'=>$donemunber,
 		];
 		$model = new self($data);
 		$model->save();

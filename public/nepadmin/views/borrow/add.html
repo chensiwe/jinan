@@ -137,13 +137,32 @@
 
 
 
+               
+
+
                      <div class="layui-col-md6">
-                        <input type="text" name="sourcecash" lay-verify="required" placeholder="归本" autocomplete="off" class="layui-input">
+                            
+                            <label class="layui-form-label">归本</label>
+                            <div class="layui-input-block">
+                              <select name="sourcecash" id="sourcecash" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
                     </div>
 
-                      <div class="layui-col-md6">
-                        <input type="number" name="rate" lay-verify="required" placeholder="利率" autocomplete="off" class="layui-input">
+
+                       <div class="layui-col-md6">
+                            
+                            <label class="layui-form-label">利率</label>
+                            <div class="layui-input-block">
+                              <select name="rate" id="rate" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
                     </div>
+
 
                       <div class="layui-col-md6">
                             
@@ -291,6 +310,41 @@
                 form.render();
             }
         });
+
+
+  admin.post({
+            api: 'getgbs',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#sourcecash").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+    admin.post({
+            api: 'getrates',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#rate").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
 
 
     admin.post({

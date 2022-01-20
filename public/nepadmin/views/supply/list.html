@@ -41,24 +41,13 @@
                 </div>
             </div>
 
-           <!--  <div class="layui-card nepadmin-font-12">
-                <div class="layui-card-header">
-                    <i class="layui-icon">&#xe78c;</i> 帮助中心 </div>
-                <div class="layui-card-body">
-                    <p>操作指引等等</p>
-                    <p class="nepadmin-c-gray">吧啦吧啦~</p>
-                    <hr/>
-                    <p><a>如何新建／发布？</a></p>
-                    <p><a>删除时注意事项？</a></p>
-                </div>
-            </div> -->
 
         </div>
     </div>
 </div>
 
 <!-- 用户列表bar tool -->
-<script type="text/html" id="user_bar">
+<script type="text/html" id="supply_bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -74,72 +63,30 @@
         var authList = [];
   
 
-        var tableFilter = 'list-table';
+        var tableFilter = 'sulist';
         form.render();
         admin.renderTable({
-            elem: '#sulist',
-            id: 'sulist',
+            elem: '[lay-filter="' + tableFilter + '"]',
+            id: 'su',
             api: 'getsupplylist',
             page: true,
             cols: [[
                 { title: '供应商id', field: 'id', fixed: true},
                 { title: '名称', field: 'name'},
-                { title: '联系人', field: 'contactor'},
-                { title: '用户账号', field: 'u_account'},
-                { title: '用户状态', field: 'u_status',templet: function(d){
-                    return d.u_status == 1 ? '正常' : '禁用';
-                }},
-                { title: '', fixed: 'right', toolbar:'#user_bar'},
+                {title:"供应商类别",field:'type'},
+                {title:"供应商成交",field:'donemunber'},
+                { title: '地址', field: 'address'},
+                { title: '备注', field: 'remark'},
+                
+                { title: '', fixed: 'right', toolbar:'#supply_bar'},
 
             ]]
         });
 
-        // // 顶部按钮
-        // $('body').on('click', '.table-action', function () {
-        //     let type = $(this).data('type');
-
-        //     switch (type) {
-        //         case 'add':
-        //             let addUserBd = $('#add_user_bd');
-        //             let html = addUserBd.html();
-        //             if (html === ''){return false;} // 没有判断 则会因为tab的伪刷新 导致监听n多次点击按钮事件 打开n个弹窗
-        //             addUserBd.html('');
-        //             admin.popup({
-        //                 content: html,
-        //                 title: '添加用户',
-        //                 area: ['70%', '70%'],
-        //                 shadeClose: false,
-        //                 cancel: function(index, layero){
-        //                     $("#add_user_bd").html(this.content);
-        //                 }
-        //             });
-        //             break;
-        //     }
-        // });
-
-        // 监听添加用户
-        form.on('submit(add-user)', function (data) {
-            admin.post({
-                api: 'addUser',
-                data: data.field,
-                success:function (res) {
-                    layer.msg('添加成功', {
-                        icon:1,
-                        success :function (index, layero) {
-                            setTimeout(function(){
-                                layer.closeAll();
-                                layui.view.tab.refresh();
-                            },800);
-                        }
-                    });
-                }
-            });
-            return false;
-        });
 
         // 监听筛选用户
-        form.on('submit(search-user)', function (data) {
-            table.reload( 'user-table', {
+        form.on('submit(search-sulist)', function (data) {
+            table.reload( 'su', {
                 where: {
                     keyword:data.field.name
                 }
@@ -156,13 +103,29 @@
             let layEvent = obj.event;
             let tr = obj.tr;
 
-            layer.msg('没有给你提供哦，自己尝试着开始修改本项目吧~，(ಥ﹏ಥ)~' , {
-                icon: 3
-            });
+     
 
             if(layEvent === 'detail'){
                 //do somehing
             } else if(layEvent === 'del'){
+                    layer.confirm('真的删除行么?', function(index){
+                    admin.post({
+                        api: "delsupply",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
+
+
 
             } else if(layEvent === 'edit'){
 
