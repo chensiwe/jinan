@@ -5,7 +5,7 @@
     }
 </style>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<div class="layui-fluid" id="VIEW-borrowlist" lay-title="借贷列表">
+<div class="layui-fluid" id="VIEW-banklist" lay-title="银行列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
             <div class="layui-card">
@@ -13,10 +13,10 @@
                     <div class="layui-btn-container">
                        <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
 
-                        <a href="#/borrow/add" class="layui-btn layui-btn-xs">录入</a>
+                        <a href="#/borrow/add" class="layui-btn layui-btn-xs">录入银行</a>
 
                     </div>
-                    <table id="borrowlist" lay-filter="borrowlist"></table>
+                    <table id="banklist" lay-filter="banklist"></table>
                 </div>
             </div>
         </div>
@@ -107,36 +107,9 @@
     </div>
 </div>
 
-<!-- 提醒到期面板 -->
-<div id="reminder" hidden>
-    <div style="padding: 10px;">
-        <form class="layui-form" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label">到期还款提醒</label>
-                
-            </div>
 
-               <div class="layui-form-item" id="remindercon">
-              
-                
-            </div>
-
-
-           
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="add-user">我知道了</button>
-                </div>
-            </div>
-        </form>
-
-    </div>
-</div>
-
-
-
-<script type="text/html" id="borrow_bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+<script type="text/html" id="bank_bar">
+  <!--   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -172,12 +145,12 @@ function set_time(str){
   return now_time;
 }
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
-        var view = $('#VIEW-borrowlist');
+        var view = $('#VIEW-banklist');
 
         var formSelects = layui.formSelects;
    
 
-        var tableFilter = 'borrowlist';
+        var tableFilter = 'banklist';
 
           // 加载权限列表
        
@@ -267,30 +240,13 @@ admin.post({
        
         admin.renderTable({
             elem: '[lay-filter="' + tableFilter + '"]',
-            id: 'borrowlist',
-            api: 'getborrows',
+            id: 'banklist',
+            api: 'getbanks',
             page: true,
             cols: [[
-                { title: '客户', field: 'customer'},
-                { title: '电话', field: 'phone'},
-                { title: '银行', field: 'bank'},
-                { title: '民间', field: 'mj'},
-                { title: '信贷', field: 'xd'},
-                { title: '车贷', field: 'card'},
-                { title: '金额', field: 'cash'},
-
-                { title: '放款时间', field: 'approvetime',templet: function(d){
-                    return set_time(d.approvetime);
-                }},
-
-                { title: '到期日', field: 'expiretime',templet: function(d){
-                    return set_time(d.expiretime);
-                }},
-                { title: '还款日', field: 'backtime',templet: function(d){
-                    return set_time(d.backtime);
-                }},
-                { title: '还款方式', field: 'way'},
-                // { title: '', fixed: 'right', toolbar:'#borrow_bar'},
+                { title: '名称', field: 'name'},
+               
+                { title: '', fixed: 'right', toolbar:'#bank_bar'},
 
             ]]
         });
@@ -313,7 +269,7 @@ admin.post({
 
 
 
-         table.on('tool(plist)', function(obj){
+         table.on('tool(banklist)', function(obj){
             let data = obj.data;
             let layEvent = obj.event;
             let tr = obj.tr;
@@ -321,42 +277,42 @@ admin.post({
             console.log(layEvent);
             console.log(data);
 
-            // if(layEvent === 'detail'){
-            //     //do somehing
-            // } else if(layEvent === 'del'){
-            //     layer.confirm('真的删除行么?用户权限会失效的!', function(index){
-            //         admin.post({
-            //             api: "delRole",
-            //             data: data,
-            //             success:function (res) {
-            //                 layer.alert("删除角色成功",{
-            //                     yes:function () {
-            //                         layui.view.tab.refresh();
-            //                         layer.closeAll();
-            //                         formSelects.render();
-            //                         form.render();
-            //                     }
-            //                 })
-            //             }
-            //         });
-            //     });
-            // } else if(layEvent === 'edit'){
-            //     // 请求信息接口，然后打开弹窗
-            //     admin.post({
-            //         api: 'getRoleInfo',
-            //         data: {
-            //             role_id:data.role_id
-            //         },
-            //         success:function (res) {
-            //             rolebd_status_value = 'edit';
-            //             $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
-            //             $("input[name=role_name]").val(res.result.role_name);
-            //             $("input[name=role_id]").val(res.result.role_id);
-            //             form.render();
-            //             formSelects.value('role_auth', res.result.role_auth.split(","));
-            //         }
-            //     })
-            // }
+            if(layEvent === 'detail'){
+                //do somehing
+            } else if(layEvent === 'del'){
+                layer.confirm('真的删除行么?', function(index){
+                    admin.post({
+                        api: "delbank",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
+            } else if(layEvent === 'edit'){
+                // 请求信息接口，然后打开弹窗
+                admin.post({
+                    api: 'getRoleInfo',
+                    data: {
+                        role_id:data.role_id
+                    },
+                    success:function (res) {
+                        rolebd_status_value = 'edit';
+                        $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
+                        $("input[name=role_name]").val(res.result.role_name);
+                        $("input[name=role_id]").val(res.result.role_id);
+                        form.render();
+                        formSelects.value('role_auth', res.result.role_auth.split(","));
+                    }
+                })
+            }
         });
 
 

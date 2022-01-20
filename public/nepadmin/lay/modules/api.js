@@ -48,7 +48,10 @@ layui.define([], function (exports) {
         getways:'ways/getList',
         getcustypes:'Custype/getList',
         readreminder:'borrow/setread',
-
+        addbank:'bank/add',
+        delbank:'bank/delete',
+        addmj:'mj/add',
+        delmj:'mj/delete',
 
     });
 });

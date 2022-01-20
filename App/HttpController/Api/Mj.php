@@ -41,14 +41,13 @@ class Mj extends AnnotationController
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
 	 * @Param(name="name",lengthMax="30",required="")
-	 * @Param(name="addtime",lengthMax="15",required="")
 	 */
 	public function add()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$data = [
 		    'name'=>$param['name'],
-		    'addtime'=>$param['addtime'],
+		    'addtime'=>time(),
 		];
 		$model = new MjModel($data);
 		$model->save();

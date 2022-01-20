@@ -20,11 +20,7 @@
             </div>
         </div>
         <div class="layui-col-md2">
-            <div class="layui-card">
-                <div class="layui-card-header">筛选数据</div>
-                <div class="layui-card-body">
-                    <form class="layui-row layui-col-space10 layui-form">
-                        <div class="layui-col-md12 layui-col-xs4">
+            <div class<div class="layui-col-md12 layui-col-xs4">
                             <input type="text" class="layui-input" name="name" placeholder="产品名称" >
                         
                              <label class="layui-form-label">类别</label>
@@ -34,7 +30,12 @@
                               </select>
                      
                         </div>
-
+="layui-card">
+                <div class="layui-card-header">筛选数据</div>
+                <div class="layui-card-body">
+                    <form class="layui-row layui-col-space10 layui-form">
+                        
+                        
 
                         <div class="layui-col-md12 layui-col-xs12">
                             <div class="layui-row layui-col-space10">
@@ -102,7 +103,89 @@
                 form.render();
             }
         });
+admin.post({
+            api: 'getbanks',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#bank").html(html);
+                }
 
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+ admin.post({
+            api: 'getcustypes',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#customertype").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+         admin.post({
+            api: 'getmjs',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#mj").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+  admin.post({
+            api: 'getxds',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#xd").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+    admin.post({
+            api: 'getcards',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#card").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
 
        
         admin.renderTable({
