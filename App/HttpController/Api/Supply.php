@@ -4,6 +4,7 @@ namespace App\HttpController\Api;
 
 use App\Model\SupplyModel;
 use App\Model\ContactorModel;
+use App\Model\ItemContactorModel;
 use EasySwoole\Component\Context\ContextManager;
 use EasySwoole\HttpAnnotation\AnnotationController;
 use EasySwoole\HttpAnnotation\AnnotationTag\Api;
@@ -41,18 +42,11 @@ class Supply extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="name",lengthMax="100",required="")
-	 * @Param(name="contactor",lengthMax="10",required="")
-	 * @Param(name="phone",lengthMax="11",required="")
-	 * @Param(name="address",lengthMax="150",required="")
-	 * @Param(name="remark",lengthMax="200",required="")
-	 * @Param(name="info",required="")
-	 * @Param(name="type",lengthMax="25",required="")
-	 * @Param(name="donemunber",lengthMax="10",required="",defaultValue="0")
 	 */
 	public function add()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$datas = $this->request()->getRequestParam();
+		$param = $datas['data'];
 		$data = [
 		    'name'=>$param['name'],
 		    'contactor'=>$param['contactor'],
@@ -67,19 +61,22 @@ class Supply extends AnnotationController
 		];
 		$model = new SupplyModel($data);
 		$model->save();
-
-
 		$conmodel = new ContactorModel();
-
-		$datas = $this->request()->getRequestParam();
-		$con_names = $datas['conname'];
-		$con_phones = $datas['conphone'];
+		$itemmodel = new ItemContactorModel();
+		$con_names = $param['conname'];
+		$con_phones = $param['conphone'];
+		$items = $param['item'];
 		$size = count($con_phones);
-		if ($sid) {
+		if ($size>0) {
 			$conmodel = new ContactorModel();
 				for ($i=0; $i < $size; $i++) { 
 					
-					$conmodel->addData($con_names[$i],$con_phones[$i],time());
+					$contacrid = $conmodel->addData($con_names[$i],$con_phones[$i],time());
+					var_dump($contacrid);
+					$iteminfo = explode(",", $items[$i]);
+					for ($j=0; $j < count($iteminfo); $j++) { 
+						$itemmodel->addData($contacrid, intval($iteminfo[$j]), time());
+					}
 				}
 
 		}
@@ -198,6 +195,17 @@ class Supply extends AnnotationController
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
 		$model = new SupplyModel();
+
+		$datas = $this->request()->getRequestParam();
+		 if (isset($datas['type']) && $datas['type']  != '1'){
+            $model->where(['type'=>$datas['type']]);
+        }
+
+        if (isset($datas['name'])){
+
+             $model->where('name', "%{$datas['name']}%", 'like');
+        }
+
 
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');

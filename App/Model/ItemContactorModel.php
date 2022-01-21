@@ -5,15 +5,17 @@ namespace App\Model;
 use EasySwoole\ORM\AbstractModel;
 
 /**
- * HelpsModel
- * Class HelpsModel
+ * ItemContactorModel
+ * Class ItemContactorModel
  * Create With ClassGeneration
  * @property int $id //
- * @property string $name //
+ * @property int $conid //
+ * @property int $itemid //
+ * @property string $addtime //
  */
-class HelpsModel extends AbstractModel
+class ItemContactorModel extends AbstractModel
 {
-	protected $tableName = 'siam_helps';
+	protected $tableName = 'siam_item_contactor';
 
 
 	public function getList(int $page = 1, int $pageSize = 10, string $field = '*'): array
@@ -36,10 +38,12 @@ class HelpsModel extends AbstractModel
 	}
 
 
-	public function addData(string $name): self
+	public function addData(int $conid, int $itemid, string $addtime): self
 	{
 		$data = [
-		    'name'=>$name,
+		    'conid'=>$conid,
+		    'itemid'=>$itemid,
+		    'addtime'=>$addtime,
 		];
 		$model = new self($data);
 		$model->save();

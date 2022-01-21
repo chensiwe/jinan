@@ -6,7 +6,64 @@
 </style>
 <div class="layui-fluid" id="VIEW-plist" lay-title="产品列表">
     <div class="layui-row layui-col-space10">
-        <div class="layui-col-md10">
+
+
+<div class="layui-col-md12">
+            <div class="layui-card">
+               
+                <div class="layui-card-body">
+                    <form class="layui-row layui-col-space10 layui-form">
+                        
+                   
+                <div class="layui-col-md3 layui-col-xs4">
+                    
+                          <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                            </div>
+             </div>
+
+
+
+
+            <div class="layui-col-md3 layui-col-xs4">
+                       
+                         <label class="layui-form-label">产品类别</label>
+                            <div class="layui-input-block">
+                              <select  name="cate" id="cate">
+                              
+                              </select>
+                            </div>
+             </div>
+
+
+
+
+              <div class="layui-col-md3 layui-col-xs12">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-xs6">
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-plist">筛选</div>
+                                </div>
+                                <div class="layui-col-xs6">
+                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                
+                    </form>
+                </div>
+            </div>
+
+           
+
+        </div>
+
+
+
+
+        <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body nepadmin-pad-l10 nepadmin-pad-r10">
                     <div class="layui-btn-container">
@@ -19,53 +76,14 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md2">
-            <div class<div class="layui-col-md12 layui-col-xs4">
-                            <input type="text" class="layui-input" name="name" placeholder="产品名称" >
-                        
-                             <label class="layui-form-label">类别</label>
-                            
-                              <select name="cate" id="catefilter" lay-verify="required">
-                                
-                              </select>
-                     
-                        </div>
-="layui-card">
-                <div class="layui-card-header">筛选数据</div>
-                <div class="layui-card-body">
-                    <form class="layui-row layui-col-space10 layui-form">
-                        
-                        
-
-                        <div class="layui-col-md12 layui-col-xs12">
-                            <div class="layui-row layui-col-space10">
-                                <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-pro">筛选</div>
-                                </div>
-                                <div class="layui-col-xs6">
-                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
-                                </div>
-                            </div>
-                        </div>
+       
 
 
 
 
-                    </form>
-                </div>
-            </div>
 
-           <!--  <div class="layui-card nepadmin-font-12">
-                <div class="layui-card-header">
-                    <i class="layui-icon">&#xe78c;</i> 帮助中心 </div>
-                <div class="layui-card-body">
-                    <p>操作指引等等</p>
-                    <p class="nepadmin-c-gray">吧啦吧啦~</p>
-                    <hr/>
-                    <p><a>如何新建／发布？</a></p>
-                    <p><a>删除时注意事项？</a></p>
-                </div>
-            </div> -->
+
+         
 
         </div>
     </div>
@@ -73,9 +91,115 @@
 
 <script type="text/html" id="pro_bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="addsu">录入成交</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+<div id="add_su" hidden>
+    <div style="padding: 10px;">
+        <form class="layui-form" lay-filter='formTest' action="">
+
+
+              <div class="layui-col-md12">
+          
+                <div class="layui-card-header" id="rolebd_status">添加产品</div>
+                <div class="layui-card-body layui-row layui-col-space10">
+             
+                    <div class="layui-col-md4">
+                            
+                            <label class="layui-form-label">供应商</label>
+                            <div class="layui-input-block">
+                              <select name="supplyid" id="supply" lay-verify="required" lay-filter="selectsu">
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+                    <div class="layui-col-md3">
+                            
+                            <label class="layui-form-label">供应商类别</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="supplytype" id="type"  readonly="readonly" autocomplete="off"  class="layui-input">
+                            </div>
+
+                    </div>
+
+
+                    <div class="layui-col-md2">
+                            
+                            <label class="layui-form-label">联系人</label>
+                            <div class="layui-input-block">
+                              <select name="contact" id="contact" lay-filter="conse" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+                     <div class="layui-col-md3">
+                         <label class="layui-form-label">联系人手机</label>
+                             <div class="layui-input-block">
+                        <input type="text" name="contactorphone" id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                          <label class="layui-form-label">成交日期</label>
+                           <div class="layui-input-block">
+                        <input type="date" name="createtime" placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交价格</label>
+                         <div class="layui-input-block">
+                        <input type="number" name="price" value="9.00" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交数量</label>
+                        <div class="layui-input-block">
+                        <input type="number" name="buynumber" value="1" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">拿货地</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="address" placeholder="拿货地" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">价格备注</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="priceinfo" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+                <input type="hidden" name="pid" id="pid" data-r="2">
+
+</form>
+
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="add-suform">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
 
 
 <script>
@@ -86,6 +210,40 @@
    
 
         var tableFilter = 'plist';
+  // 加载权限列表
+        admin.post({
+            api: 'getsupplylist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="0">选择供应商</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    });
+                    $("#supply").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+        admin.post({
+            api: 'getcontactlist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="0">选择联系人</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    });
+                    $("#contact").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
 
           // 加载权限列表
         admin.post({
@@ -103,49 +261,69 @@
                 form.render();
             }
         });
-admin.post({
-            api: 'getbanks',
+
+
+
+ form.on('select(selectsu)', function (data) {
+            var suid = $("#supply").val();
+
+
+              admin.post({
+            api: 'getsupplyone',
+                data: {
+                        id:suid,
+                    },
             success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#bank").html(html);
+                if (res.result != null){
+        
+                   
+                    $("#type").val(res.result.type);
                 }
 
                 formSelects.render();
                 form.render();
             }
         });
+        });
 
 
- admin.post({
-            api: 'getcustypes',
+
+
+
+
+
+         form.on('select(conse)', function (data) {
+            var suid = $("#contact").val();
+
+
+              admin.post({
+            api: 'getcontactone',
+                data: {
+                        id:suid,
+                    },
             success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#customertype").html(html);
+                if (res.result != null){
+        
+                   
+                    $("#contactphone").val(res.result.phone);
                 }
 
                 formSelects.render();
                 form.render();
             }
+        });
         });
 
 
          admin.post({
-            api: 'getmjs',
+            api: 'getproducttype',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                     let html = `<option value="1">全部</option>`;
                     $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                        html += '<option value="'+item.id+'">'+item.name+'</option>';
                     });
-                    $("#mj").html(html);
+                    $("#cate").html(html);
                 }
 
                 formSelects.render();
@@ -153,39 +331,7 @@ admin.post({
             }
         });
 
-
-  admin.post({
-            api: 'getxds',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#xd").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-    admin.post({
-            api: 'getcards',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#card").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
+        
 
        
         admin.renderTable({
@@ -194,24 +340,25 @@ admin.post({
             api: 'getproducts',
             page: true,
             cols: [[
-                { title: 'id', field: 'id'},
+               
                 { title: '名称', field: 'name'},
                 { title: 'cas', field: 'cas'},
                 { title: '化学式', field: 'chemical'},
                 { title: '品牌', field: 'brand'},
                 { title: '包装', field: 'pack'},
-                { title: '含量', field: 'content'},
-                { title: '', fixed: 'right', toolbar:'#pro_bar'},
+                { title: '含量',sort: true, field: 'content'},
+                { title: '', fixed: 'right',width:190,toolbar:'#pro_bar'},
 
             ]]
         });
 
          // filter the data
-        form.on('submit(search-pro)', function (data) {
+        form.on('submit(search-plist)', function (data) {
             table.reload( 'plist', {
                 where: {
-                    keyword:data.field.name,
-                    cate:data.field.cate
+                    name:data.field.name,
+                    cate:data.field.cate,
+           
                 }
                 ,page: {
                     curr: 1 //重新从第 1 页开始
@@ -223,6 +370,25 @@ admin.post({
 
 
 
+         // 监听添加用户
+        form.on('submit(add-suform)', function (data) {
+            admin.post({
+                api: 'addsupplyprorelate',
+                data: data.field,
+                success:function (res) {
+                    layer.msg('添加成功', {
+                        icon:1,
+                        success :function (index, layero) {
+                            setTimeout(function(){
+                                layer.closeAll();
+                                layui.view.tab.refresh();
+                            },800);
+                        }
+                    });
+                }
+            });
+            return false;
+        });
 
 
          table.on('tool(plist)', function(obj){
@@ -230,45 +396,79 @@ admin.post({
             let layEvent = obj.event;
             let tr = obj.tr;
 
-            console.log(layEvent);
+      
             console.log(data);
 
-            // if(layEvent === 'detail'){
-            //     //do somehing
-            // } else if(layEvent === 'del'){
-            //     layer.confirm('真的删除行么?用户权限会失效的!', function(index){
-            //         admin.post({
-            //             api: "delRole",
-            //             data: data,
-            //             success:function (res) {
-            //                 layer.alert("删除角色成功",{
-            //                     yes:function () {
-            //                         layui.view.tab.refresh();
-            //                         layer.closeAll();
-            //                         formSelects.render();
-            //                         form.render();
-            //                     }
-            //                 })
-            //             }
-            //         });
-            //     });
-            // } else if(layEvent === 'edit'){
-            //     // 请求信息接口，然后打开弹窗
-            //     admin.post({
-            //         api: 'getRoleInfo',
-            //         data: {
-            //             role_id:data.role_id
-            //         },
-            //         success:function (res) {
-            //             rolebd_status_value = 'edit';
-            //             $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
-            //             $("input[name=role_name]").val(res.result.role_name);
-            //             $("input[name=role_id]").val(res.result.role_id);
-            //             form.render();
-            //             formSelects.value('role_auth', res.result.role_auth.split(","));
-            //         }
-            //     })
-            // }
+            if(layEvent === 'detail'){
+                //do somehing
+            } else if(layEvent === 'del'){
+                layer.confirm('真的删除行么?', function(index){
+                    admin.post({
+                        api: "delproduct",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
+            } else if(layEvent === 'edit'){
+                // 请求信息接口，然后打开弹窗
+                admin.post({
+                    api: 'getRoleInfo',
+                    data: {
+                        role_id:data.role_id
+                    },
+                    success:function (res) {
+                        rolebd_status_value = 'edit';
+                        $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
+                        $("input[name=role_name]").val(res.result.role_name);
+                        $("input[name=role_id]").val(res.result.role_id);
+                        form.render();
+                        formSelects.value('role_auth', res.result.role_auth.split(","));
+                    }
+                })
+            }else if(layEvent === 'addsu'){
+                console.log(data);
+                // 请求信息接口，然后打开弹窗
+                 let addsu = $('#add_su');
+                    let html = addsu.html();
+                    if (html === ''){return false;} // 没有判断 则会因为tab的伪刷新 导致监听n多次点击按钮事件 打开n个弹窗
+                    addsu.html('');
+
+                    console.log("pppppp  "+data.id);
+                form.val('formTest ', {
+                    "pid": data.id,
+                    "priceinfo":"sv",
+                
+                  
+                });
+                    admin.popup({
+                        content: html,
+                        title: '添加成交供应商',
+                        area: ['70%', '70%'],
+                        shadeClose: false,
+                        cancel: function(index, layero){
+                            $("#add_su").html(this.content);
+                        },
+                         success: function(layero, index){
+                            console.log(layero, index);
+                            var body = layer.getChildFrame('body', index); 
+                            body.find("#pid").val(data.id); // 方式一
+                            $("#pid").val(data.id);
+                            console.log($("#pid").attr('data-r'));
+                          }
+                    });
+
+
+
+            }
         });
 
 

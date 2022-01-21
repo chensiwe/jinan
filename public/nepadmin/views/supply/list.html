@@ -6,7 +6,66 @@
 </style>
 <div class="layui-fluid" id="VIEW-sulist" lay-title="供应商列表">
     <div class="layui-row layui-col-space10">
-        <div class="layui-col-md10">
+
+
+
+ <div class="layui-col-md12">
+            <div class="layui-card">
+               
+                <div class="layui-card-body">
+                    <form class="layui-row layui-col-space10 layui-form">
+                        
+                   
+            <div class="layui-col-md3 layui-col-xs4">
+                       
+                         <label class="layui-form-label">供应商类别</label>
+                            <div class="layui-input-block">
+                              <select  name="type" id="type">
+                              
+                              </select>
+                            </div>
+             </div>
+
+
+                <div class="layui-col-md3 layui-col-xs4">
+                    
+                          <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                            </div>
+             </div>
+
+
+
+              <div class="layui-col-md3 layui-col-xs12">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-xs6">
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-sulist">筛选</div>
+                                </div>
+                                <div class="layui-col-xs6">
+                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                
+                    </form>
+                </div>
+            </div>
+
+           
+
+        </div>
+
+
+
+
+
+
+
+
+        <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body nepadmin-pad-l10 nepadmin-pad-r10">
                     <div class="layui-btn-container">
@@ -19,30 +78,7 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md2">
-            <div class="layui-card">
-                <div class="layui-card-header">筛选数据</div>
-                <div class="layui-card-body">
-                    <form class="layui-row layui-col-space10 layui-form">
-                        <div class="layui-col-md12 layui-col-xs4">
-                            <input type="text" class="layui-input" name="name" placeholder="用户名" >
-                        </div>
-                        <div class="layui-col-md12 layui-col-xs12">
-                            <div class="layui-row layui-col-space10">
-                                <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-user">筛选</div>
-                                </div>
-                                <div class="layui-col-xs6">
-                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-
-        </div>
+      
     </div>
 </div>
 
@@ -88,7 +124,8 @@
         form.on('submit(search-sulist)', function (data) {
             table.reload( 'su', {
                 where: {
-                    keyword:data.field.name
+                    type:data.field.type,
+                    name:data.field.name
                 }
                 ,page: {
                     curr: 1 //重新从第 1 页开始
@@ -96,6 +133,27 @@
             });
             return false;
         });
+
+
+
+
+
+         admin.post({
+            api: 'getsupplys',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                     let html = `<option value="1">全部</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#type").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
 
         //监听工具条
         table.on('tool(sulist)', function(obj){

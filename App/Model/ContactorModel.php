@@ -38,7 +38,7 @@ class ContactorModel extends AbstractModel
 	}
 
 
-	public function addData(string $name, string $phone, string $addtime): self
+	public function addData(string $name, string $phone, string $addtime): int
 	{
 		$data = [
 		    'name'=>$name,
@@ -46,8 +46,8 @@ class ContactorModel extends AbstractModel
 		    'addtime'=>$addtime,
 		];
 		$model = new self($data);
-		$model->save();
-		return $model;
+		$id = $model->save();
+		return $id;
 	}
 }
 

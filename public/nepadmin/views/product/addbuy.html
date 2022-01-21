@@ -1,4 +1,5 @@
     <link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
+
 <div class="layui-fluid" lay-title="产品管理">
     <div class="layui-row layui-col-space15">
 
@@ -7,59 +8,91 @@
             <form class="layui-card layui-form" layui-filter="add-role">
                 <div class="layui-card-header" id="rolebd_status">添加产品</div>
                 <div class="layui-card-body layui-row layui-col-space10">
-                    <div class="layui-col-md6">
-                        <input type="text" name="name" placeholder="名称" autocomplete="off" lay-verify="required" class="layui-input">
-                    </div>
-                    <div class="layui-col-md6">
-                        <input type="text" name="cas" placeholder="cas" autocomplete="off" class="layui-input">
-                    </div>
-                       <div class="layui-col-md6">
-                        <input type="text" name="chemical" placeholder="化学式" autocomplete="off" class="layui-input">
-                    </div>
-
-                    <div class="layui-col-md6">
+             
+                    <div class="layui-col-md4">
                             
-                            <label class="layui-form-label">类别</label>
+                            <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select name="cate" id="cate" lay-verify="required">
+                              <select name="supplyid" id="supply" lay-verify="required" lay-filter="selectsu">
                                
                               </select>
                             </div>
 
                     </div>
 
-                     <div class="layui-col-md6">
-                        <input type="text" name="brand" placeholder="品牌" autocomplete="off" class="layui-input">
-                    </div>
-                     <div class="layui-col-md6">
-                        <input type="text" name="pack" placeholder="包装" autocomplete="off" class="layui-input">
-                    </div>
-                     <div class="layui-col-md6">
-                        <input type="text" name="market" placeholder="市场行情" autocomplete="off" class="layui-input">
-                    </div>
+                    <div class="layui-col-md3">
+                            
+                            <label class="layui-form-label">供应商类别</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="supplytype" id="type"  readonly="readonly" autocomplete="off"  class="layui-input">
+                            </div>
 
-                      <div class="layui-col-md6">
-                        <input type="text" name="properties" placeholder="性状" autocomplete="off" class="layui-input">
-                    </div>
-
-                      <div class="layui-col-md6">
-                        <input type="text" name="content" placeholder="含量" autocomplete="off" class="layui-input">
-                    </div>
-
-                      <div class="layui-col-md6">
-                        <input type="text" name="usefor" placeholder="用途" autocomplete="off" class="layui-input">
-                    </div>
-
-                          <div class="layui-col-md12">
-                        <input type="text" name="remark" placeholder="备注" autocomplete="off" class="layui-input">
-                    </div>
-
-                          <div class="layui-col-md12">
-                        <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
 
+                    <div class="layui-col-md2">
+                            
+                            <label class="layui-form-label">联系人</label>
+                            <div class="layui-input-block">
+                              <select name="contact" id="contact" lay-filter="conse" lay-verify="required">
+                               
+                              </select>
+                            </div>
 
+                    </div>
+
+                     <div class="layui-col-md3">
+                         <label class="layui-form-label">联系人手机</label>
+                             <div class="layui-input-block">
+                        <input type="text" name="contactorphone" id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                          <label class="layui-form-label">成交日期</label>
+                           <div class="layui-input-block">
+                        <input type="date" name="createtime" placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交价格</label>
+                         <div class="layui-input-block">
+                        <input type="number" name="price" value="9.00" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交数量</label>
+                        <div class="layui-input-block">
+                        <input type="number" name="buynumber" value="1" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">拿货地</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="address" placeholder="拿货地" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">价格备注</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="priceinfo" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+                     
+
+
+<input type="hidden" name="pid" id="pida">
            
 
 
@@ -68,7 +101,7 @@
                    
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="add-product">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="add-rela">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -87,6 +120,21 @@
 </script>
 
 <script>
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
+var pid = getQueryVariable("id");
+console.log(pid);
+document.getElementById('pida').value=pid;
+
     layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
         var element = layui.element;
@@ -98,20 +146,40 @@
 
         // 加载权限列表
         admin.post({
-            api: 'getcatelist',
+            api: 'getsupplylist',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                    let html = `<option value="0">选择供应商</option>`;
                     $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
                     });
-                    $("#cate").html(html);
+                    $("#supply").html(html);
                 }
 
                 formSelects.render();
                 form.render();
             }
         });
+
+
+        admin.post({
+            api: 'getcontactlist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="0">选择联系人</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    });
+                    $("#contact").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
 
         // 加载角色列表
         admin.renderTable({
@@ -129,15 +197,71 @@
                 ,{toolbar: '#role_bar'}
             ]]
         });
+
+
+         form.on('select(selectsu)', function (data) {
+            var suid = $("#supply").val();
+
+
+              admin.post({
+            api: 'getsupplyone',
+                data: {
+                        id:suid,
+                    },
+            success:function (res) {
+                if (res.result != null){
+        
+                   
+                    $("#type").val(res.result.type);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+        });
+
+
+
+
+
+
+
+         form.on('select(conse)', function (data) {
+            var suid = $("#contact").val();
+
+
+              admin.post({
+            api: 'getcontactone',
+                data: {
+                        id:suid,
+                    },
+            success:function (res) {
+                if (res.result != null){
+        
+                   
+                    $("#contactphone").val(res.result.phone);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+        });
+
+
+
+
+
         // 添加角色添加
-        form.on('submit(add-product)', function (data) {
+        form.on('submit(add-rela)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
                     admin.post({
-                        api: "addproduct",
+                        api: "addsupplyprorelate",
                         data: data.field,
                         success:function (res) {
-                            layer.alert("添加产品成功",{
+                            layer.alert("添加成功",{
                                 yes:function () {
                                     layui.view.tab.refresh();
                                     layer.closeAll();
@@ -226,4 +350,8 @@
         })
 
     });
+</script>
+<script type="text/javascript">
+    
+
 </script>

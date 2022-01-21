@@ -36,6 +36,7 @@ layui.define([], function (exports) {
         addcate:'productcate/add',
         addproduct:'product/add',
         getproducts:'product/getList',
+        delproduct:'product/delete',
 
         //借贷列表
         getborrows:'borrow/getList',
@@ -77,7 +78,12 @@ layui.define([], function (exports) {
         delhelp:'helps/delete',
         gethelps:'helps/getList',
         addhelp:'helps/add',
-
+        getsupplys:'SupplyType/getList',
+        getproducttype:'productcate/getList',
+        getsupplyone:'supply/getOne',
+        getcontactlist:'Contactor/getList',
+        getcontactone:'Contactor/getOne',
+        addsupplyprorelate:'SupplyProductRelate/add',
 
     });
 });
