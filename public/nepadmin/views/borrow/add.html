@@ -256,6 +256,7 @@
 
      admin.post({
             api: 'gethelps',
+            data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";
@@ -273,6 +274,7 @@
 
  admin.post({
             api: 'getbanks',
+            data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = `<option value="None">blank</option>`;
@@ -290,6 +292,7 @@
 
  admin.post({
             api: 'getcustypes',
+             data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                  let html = "";
@@ -307,6 +310,7 @@
 
          admin.post({
             api: 'getmjs',
+             data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                   let html = `<option value="None">blank</option>`;
@@ -324,6 +328,7 @@
 
   admin.post({
             api: 'getxds',
+             data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                    let html = `<option value="None">blank</option>`;
@@ -341,6 +346,7 @@
 
   admin.post({
             api: 'getgbs',
+             data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";
@@ -358,6 +364,7 @@
 
     admin.post({
             api: 'getrates',
+             data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";
@@ -376,6 +383,7 @@
 
     admin.post({
             api: 'getcards',
+             data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                      let html = `<option value="None">blank</option>`;
@@ -411,6 +419,7 @@
 
   admin.post({
             api: 'getfrom',
+             data:{"pageSize":10000000},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";
