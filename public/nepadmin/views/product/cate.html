@@ -4,7 +4,7 @@
         top:unset !important;
     }
 </style>
-<div class="layui-fluid" id="VIEW-list-table" lay-title="产品分类列表">
+<div class="layui-fluid" id="VIEW-catelist" lay-title="产品分类列表">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md10">
             <div class="layui-card">
@@ -15,7 +15,7 @@
                         
 
                     </div>
-                    <table id="calist" lay-filter="calist"></table>
+                    <table id="catelist" lay-filter="catelist"></table>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                         <div class="layui-col-md12 layui-col-xs12">
                             <div class="layui-row layui-col-space10">
                                 <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-user">筛选</div>
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-cate">筛选</div>
                                 </div>
                                 <div class="layui-col-xs6">
                                     <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
@@ -41,24 +41,14 @@
                 </div>
             </div>
 
-           <!--  <div class="layui-card nepadmin-font-12">
-                <div class="layui-card-header">
-                    <i class="layui-icon">&#xe78c;</i> 帮助中心 </div>
-                <div class="layui-card-body">
-                    <p>操作指引等等</p>
-                    <p class="nepadmin-c-gray">吧啦吧啦~</p>
-                    <hr/>
-                    <p><a>如何新建／发布？</a></p>
-                    <p><a>删除时注意事项？</a></p>
-                </div>
-            </div> -->
+          
 
         </div>
     </div>
 </div>
 
 <!-- 用户列表bar tool -->
-<script type="text/html" id="user_bar">
+<script type="text/html" id="cate_bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -76,7 +66,7 @@
            
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="add-user">立即提交</button>
+                    <button class="layui-btn" lay-submit lay-filter="add-cate">立即提交</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
@@ -87,16 +77,16 @@
 
 <script>
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
-        var view = $('#VIEW-list-table');
+        var view = $('#VIEW-catelist');
 
         var formSelects = layui.formSelects;
    
 
-        var tableFilter = 'list-table';
+        var tableFilter = 'catelist';
         form.render();
         admin.renderTable({
-            elem: '#calist',
-            id: 'user-table',
+            elem: '[lay-filter="' + tableFilter + '"]',
+            id: 'catetab',
             api: 'getcatelist',
             page: true,
             cols: [[
@@ -106,7 +96,7 @@
                 { title: '状态', field: 'status',templet: function(d){
                     return d.status == 1 ? '正常' : '禁用';
                 }},
-                { title: '', fixed: 'right', toolbar:'#user_bar'},
+                { title: '', fixed: 'right', toolbar:'#cate_bar'},
 
             ]]
         });
@@ -135,7 +125,7 @@
         });
 
         // 监听添加
-        form.on('submit(add-user)', function (data) {
+        form.on('submit(add-cate)', function (data) {
             admin.post({
                 api: 'addcate',
                 data: data.field,
@@ -155,8 +145,8 @@
         });
 
         // 监听筛选用户
-        form.on('submit(search-user)', function (data) {
-            table.reload( 'user-table', {
+        form.on('submit(search-cate)', function (data) {
+            table.reload( 'catetab', {
                 where: {
                     keyword:data.field.name
                 }
@@ -168,7 +158,7 @@
         });
 
         //监听工具条
-        table.on('tool(list-table)', function(obj){
+        table.on('tool(catelist)', function(obj){
             let data = obj.data;
             let layEvent = obj.event;
             let tr = obj.tr;
@@ -180,6 +170,24 @@
             if(layEvent === 'detail'){
                 //do somehing
             } else if(layEvent === 'del'){
+
+
+                  layer.confirm('真的删除行么?', function(index){
+                    admin.post({
+                        api: "delprocate",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
 
             } else if(layEvent === 'edit'){
 

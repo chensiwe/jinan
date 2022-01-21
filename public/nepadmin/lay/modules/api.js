@@ -84,6 +84,10 @@ layui.define([], function (exports) {
         getcontactlist:'Contactor/getList',
         getcontactone:'Contactor/getOne',
         addsupplyprorelate:'SupplyProductRelate/add',
+        addcallbook:'Callbook/add',
+        getcalls:'Callbook/getList',
+        getcalltypes:'CallbookType/getList',
+        delprocate:'Productcate/delete',
 
     });
 });

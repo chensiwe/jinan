@@ -1,0 +1,199 @@
+<link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
+<style>
+    .xm-select-dl{
+        top:unset !important;
+    }
+</style>
+<div class="layui-fluid" id="VIEW-callbook" lay-title="通讯录">
+    <div class="layui-row layui-col-space10">
+
+
+
+ <div class="layui-col-md12">
+            <div class="layui-card">
+               
+                <div class="layui-card-body">
+                    <form class="layui-row layui-col-space10 layui-form">
+                        
+                   
+            <div class="layui-col-md3 layui-col-xs4">
+                       
+                         <label class="layui-form-label">联系人类别</label>
+                            <div class="layui-input-block">
+                              <select  name="type" id="type">
+                                
+
+
+                              </select>
+                            </div>
+             </div>
+
+
+                <div class="layui-col-md3 layui-col-xs4">
+                    
+                          <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                            </div>
+             </div>
+
+
+
+              <div class="layui-col-md3 layui-col-xs12">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-xs6">
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-callbook">筛选</div>
+                                </div>
+                                <div class="layui-col-xs6">
+                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                
+                    </form>
+                </div>
+            </div>
+
+           
+
+        </div>
+
+
+
+
+
+
+
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body nepadmin-pad-l10 nepadmin-pad-r10">
+                    <div class="layui-btn-container">
+                       <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
+
+                        <a href="#/callbook/add" class="layui-btn layui-btn-xs">添加通讯录</a>
+
+                    </div>
+                    <table id="callbook" lay-filter="callbook"></table>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>
+
+<!-- 用户列表bar tool -->
+<script type="text/html" id="call_bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+
+<script>
+    layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
+        var view = $('#VIEW-callbook');
+
+        var formSelects = layui.formSelects;
+        var roleName = [];
+        var authList = [];
+
+
+        var tableFilter = 'callbook';
+        form.render();
+        admin.renderTable({
+            elem: '[lay-filter="' + tableFilter + '"]',
+            id: 'calls',
+            api: 'getcalls',
+            page: true,
+            cols: [[
+                { title: '序号', field: 'id', fixed: true},
+                { title: '名称', field: 'name'},
+                {title:"联系人",field:'contact'},
+                {title:"联系电话",field:'phone'},
+                { title: '地址', field: 'address'},
+                {title:'类别',field:'type'},
+                { title: '备注', field: 'ramark'},
+            
+                { title: '', fixed: 'right', toolbar:'#call_bar'},
+
+            ]]
+        });
+
+
+        // 监听筛选
+        form.on('submit(search-callbook)', function (data) {
+            table.reload( 'calls', {
+                where: {
+                    type:data.field.type,
+                    name:data.field.name
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            return false;
+        });
+
+
+
+
+
+         admin.post({
+            api: 'getcalltypes',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                     let html = `<option value="1">全部</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#type").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+
+        //监听工具条
+        table.on('tool(callbook)', function(obj){
+            let data = obj.data;
+            let layEvent = obj.event;
+            let tr = obj.tr;
+
+     
+
+            if(layEvent === 'detail'){
+                //do somehing
+            } else if(layEvent === 'del'){
+                    layer.confirm('真的删除行么?', function(index){
+                    admin.post({
+                        api: "delcalls",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
+
+
+
+            } else if(layEvent === 'edit'){
+
+            }
+        });
+
+    })
+</script>

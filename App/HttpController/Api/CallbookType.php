@@ -2,7 +2,7 @@
 
 namespace App\HttpController\Api;
 
-use App\Model\ProductcateModel;
+use App\Model\CallbookTypeModel;
 use EasySwoole\Component\Context\ContextManager;
 use EasySwoole\HttpAnnotation\AnnotationController;
 use EasySwoole\HttpAnnotation\AnnotationTag\Api;
@@ -21,17 +21,17 @@ use EasySwoole\Http\Message\Status;
 use EasySwoole\Validate\Validate;
 
 /**
- * Productcate
- * Class Productcate
+ * CallbookType
+ * Class CallbookType
  * Create With ClassGeneration
- * @ApiGroup(groupName="/Api.Productcate")
+ * @ApiGroup(groupName="/Api.CallbookType")
  * @ApiGroupAuth(name="")
  * @ApiGroupDescription("")
  */
-class Productcate extends AnnotationController
+class CallbookType extends AnnotationController
 {
 	/**
-	 * @Api(name="add",path="/Api/Productcate/add")
+	 * @Api(name="add",path="/Api/CallbookType/add")
 	 * @ApiDescription("新增数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -40,24 +40,22 @@ class Productcate extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="name",lengthMax="15",required="")
+	 * @Param(name="name",lengthMax="20",required="")
 	 */
 	public function add()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$data = [
 		    'name'=>$param['name'],
-		    'createtime'=>time(),
-		    'status'=>1,
 		];
-		$model = new ProductcateModel($data);
+		$model = new CallbookTypeModel($data);
 		$model->save();
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
 
 	/**
-	 * @Api(name="update",path="/Api/Productcate/update")
+	 * @Api(name="update",path="/Api/CallbookType/update")
 	 * @ApiDescription("更新数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -66,15 +64,13 @@ class Productcate extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 * @Param(name="id",required="")
-	 * @Param(name="name",lengthMax="15",optional="")
-	 * @Param(name="createtime",lengthMax="15",optional="")
-	 * @Param(name="status",lengthMax="1",optional="",defaultValue="1")
+	 * @Param(name="id",lengthMax="11",required="")
+	 * @Param(name="name",lengthMax="20",optional="")
 	 */
 	public function update()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new ProductcateModel();
+		$model = new CallbookTypeModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (empty($info)) {
 		    $this->writeJson(Status::CODE_BAD_REQUEST, [], '该数据不存在');
@@ -83,15 +79,13 @@ class Productcate extends AnnotationController
 		$updateData = [];
 
 		$updateData['name']=$param['name'] ?? $info->name;
-		$updateData['createtime']=$param['createtime'] ?? $info->createtime;
-		$updateData['status']=$param['status'] ?? $info->status;
 		$info->update($updateData);
 		$this->writeJson(Status::CODE_OK, $info, "更新数据成功");
 	}
 
 
 	/**
-	 * @Api(name="getOne",path="/Api/Productcate/getOne")
+	 * @Api(name="getOne",path="/Api/CallbookType/getOne")
 	 * @ApiDescription("获取一条数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -100,23 +94,21 @@ class Productcate extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"获取成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
-	 * @Param(name="id",required="")
+	 * @Param(name="id",lengthMax="11",required="")
 	 * @ApiSuccessParam(name="result.id",description="")
 	 * @ApiSuccessParam(name="result.name",description="")
-	 * @ApiSuccessParam(name="result.createtime",description="")
-	 * @ApiSuccessParam(name="result.status",description="")
 	 */
 	public function getOne()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new ProductcateModel();
+		$model = new CallbookTypeModel();
 		$info = $model->get(['id' => $param['id']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
 
 
 	/**
-	 * @Api(name="getList",path="/Api/Productcate/getList")
+	 * @Api(name="getList",path="/Api/CallbookType/getList")
 	 * @ApiDescription("获取数据列表")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -129,26 +121,21 @@ class Productcate extends AnnotationController
 	 * @Param(name="pageSize", from={GET,POST}, alias="每页总数", optional="")
 	 * @ApiSuccessParam(name="result[].id",description="")
 	 * @ApiSuccessParam(name="result[].name",description="")
-	 * @ApiSuccessParam(name="result[].createtime",description="")
-	 * @ApiSuccessParam(name="result[].status",description="")
 	 */
 	public function getList()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
-		$model = new ProductcateModel();
-		$datas = $this->request()->getRequestParam();
-		if (isset($datas['keyword'])){
-            $model->where('name', "%{$datas['keyword']}%", 'like');
-        }
+		$model = new CallbookTypeModel();
+
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
 	}
 
 
 	/**
-	 * @Api(name="delete",path="/Api/Productcate/delete")
+	 * @Api(name="delete",path="/Api/CallbookType/delete")
 	 * @ApiDescription("删除数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -157,12 +144,12 @@ class Productcate extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="id",required="")
+	 * @Param(name="id",lengthMax="11",required="")
 	 */
 	public function delete()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new ProductcateModel();
+		$model = new CallbookTypeModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (!$info) {
 		    $this->writeJson(Status::CODE_OK, $info, "数据不存在.");
