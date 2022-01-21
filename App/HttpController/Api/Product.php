@@ -208,7 +208,12 @@ class Product extends AnnotationController
             $model->where(['cate'=>$datas['cate']]);
         }
 
+
 		$data = $model->getList($page, $pageSize);
+
+		for ($i=0; $i < count($data['list']); $i++) { 
+			$data['list'][$i]['cate'] =(\App\Model\ProductcateModel::create()->get($data['list'][$i]['cate']))['name'];
+		}
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
 	}
 
