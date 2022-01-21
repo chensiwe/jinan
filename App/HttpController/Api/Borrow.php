@@ -57,7 +57,6 @@ class Borrow extends AnnotationController
 	 * @Param(name="rate",required="")
 	 * @Param(name="customertype",lengthMax="6",required="")
 	 * @Param(name="isbridge",lengthMax="1",required="")
-	 * @Param(name="bridgecash",required="")
 	 * @Param(name="remark",lengthMax="100",required="")
 	 */
 	public function add()
@@ -81,7 +80,7 @@ class Borrow extends AnnotationController
 		    'rate'=>$param['rate'],
 		    'customertype'=>$param['customertype'],
 		    'isbridge'=>$param['isbridge'],
-		    'bridgecash'=>$param['bridgecash'],
+		    'bridgecash'=>array_key_exists("bridge", $param) ? $param['bridgecash']:0,
 		    'remark'=>$param['remark'],
 		    'addtime'=>time(),
 		];

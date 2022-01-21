@@ -186,14 +186,14 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否过桥垫资</label>
                         <div class="layui-input-block">
-                          <input type="radio" name="isbridge" value="1" title="是">
-                          <input type="radio" name="isbridge" value="0" title="否" checked>
+                          <input type="radio" lay-filter="ra" name="isbridge" value="1" title="是">
+                          <input type="radio" name="isbridge"  lay-filter="ra" value="0" title="否" checked>
                         </div>
                       </div>
 
 
-                      <div class="layui-col-md6">
-                        <input type="number" name="bridgecash" placeholder="垫桥资金" autocomplete="off" class="layui-input" value="0">
+                      <div class="layui-col-md6" id="brdigecon">
+                       
                     </div>
 
                       <div class="layui-col-md6">
@@ -275,7 +275,7 @@
             api: 'getbanks',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                    let html = `<option value="None">blank</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -292,7 +292,7 @@
             api: 'getcustypes',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                 let html = "";
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -309,7 +309,7 @@
             api: 'getmjs',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                  let html = `<option value="None">blank</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -326,7 +326,7 @@
             api: 'getxds',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                   let html = `<option value="None">blank</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -378,7 +378,7 @@
             api: 'getcards',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                     let html = `<option value="None">blank</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.name+'">'+item.name+'</option>';
                     });
@@ -426,6 +426,31 @@
         });
 
 
+  var isbridge = $("input:radio[name='isbridge']:checked").val();
+
+
+if (isbridge == 1) {    $("#brdigecon").html(`<input type="number" name="bridgecash" placeholder="垫桥资金" autocomplete="off" class="layui-input" value="0">`);
+}
+
+ form.on('radio(ra)', function(data){
+    console.log(data.elem); //得到radio原始DOM对象
+    console.log(data.value); //被点击的radio的value值
+
+    if (data.value == 1) {
+        console.log(11111111111111);
+    $("#brdigecon").html(`<input type="number" name="bridgecash" placeholder="垫桥资金" autocomplete="off" class="layui-input" value="0">`);
+  }else{
+    console.log("00000");
+$("#brdigecon").html("");
+  }
+
+    formSelects.render();
+                                    form.render();
+
+
+
+})
+ 
 
 
         // 加载角色列表
@@ -538,7 +563,7 @@
             $("input[name=role_name]").val('');
             formSelects.value('role_auth', []);
             form.render();
-        })
+        });
 
     });
 </script>
