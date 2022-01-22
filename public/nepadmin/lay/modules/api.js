@@ -88,6 +88,11 @@ layui.define([], function (exports) {
         getcalls:'Callbook/getList',
         getcalltypes:'CallbookType/getList',
         delprocate:'Productcate/delete',
+        getcustomertypes:'CustomerType/getList',
+        getcustomerfrom:'CustomerFrom/getList',
+        addcustomer:'Customers/add',
+        getcustomerss:'Customers/getList',
+        delcustomer:'Customers/delete',
 
     });
 });

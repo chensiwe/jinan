@@ -1,0 +1,386 @@
+<link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
+<div class="layui-fluid" lay-title="客户管理">
+    <div class="layui-row layui-col-space15">
+
+
+        <div class="layui-col-md12">
+            <form class="layui-card layui-form" layui-filter="add-customerss">
+                <div class="layui-card-header" id="rolebd_statuss">添加客户</div>
+                <div class="layui-card-body layui-row layui-col-space10">
+                    <div class="layui-col-md6">
+                        <label class="layui-form-label">名称</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="name" placeholder="名称" autocomplete="off" lay-verify="required" class="layui-input">
+                    </div>
+                    </div>
+
+
+                    <div class="layui-col-md6">
+                              <label class="layui-form-label">地址</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="address" placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
+                    </div>
+                    </div>
+
+
+
+            <div class="layui-col-md4 layui-col-xs4">
+                       
+                         <label class="layui-form-label">客户类别</label>
+                            <div class="layui-input-block">
+                              <select  name="type" id="type">
+                                
+
+
+                              </select>
+                            </div>
+             </div>
+
+
+
+
+
+                    <div class="layui-col-md3">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="contact" placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
+                    </div>
+                    </div>
+
+
+
+
+                <div class="layui-col-md5">
+                        <label class="layui-form-label">电话</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="phone" placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+
+
+            <div class="layui-col-md4 layui-col-xs4">
+                       
+                         <label class="layui-form-label">客户来源</label>
+                            <div class="layui-input-block">
+                              <select  name="fromwhere" id="fromwhere">
+                                
+
+
+                              </select>
+                            </div>
+             </div>
+
+
+
+            <div class="layui-col-md4 layui-col-xs4">
+                       
+                         <label class="layui-form-label">成交意向</label>
+                            <div class="layui-input-block">
+                              <select  lay-search name="think">
+                                
+                                <option value="已成交">已成交</option>
+                                  <option value="很高">很高</option>
+
+
+                              </select>
+                            </div>
+             </div>
+
+
+
+                    <div class="layui-col-md12">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="remark" placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
+                    </div>
+                    </div>
+
+
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">开票资料</label>
+                        <div class="layui-input-block">
+                          <textarea name="info" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                      </div>
+
+
+                
+
+                    <div class="layui-col-md12">
+                         <label><input type="file" multiple="multiple" class="add-item-up-file"   name="file[]" id="file" /></label>
+                           
+                        </div>
+
+                        <div class="layui-col-md12" id="filebox2">
+                            
+
+                        </div>
+
+
+                    <a class="layui-btn-danger layui-btn" id="addprice">添加报价</a>
+
+<div class="layui-col-md12" id="box"></div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="add-cus">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+       
+    </div>
+</div>
+
+
+<div class="layui-form-item" id="additembox" hidden="">
+ 
+  <div class="layui-inline">
+    <label class="layui-form-label">产品</label>
+    <div class="layui-input-inline" style="width: 100px;">
+          <select  name="item[]" class="name"  id="item" lay-search>
+                      
+                      
+         </select>
+    </div>
+
+    <div class="layui-inline">
+    <label class="layui-form-label">报价</label>
+      <div class="layui-input-inline" style="width: 100px;">
+      <input type="number" name="price[]"  placeholder="￥" autocomplete="off" class="layui-input price">
+    </div>
+  </div>
+
+  
+  <div class="layui-inline">
+    <label class="layui-form-label">数量</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="number" name="numbers[]" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+
+  <div class="layui-inline">
+    <label class="layui-form-label">日期</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="date" name="times[]" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+    layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
+        var $ = layui.jquery;
+        var element = layui.element;
+        var laytpl = layui.laytpl;
+        var formSelects = layui.formSelects;
+        var table = layui.table;
+        var rolebd_status_value = 'add';
+        var form = layui.form;
+
+        // 加载权限列表
+        admin.post({
+            api: 'getcustomertypes',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#type").html(html);
+                }
+
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+
+ // 加载权限列表
+        admin.post({
+            api: 'getcustomerfrom',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#fromwhere").html(html);
+                }
+
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+         
+
+
+
+
+
+        $("#addprice").click(function(){
+
+        admin.post({
+            api: 'getproducts',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                    });
+                    $("#item").html(html);
+
+                    $("#box").append($("#additembox").html());
+                }
+
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+        });
+
+
+
+
+
+
+
+
+form.on('submit(add-cus)', function (data) {
+            switch (rolebd_status_value) {
+                case 'add':
+                files2 = [];
+                jsdata = {};
+
+                dataforms = data.field;
+                   $(".filebox2").each(function(){
+                    var filepath = $(this).attr("value");
+                    var filename = $(this).attr("name");
+                    files2.push({"filename":filename,"filepath":filepath});
+                   });
+
+                   var price = [];
+                     $(".price").each(function(){
+                    var filepath = $(this).val();
+                  
+                    price.push(filepath);
+                   });
+
+
+
+                   jsdata['files'] = files2;
+
+                   jsdata['data'] = dataforms;
+                    jsdata['price'] = price;
+
+                   console.log(jsdata);
+
+                    admin.post({
+                        api: "addcustomer",
+                        data: data.field,
+                        dataType:'json',
+                        success:function (res) {
+                            layer.alert("添加成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+
+
+                
+                    break;
+                case 'edit':
+                    admin.post({
+                        api: "ediRole",
+                        data: data.field,
+                        success:function (res) {
+                            layer.alert("编辑角色成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                    break;
+            }
+
+            return false;
+        });
+
+        formSelects.render();
+        form.render();
+
+
+
+
+
+
+       
+
+
+    
+        $("#file").change(function(){
+            //创建FormData对象
+            var data = new FormData();
+            //为FormData对象添加数据
+            $.each($('#file')[0].files, function(i, file) {
+                data.append('upload_file'+i, file);
+            });
+
+           console.log(data);
+
+        $.ajax({
+                url:'/api/upload/do',
+                type:'POST',
+                data:data,
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+                    console.log(data);
+
+               var res = ""; 
+            $.each(data.result,function(k,v){
+                res+= `<div class="add-item-files-span">`+k+`：`+v+`<span class="close" onclick="removefile(this)">X</span><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+            </div>`;    
+
+            });
+
+               $("#filebox2").append(res);
+
+                },
+                error:function(){
+                    alert('上传出错');
+                    $(".loading").hide();   //加载失败移除加载图片
+                }
+            });
+        });
+
+
+        });
+</script>

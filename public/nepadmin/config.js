@@ -104,5 +104,6 @@ layui.define(function(exports) {
       // select多选
       formSelects: 'lay/extends/formSelects-v4'
     }
+    
   })
 })

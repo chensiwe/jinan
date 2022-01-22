@@ -1,0 +1,279 @@
+<link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
+<style>
+    .xm-select-dl{
+        top:unset !important;
+    }
+</style>
+<div class="layui-fluid" id="VIEW-customer-list" lay-title="客户管理">
+    <div class="layui-row layui-col-space10">
+
+
+
+ <div class="layui-col-md12">
+            <div class="layui-card">
+               
+                <div class="layui-card-body">
+                    <form class="layui-row layui-col-space10 layui-form">
+                        
+                   
+            <div class="layui-col-md3 layui-col-xs4">
+                       
+                         <label class="layui-form-label">客户类别</label>
+                            <div class="layui-input-block">
+                              <select  name="type" id="type">
+                                
+
+
+                              </select>
+                            </div>
+             </div>
+
+
+            <div class="layui-col-md4 layui-col-xs4">
+                       
+                         <label class="layui-form-label">客户来源</label>
+                            <div class="layui-input-block">
+                              <select  name="fromwhere" id="fromwhere">
+                                
+
+
+                              </select>
+                            </div>
+             </div>
+
+
+
+            <div class="layui-col-md4 layui-col-xs4">
+                       
+                         <label class="layui-form-label">成交意向</label>
+                            <div class="layui-input-block">
+                              <select  lay-search name="think">
+                                
+                                <option value="已成交">已成交</option>
+                                  <option value="很高">很高</option>
+
+
+                              </select>
+                            </div>
+             </div>
+
+
+
+                <div class="layui-col-md3 layui-col-xs4">
+                    
+                          <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                            </div>
+             </div>
+
+
+
+              <div class="layui-col-md3 layui-col-xs12">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-xs6">
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-customer-list">筛选</div>
+                                </div>
+                                <div class="layui-col-xs6">
+                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                
+                    </form>
+                </div>
+            </div>
+
+           
+
+        </div>
+
+
+
+
+
+
+
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body nepadmin-pad-l10 nepadmin-pad-r10">
+                    <div class="layui-btn-container">
+                       <!--  <div class="layui-btn layui-btn-sm" data-type='add' style="margin-bottom: 0;" lay-url="/supply/addsupply">添加供应商</div> -->
+
+                        <a href="#/customer/add" class="layui-btn layui-btn-xs">添加客户</a>
+
+                    </div>
+                    <table id="customer-list" lay-filter="customer-list"></table>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>
+
+<!-- 用户列表bar tool -->
+<script type="text/html" id="cusjinan_bar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+
+<script>
+    layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
+        var view = $('#VIEW-customer-list');
+
+        var formSelects = layui.formSelects;
+        var roleName = [];
+        var authList = [];
+
+
+        var tableFilter = 'customer-list';
+        form.render();
+        admin.renderTable({
+            elem: '[lay-filter="' + tableFilter + '"]',
+            id: 'callsss',
+            api: 'getcustomerss',
+            page: true,
+            cols: [[
+                { title: '序号', field: 'id', fixed: true},
+                { title: '名称', field: 'name'},
+                {title:"联系人",field:'contact'},
+                {title:"联系电话",field:'phone'},
+                { title: '地址', field: 'address'},
+                {title:'类别',field:'type'},
+                { title: '备注', field: 'ramark'},
+            
+                { title: '', fixed: 'right', toolbar:'#cusjinan_bar'},
+
+            ]]
+        });
+
+
+
+
+
+
+ // 加载权限列表
+        admin.post({
+            api: 'getcustomerfrom',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="1">全部</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#fromwhere").html(html);
+                }
+
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+admin.post({
+            api: 'getcustomertypes',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="1">全部</option>`;
+
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#type").html(html);
+                }
+
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+
+ // 加载权限列表
+        admin.post({
+            api: 'getcustomerfrom',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                   let html = `<option value="1">全部</option>`;
+
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#fromwhere").html(html);
+                }
+
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+        // 监听筛选
+        form.on('submit(search-customer-list)', function (data) {
+            table.reload( 'callsss', {
+                where: {
+                    type:data.field.type,
+                    fromwhere:data.field.fromwhere,
+                    think:data.field.think,
+                    name:data.field.name
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            return false;
+        });
+
+
+
+
+
+
+
+
+
+        //监听工具条
+        table.on('tool(customer-list)', function(obj){
+            let data = obj.data;
+            let layEvent = obj.event;
+            let tr = obj.tr;
+
+     
+
+            if(layEvent === 'detail'){
+                //do somehing
+            } else if(layEvent === 'del'){
+                    layer.confirm('真的删除行么?', function(index){
+                    admin.post({
+                        api: "delcustomer",
+                        data: data,
+                        success:function (res) {
+                            layer.alert("删除成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll();
+                                    formSelects.render();
+                                    form.render();
+                                }
+                            })
+                        }
+                    });
+                });
+
+
+
+            } else if(layEvent === 'edit'){
+
+            }
+        });
+
+    })
+</script>
