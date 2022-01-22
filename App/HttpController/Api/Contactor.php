@@ -41,6 +41,7 @@ class Contactor extends AnnotationController
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
 	 * @Param(name="name",lengthMax="20",required="")
+	 * @Param(name="items",lengthMax="150",required="")
 	 * @Param(name="phone",lengthMax="12",required="")
 	 * @Param(name="addtime",lengthMax="16",required="")
 	 */
@@ -49,6 +50,7 @@ class Contactor extends AnnotationController
 		$param = ContextManager::getInstance()->get('param');
 		$data = [
 		    'name'=>$param['name'],
+		    'items'=>$param['items'],
 		    'phone'=>$param['phone'],
 		    'addtime'=>$param['addtime'],
 		];
@@ -68,8 +70,9 @@ class Contactor extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 * @Param(name="id",required="")
+	 * @Param(name="id",lengthMax="11",required="")
 	 * @Param(name="name",lengthMax="20",optional="")
+	 * @Param(name="items",lengthMax="150",optional="")
 	 * @Param(name="phone",lengthMax="12",optional="")
 	 * @Param(name="addtime",lengthMax="16",optional="")
 	 */
@@ -85,6 +88,7 @@ class Contactor extends AnnotationController
 		$updateData = [];
 
 		$updateData['name']=$param['name'] ?? $info->name;
+		$updateData['items']=$param['items'] ?? $info->items;
 		$updateData['phone']=$param['phone'] ?? $info->phone;
 		$updateData['addtime']=$param['addtime'] ?? $info->addtime;
 		$info->update($updateData);
@@ -102,9 +106,10 @@ class Contactor extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"获取成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
-	 * @Param(name="id",required="")
+	 * @Param(name="id",lengthMax="11",required="")
 	 * @ApiSuccessParam(name="result.id",description="")
 	 * @ApiSuccessParam(name="result.name",description="")
+	 * @ApiSuccessParam(name="result.items",description="")
 	 * @ApiSuccessParam(name="result.phone",description="")
 	 * @ApiSuccessParam(name="result.addtime",description="")
 	 */
@@ -131,6 +136,7 @@ class Contactor extends AnnotationController
 	 * @Param(name="pageSize", from={GET,POST}, alias="每页总数", optional="")
 	 * @ApiSuccessParam(name="result[].id",description="")
 	 * @ApiSuccessParam(name="result[].name",description="")
+	 * @ApiSuccessParam(name="result[].items",description="")
 	 * @ApiSuccessParam(name="result[].phone",description="")
 	 * @ApiSuccessParam(name="result[].addtime",description="")
 	 */
@@ -156,7 +162,7 @@ class Contactor extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="id",required="")
+	 * @Param(name="id",lengthMax="11",required="")
 	 */
 	public function delete()
 	{

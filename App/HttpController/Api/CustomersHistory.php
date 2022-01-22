@@ -2,7 +2,7 @@
 
 namespace App\HttpController\Api;
 
-use App\Model\CustomersModel;
+use App\Model\CustomersHistoryModel;
 use EasySwoole\Component\Context\ContextManager;
 use EasySwoole\HttpAnnotation\AnnotationController;
 use EasySwoole\HttpAnnotation\AnnotationTag\Api;
@@ -21,74 +21,45 @@ use EasySwoole\Http\Message\Status;
 use EasySwoole\Validate\Validate;
 
 /**
- * Customers
- * Class Customers
+ * CustomersHistory
+ * Class CustomersHistory
  * Create With ClassGeneration
- * @ApiGroup(groupName="/Api.Customers")
+ * @ApiGroup(groupName="/Api.CustomersHistory")
  * @ApiGroupAuth(name="")
  * @ApiGroupDescription("")
  */
-class Customers extends AnnotationController
+class CustomersHistory extends AnnotationController
 {
-	
+	/**
+	 * @Api(name="add",path="/Api/CustomersHistory/add")
+	 * @ApiDescription("新增数据")
+	 * @Method(allow={GET,POST})
+	 * @InjectParamsContext(key="param")
+	 * @ApiSuccessParam(name="code",description="状态码")
+	 * @ApiSuccessParam(name="result",description="api请求结果")
+	 * @ApiSuccessParam(name="msg",description="api提示信息")
+	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
+	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
+	 * @Param(name="cus_id",lengthMax="11",required="")
+	 * @Param(name="time",lengthMax="16",required="")
+	 * @Param(name="info",lengthMax="250",required="")
+	 */
 	public function add()
 	{
-		$param = $this->request()->getRequestParam();
-		
+		$param = ContextManager::getInstance()->get('param');
 		$data = [
-		    'name'=>$param['name'],
-		    'address'=>$param['address'],
-		    'type'=>$param['type'],
-		    'contact'=>$param['contact'],
-		    'phone'=>$param['phone'],
-		    'think'=>$param['think'],
-		    'fromwhere'=>$param['fromwhere'],
-		    'remark'=>$param['remark'],
+		    'cus_id'=>$param['cus_id'],
+		    'time'=>$param['time'],
 		    'info'=>$param['info'],
-		    'addtime'=>time(),
 		];
-		$model = new CustomersModel($data);
-
-
-		$addid = $model->save();
-		$items = $param['item'];
-		$price = $param['price'];
-		$times  = $param['times'];
-		$numbers = $param['numbers'];
-
-$priceitemmodel = new \App\Model\CustomerItemPriceModel();
-		for ($i=0; $i < count($items); $i++) { 
-
-
-			$item = \App\Model\ProductModel::create()->get($items[$i]);
-			
-$priceitemmodel->addData($item['id'], $item['name'],$numbers[$i], $price[$i], strtotime($times[$i]),$addid);
-		
-
-		}
-
-
-		$logmodel = new \App\Model\CustomersHistoryModel();
-
-		$logdates  = $param['logdate'];
-		$loginfo = $param['logifo'];
-var_dump($loginfo);
-var_dump($param);
-		for ($i=0; $i < count($loginfo); $i++) { 
-			
-			$logmodel->addData($addid, strtotime($logdate[$i]), $loginfo[$i]);
-		}
-
-
-
-
-
+		$model = new CustomersHistoryModel($data);
+		$model->save();
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
 
 	/**
-	 * @Api(name="update",path="/Api/Customers/update")
+	 * @Api(name="update",path="/Api/CustomersHistory/update")
 	 * @ApiDescription("更新数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -98,21 +69,14 @@ var_dump($param);
 	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
 	 * @Param(name="id",lengthMax="11",required="")
-	 * @Param(name="name",lengthMax="30",optional="")
-	 * @Param(name="address",lengthMax="100",optional="")
-	 * @Param(name="type",lengthMax="20",optional="")
-	 * @Param(name="contact",lengthMax="10",optional="")
-	 * @Param(name="phone",lengthMax="13",optional="")
-	 * @Param(name="think",lengthMax="10",optional="",defaultValue="很高")
-	 * @Param(name="fromwhere",lengthMax="25",optional="")
-	 * @Param(name="remark",lengthMax="300",optional="")
-	 * @Param(name="info",lengthMax="200",optional="")
-	 * @Param(name="addtime",lengthMax="17",optional="")
+	 * @Param(name="cus_id",lengthMax="11",optional="")
+	 * @Param(name="time",lengthMax="16",optional="")
+	 * @Param(name="info",lengthMax="250",optional="")
 	 */
 	public function update()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new CustomersModel();
+		$model = new CustomersHistoryModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (empty($info)) {
 		    $this->writeJson(Status::CODE_BAD_REQUEST, [], '该数据不存在');
@@ -120,23 +84,16 @@ var_dump($param);
 		}
 		$updateData = [];
 
-		$updateData['name']=$param['name'] ?? $info->name;
-		$updateData['address']=$param['address'] ?? $info->address;
-		$updateData['type']=$param['type'] ?? $info->type;
-		$updateData['contact']=$param['contact'] ?? $info->contact;
-		$updateData['phone']=$param['phone'] ?? $info->phone;
-		$updateData['think']=$param['think'] ?? $info->think;
-		$updateData['fromwhere']=$param['fromwhere'] ?? $info->fromwhere;
-		$updateData['remark']=$param['remark'] ?? $info->remark;
+		$updateData['cus_id']=$param['cus_id'] ?? $info->cus_id;
+		$updateData['time']=$param['time'] ?? $info->time;
 		$updateData['info']=$param['info'] ?? $info->info;
-		$updateData['addtime']=$param['addtime'] ?? $info->addtime;
 		$info->update($updateData);
 		$this->writeJson(Status::CODE_OK, $info, "更新数据成功");
 	}
 
 
 	/**
-	 * @Api(name="getOne",path="/Api/Customers/getOne")
+	 * @Api(name="getOne",path="/Api/CustomersHistory/getOne")
 	 * @ApiDescription("获取一条数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -147,28 +104,21 @@ var_dump($param);
 	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
 	 * @Param(name="id",lengthMax="11",required="")
 	 * @ApiSuccessParam(name="result.id",description="")
-	 * @ApiSuccessParam(name="result.name",description="")
-	 * @ApiSuccessParam(name="result.address",description="")
-	 * @ApiSuccessParam(name="result.type",description="")
-	 * @ApiSuccessParam(name="result.contact",description="")
-	 * @ApiSuccessParam(name="result.phone",description="")
-	 * @ApiSuccessParam(name="result.think",description="")
-	 * @ApiSuccessParam(name="result.fromwhere",description="")
-	 * @ApiSuccessParam(name="result.remark",description="")
+	 * @ApiSuccessParam(name="result.cus_id",description="")
+	 * @ApiSuccessParam(name="result.time",description="")
 	 * @ApiSuccessParam(name="result.info",description="")
-	 * @ApiSuccessParam(name="result.addtime",description="")
 	 */
 	public function getOne()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new CustomersModel();
+		$model = new CustomersHistoryModel();
 		$info = $model->get(['id' => $param['id']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
 
 
 	/**
-	 * @Api(name="getList",path="/Api/Customers/getList")
+	 * @Api(name="getList",path="/Api/CustomersHistory/getList")
 	 * @ApiDescription("获取数据列表")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -180,48 +130,24 @@ var_dump($param);
 	 * @Param(name="page", from={GET,POST}, alias="页数", optional="")
 	 * @Param(name="pageSize", from={GET,POST}, alias="每页总数", optional="")
 	 * @ApiSuccessParam(name="result[].id",description="")
-	 * @ApiSuccessParam(name="result[].name",description="")
-	 * @ApiSuccessParam(name="result[].address",description="")
-	 * @ApiSuccessParam(name="result[].type",description="")
-	 * @ApiSuccessParam(name="result[].contact",description="")
-	 * @ApiSuccessParam(name="result[].phone",description="")
-	 * @ApiSuccessParam(name="result[].think",description="")
-	 * @ApiSuccessParam(name="result[].fromwhere",description="")
-	 * @ApiSuccessParam(name="result[].remark",description="")
+	 * @ApiSuccessParam(name="result[].cus_id",description="")
+	 * @ApiSuccessParam(name="result[].time",description="")
 	 * @ApiSuccessParam(name="result[].info",description="")
-	 * @ApiSuccessParam(name="result[].addtime",description="")
 	 */
 	public function getList()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['pageSize'] ?? 20);
-		$model = new CustomersModel();
-		$datas = $this->request()->getRequestParam();
-		 if (isset($datas['type']) && $datas['type']  != '1'){
-            $model->where(['type'=>$datas['type']]);
-        }
+		$model = new CustomersHistoryModel();
 
-
- if (isset($datas['fromwhere']) && $datas['fromwhere']  != '1'){
-            $model->where(['fromwhere'=>$datas['fromwhere']]);
-        }
-
-         if (isset($datas['think']) && $datas['think']  != '1'){
-            $model->where(['think'=>$datas['think']]);
-        }
-
-        if (isset($datas['name'])){
-
-             $model->where('name', "%{$datas['name']}%", 'like');
-        }
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
 	}
 
 
 	/**
-	 * @Api(name="delete",path="/Api/Customers/delete")
+	 * @Api(name="delete",path="/Api/CustomersHistory/delete")
 	 * @ApiDescription("删除数据")
 	 * @Method(allow={GET,POST})
 	 * @InjectParamsContext(key="param")
@@ -235,7 +161,7 @@ var_dump($param);
 	public function delete()
 	{
 		$param = ContextManager::getInstance()->get('param');
-		$model = new CustomersModel();
+		$model = new CustomersHistoryModel();
 		$info = $model->get(['id' => $param['id']]);
 		if (!$info) {
 		    $this->writeJson(Status::CODE_OK, $info, "数据不存在.");

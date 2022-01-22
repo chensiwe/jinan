@@ -30,7 +30,7 @@
                        
                          <label class="layui-form-label">产品类别</label>
                             <div class="layui-input-block">
-                              <select  name="cate" id="cate">
+                              <select lay-search  name="cate" id="cate">
                               
                               </select>
                             </div>
@@ -95,6 +95,9 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+
+
+
 <div id="add_su" hidden>
     <div style="padding: 10px;">
         <form class="layui-form" lay-filter='formTest' action="">
@@ -109,7 +112,7 @@
                             
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select name="supplyid" id="supply" lay-verify="required" lay-filter="selectsu">
+                              <select lay-search name="supplyid" id="supply" lay-verify="required" lay-filter="selectsu">
                                
                               </select>
                             </div>
@@ -130,7 +133,7 @@
                             
                             <label class="layui-form-label">联系人</label>
                             <div class="layui-input-block">
-                              <select name="contact" id="contact" lay-filter="conse" lay-verify="required">
+                              <select name="contact" lay-search id="contact" lay-filter="conse" lay-verify="required">
                                
                               </select>
                             </div>
@@ -187,7 +190,6 @@
 
                 <input type="hidden" name="pid" id="pid" data-r="2">
 
-</form>
 
 
             <div class="layui-form-item">

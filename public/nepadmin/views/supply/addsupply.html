@@ -19,35 +19,14 @@
                         <input type="text" name="address" placeholder="地址" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
                     </div>
-                       <div class="layui-col-md6">
+                       <div class="layui-col-md4">
                          <label class="layui-form-label">联系人</label>
                         <div class="layui-input-block">
                         <input type="text" name="contactor" placeholder="联系人" autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
                     </div>
-                     <div class="layui-col-md6">
-                         <label class="layui-form-label">电话</label>
-                        <div class="layui-input-block">
-                        <input type="text" name="phone" placeholder="phonr number" autocomplete="off" class="layui-input" lay-verify="required">
-                    </div>
-                    </div>
-                     <div class="layui-col-md12">
-                         <label class="layui-form-label">其他信息</label>
-                        <div class="layui-input-block">
-                        <input type="text" name="info" placeholder="info" autocomplete="off" class="layui-input" lay-verify="required">
-                    </div>
-                    </div>
 
-
-        
-                     <div class="layui-col-md6">
-                        <label class="layui-form-label">备注信息</label>
-                        <div class="layui-input-block">
-                        <input type="text" name="remark" placeholder="remark" autocomplete="off" class="layui-input" lay-verify="required">
-                    </div>
-                    </div>
-
-                     <div class="layui-col-md6">
+                     <div class="layui-col-md4">
                             
                             <label class="layui-form-label">供应商分类</label>
                             <div class="layui-input-block">
@@ -57,6 +36,32 @@
                             </div>
 
                     </div>
+
+
+                     <div class="layui-col-md4">
+                         <label class="layui-form-label">电话</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="phone" placeholder="phonr number" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+                     <div class="layui-col-md12">
+                         <label class="layui-form-label">开票资料</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="info" placeholder="info" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+
+        
+                     <div class="layui-col-md12">
+                        <label class="layui-form-label">备注信息</label>
+                        <div class="layui-input-block">
+      <textarea name="rmark" placeholder="请输入内容" class="layui-textarea"></textarea>
+    </div>
+
+                    </div>
+
+                    
 
 
                 <div class="layui-col-md12">
@@ -81,7 +86,13 @@
                  
                     </div>
 
-                    <div class="layui-col-md12" id="lxr"></div>
+                    <div class="layui-col-md12" id="lxr">
+                        
+
+
+                        
+                    </div>
+
 
 
 
@@ -106,6 +117,49 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
+
+
+
+
+
+
+<div class="layui-form-item" id="boxlxr" hidden>
+ <div class="boxlxr">
+  <div class="layui-inline">
+    <label class="layui-form-label">联系人</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="text" name="conname[]" t='name' placeholder="..." autocomplete="off" class="layui-input">
+    </div>
+    
+  </div>
+
+
+  <div class="layui-inline">
+    <div class="layui-form-mid">手机号</div>
+    <div class="layui-input-inline" style="width: 150px;">
+      <input type="text" name="conphone[]" t='phone' placeholder="188..." autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+
+<a class="layui-btn-danger layui-btn additem">添加产品</a>
+  <div class="layui-inline">
+      
+
+
+   
+  </div>
+  
+
+
+  </div>
+</div>
+
+
+
+
+
 <script>
     layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
@@ -116,26 +170,7 @@
         var rolebd_status_value = 'add';
         var form = layui.form;
 
-        // 加载权限列表
-        admin.post({
-            api: 'getAllAuth',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.auth_id+'">'+item.auth_name+'</option>';
-                    });
-                    $("#role_auth").html(html);
-                }
-
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
-
-        // 加载权限列表
+       
         admin.post({
             api: 'getsupplytypes',
             success:function (res) {
@@ -154,48 +189,46 @@
 
 
 
-        // 加载角色列表
-        admin.renderTable({
-            elem: '#role_list'
-            ,api: 'getAllRole'
-            ,page: false //开启分页
-            ,cols: [[ //表头
-                {field: 'role_id', title: '角色id'}
-                ,{field: 'role_name', title: '角色名'}
-                // ,{field: 'role_status', title: '角色状态'
-                //     ,templet: function(d){
-                //         return d.role_status === 0 ? '正常' : '禁用';
-                //     }
-                // }
-                ,{toolbar: '#role_bar'}
-            ]]
-        });
-   
-
+  
 
         form.on('submit(add-supply)', function (data) {
-            switch (rolebd_status_value) {
-                case 'add':
-                files2 = [];
-                jsdata = {};
+          
+                    files2 = [];
+                    jsdata = {};
 
-                dataforms = data.field;
-                   $(".filebox2").each(function(){
-                    var filepath = $(this).attr("value");
-                    var filename = $(this).attr("name");
-                    files2.push({"filename":filename,"filepath":filepath});
+                    dataforms = data.field;
+
+                       $(".filebox2").each(function(){
+                        var filepath = $(this).attr("value");
+                        var filename = $(this).attr("name");
+                        files2.push({"filename":filename,"filepath":filepath});
+                       });
+
+
+                   var lxrarr = [];
+
+                    $(".boxlxr").each(function(){
+                        var boxp = {};
+
+                    var name = $(this).find("input[t='name']").val();
+                    var phone = $(this).find("input[t='phone']").val();
+                    boxp['name'] = name;
+                    boxp['phone'] = phone;
+                    var pitem = [];
+                    $(this).find(".conitembox").each(function(k,obj){
+                        pitem.push($(obj).val());
+                       
+                    });
+                    boxp['items'] = pitem;
+                    lxrarr.push(boxp);
+                    
                    });
 
-
-                   jsdata['files'] = files2;
-
-                   jsdata['data'] = dataforms;
-
-                   console.log(jsdata);
+                console.log(lxrarr);
 
                     admin.post({
                         api: "addSupply",
-                        data: dataforms,
+                        data: {"data":data.field,"lxrarr":lxrarr},
                         success:function (res) {
                             layer.alert("添加供应商成功",{
                                 yes:function () {
@@ -207,83 +240,10 @@
                             })
                         }
                     });
-                    break;
-                case 'edit':
-                    admin.post({
-                        api: "ediRole",
-                        data: data.field,
-                        success:function (res) {
-                            layer.alert("编辑角色成功",{
-                                yes:function () {
-                                    layui.view.tab.refresh();
-                                    layer.closeAll();
-                                    formSelects.render();
-                                    form.render();
-                                }
-                            })
-                        }
-                    });
-                    break;
-            }
-
-            return false;
+                 return false;
+        
         });
 
-        formSelects.render();
-        form.render();
-
-        //监听工具条
-        table.on('tool(role_table)', function(obj){
-            let data = obj.data;
-            let layEvent = obj.event;
-            let tr = obj.tr;
-
-            if(layEvent === 'detail'){
-                //do somehing
-            } else if(layEvent === 'del'){
-                layer.confirm('真的删除行么?用户权限会失效的!', function(index){
-                    admin.post({
-                        api: "delRole",
-                        data: data,
-                        success:function (res) {
-                            layer.alert("删除角色成功",{
-                                yes:function () {
-                                    layui.view.tab.refresh();
-                                    layer.closeAll();
-                                    formSelects.render();
-                                    form.render();
-                                }
-                            })
-                        }
-                    });
-                });
-            } else if(layEvent === 'edit'){
-                // 请求信息接口，然后打开弹窗
-                admin.post({
-                    api: 'getRoleInfo',
-                    data: {
-                        role_id:data.role_id
-                    },
-                    success:function (res) {
-                        rolebd_status_value = 'edit';
-                        $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
-                        $("input[name=role_name]").val(res.result.role_name);
-                        $("input[name=role_id]").val(res.result.role_id);
-                        form.render();
-                        formSelects.value('role_auth', res.result.role_auth.split(","));
-                    }
-                })
-            }
-        });
-
-        // 恢复编辑面板为添加
-        $('body').on('click', '#reset_add_role', function () {
-            $('#rolebd_status').html("添加角色");
-            rolebd_status_value = 'add';
-            $("input[name=role_name]").val('');
-            formSelects.value('role_auth', []);
-            form.render();
-        });
 
         $("#file").change(function(){
             //创建FormData对象
@@ -328,32 +288,10 @@
 
 
          $('body').on('click', '.addcon', function () {
-            var con = "";
+      
+                    $("#lxr").append($("#boxlxr").html());
 
-
-            con+=` <div class="layui-col-md12">
-                           <div class="layui-col-md4">
-                        <input type="text" name="conname[]" placeholder="联系人姓名" autocomplete="off" class="layui-input" lay-verify="required">
-                             </div>
-
-                      <div class="layui-col-md4">
-                        <input type="text" name="conphone[]" placeholder="联系人手机号码" autocomplete="off" class="layui-input" lay-verify="required">
-                    </div>
-
-                       <a class="layui-btn additem" >添加产品</a>
-
-
-                    </div>`;
-
-                    $("#lxr").append(con);
-
-
-
-
-        });
-
-
-
+        })
 
 
 
@@ -361,56 +299,15 @@
             var con = "";
 
 
+            con+=`<div class="layui-input-inline" style="width: 100px;">
+      <input style="border-color:#2e2929" type="text" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
+    </div>`;
+                  
 
-        admin.post({
-            api: 'getproducts',
-            async: false,
-            success:function (res) {
-                if (!res.result.list){ layer.alert('获取产品列表失败'); }
-                let html = '';
-                $.each(res.result.list, function (index, item) {
-                    
-                    html += '<option value="'+item.id+'">'+item.name+'</option>';
-                });
-
-                console.log(html);
-              
+                $(this).next().append(con);
 
 
+            })
 
-
-            con+=` <div class="layui-col-md12" >
-                            <div class="layui-form-item">
-                <label class="layui-form-label">产品</label>
-                <div class="layui-input-block">
-                    <select name="item[]" xm-select="item`+Math.floor(Math.random()*100)+`" class="itembox`+Math.floor(Math.random()*100)+`" xm-select-search="" xm-select-search-type="dl">
-                    `+html+`
-                    </select>
-                </div>
-            </div>
-
-
-                    </div>`;
-                    console.log(con);
-
-                $("#lxr").append(con);
-
-                 formSelects.render();
-                form.render();
-            }
-        });
-
-
-
-
-
-
-
-
-
-
-        });
-
-
-    });
+        })
 </script>

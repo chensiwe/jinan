@@ -10,6 +10,7 @@ use EasySwoole\ORM\AbstractModel;
  * Create With ClassGeneration
  * @property int $id //
  * @property string $name //
+ * @property string $items //
  * @property string $phone //
  * @property string $addtime //
  */
@@ -38,16 +39,17 @@ class ContactorModel extends AbstractModel
 	}
 
 
-	public function addData(string $name, string $phone, string $addtime): int
+	public function addData(string $name, string $items, string $phone, string $addtime): self
 	{
 		$data = [
 		    'name'=>$name,
+		    'items'=>$items,
 		    'phone'=>$phone,
 		    'addtime'=>$addtime,
 		];
 		$model = new self($data);
-		$id = $model->save();
-		return $id;
+		$model->save();
+		return $model;
 	}
 }
 

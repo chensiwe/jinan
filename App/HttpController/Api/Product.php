@@ -40,22 +40,14 @@ class Product extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="name",lengthMax="50",required="")
-	 * @Param(name="cas",lengthMax="50",required="")
-	 * @Param(name="chemical",lengthMax="150",required="")
-	 * @Param(name="cate",required="")
-	 * @Param(name="brand",lengthMax="15",required="")
-	 * @Param(name="pack",lengthMax="20",required="")
-	 * @Param(name="market",lengthMax="20",required="")
-	 * @Param(name="properties",lengthMax="25",required="")
-	 * @Param(name="content",lengthMax="20",required="")
-	 * @Param(name="usefor",lengthMax="100",required="")
-	 * @Param(name="remark",lengthMax="100",required="")
-	 * @Param(name="sameitem",lengthMax="150",required="")
 	 */
 	public function add()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$datas = $this->request()->getRequestParam();
+
+
+		$param = $datas['data'];
+
 		$data = [
 		    'name'=>$param['name'],
 		    'cas'=>$param['cas'],
@@ -72,7 +64,53 @@ class Product extends AnnotationController
 		    'createtime'=>time(),
 		];
 		$model = new ProductModel($data);
-		$model->save();
+		$proid = $model->save();
+
+
+
+
+		$subs = $datas['subox'];
+		if (count($subs) > 0) {
+		
+			foreach ($subs as $key => $value) {
+				if ($value['time']) {
+					
+				
+    	$contact = \App\Model\ContactorModel::create()->get(intval($value['contactname']));
+
+
+    	var_dump($contact);
+			$data = [
+		    'supplyid'=>$value['supplyname'],
+		    'supplyname'=>(\App\Model\SupplyModel::create()->get(intval($value['supplyname'])))['name'],
+		    'contactorname'=>$contact['name'],
+		    'contactphone'=>$contact['phone'],
+		    'supplytype'=>$value['supplytype'],
+		    'createtime'=>strtotime($value['time']),
+		    'price'=>$value['price'],
+		    'address'=>$value['address'],
+		    'priceinfo'=>$value['priceinfo'],
+		    'buynumber'=>$value['numbers'],
+		    'pid'=>$proid,
+		];
+		$modelss = new \App\Model\SupplyProductRelateModel($data);
+		$modelss->save();
+}
+
+
+
+
+
+			}
+		}
+
+
+
+
+
+
+
+
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 

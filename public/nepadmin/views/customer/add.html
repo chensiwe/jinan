@@ -28,7 +28,7 @@
                        
                          <label class="layui-form-label">客户类别</label>
                             <div class="layui-input-block">
-                              <select  name="type" id="type">
+                              <select  lay-search name="type" id="type">
                                 
 
 
@@ -62,7 +62,7 @@
                        
                          <label class="layui-form-label">客户来源</label>
                             <div class="layui-input-block">
-                              <select  name="fromwhere" id="fromwhere">
+                              <select lay-search name="fromwhere" id="fromwhere">
                                 
 
 
@@ -121,6 +121,17 @@
 
 <div class="layui-col-md12" id="box"></div>
 
+
+
+
+<br>
+
+<a class="layui-btn-primary layui-btn" id="addhistory">添加跟踪记录</a>
+<div class="layui-col-md12" id="hislog"></div>
+
+
+
+
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <button class="layui-btn" lay-submit lay-filter="add-cus">立即提交</button>
@@ -142,7 +153,7 @@
   <div class="layui-inline">
     <label class="layui-form-label">产品</label>
     <div class="layui-input-inline" style="width: 100px;">
-          <select  name="item[]" class="name"  id="item" lay-search>
+          <select  name="item[]" lay-search class="name"  id="item" lay-search>
                       
                       
          </select>
@@ -259,7 +270,23 @@
 
 
 
+$("#addhistory").click(function(){
 
+
+    var his=`<div class="layui-inline hisbox">
+    <label class="layui-form-label">跟踪信息</label>
+      <div class="layui-input-inline" style="width: 120px;">
+      <input type="date" t='logdate' name='logdate[]'  placeholder="" autocomplete="off" class="layui-input">
+    </div>  <div class="layui-input-inline" style="width:700px;">
+      <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input">
+    </div>
+  </div>`;
+
+$("#hislog").append(his);
+
+
+
+});
 
 
 
@@ -279,11 +306,8 @@ form.on('submit(add-cus)', function (data) {
                    var price = [];
                      $(".price").each(function(){
                     var filepath = $(this).val();
-                  
                     price.push(filepath);
                    });
-
-
 
                    jsdata['files'] = files2;
 

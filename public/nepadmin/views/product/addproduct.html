@@ -21,7 +21,7 @@
                             
                             <label class="layui-form-label">类别</label>
                             <div class="layui-input-block">
-                              <select name="cate" id="cate" lay-verify="required">
+                              <select name="cate" id="cate" lay-search lay-verify="required">
                                
                               </select>
                             </div>
@@ -58,9 +58,11 @@
                         <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
-
+<a class="layui-btn layui-btn-danger" id="addbtn">添加供应商</a>
 
            
+<div id="boxsu"></div>
+
 
 
 
@@ -85,6 +87,101 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+
+
+
+<div id="addsubox" hidden>
+    <div style="padding: 10px;" class="newsu">
+        <form class="layui-form"  action="">
+
+
+              <div class="layui-col-md12">
+                <div class="layui-card-body layui-row layui-col-space10">
+             
+                    <div class="layui-col-md4">
+                            
+                            <label class="layui-form-label">供应商</label>
+                            <div class="layui-input-block">
+                              <select  id="supply" lay-search t='supply_id' lay-verify="required" lay-filter="selectsu" >
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+                    <div class="layui-col-md3">
+                            
+                            <label class="layui-form-label">供应商类别</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="supplytype" id="type"  readonly="readonly" t='supply_type' autocomplete="off"  class="layui-input">
+                            </div>
+
+                    </div>
+
+
+                    <div class="layui-col-md2">
+                            
+                            <label class="layui-form-label">联系人</label>
+                            <div class="layui-input-block">
+                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+                     <div class="layui-col-md3">
+                         <label class="layui-form-label">联系人手机</label>
+                             <div class="layui-input-block">
+                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                          <label class="layui-form-label">成交日期</label>
+                           <div class="layui-input-block">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交价格</label>
+                         <div class="layui-input-block">
+                        <input type="number" t='price' value="9.00" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交数量</label>
+                        <div class="layui-input-block">
+                        <input type="number" t='numbers' value="1" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">拿货地</label>
+                        <div class="layui-input-block">
+                        <input type="text"  t='address' placeholder="拿货地" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">价格备注</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="priceinfo" t='priceinfo' autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+        </form>
+
+    </div>
+</div>
+
+
 
 <script>
     layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
@@ -113,29 +210,83 @@
             }
         });
 
-        // 加载角色列表
-        admin.renderTable({
-            elem: '#role_list'
-            ,api: 'getAllRole'
-            ,page: false //开启分页
-            ,cols: [[ //表头
-                {field: 'role_id', title: '角色id'}
-                ,{field: 'role_name', title: '角色名'}
-                // ,{field: 'role_status', title: '角色状态'
-                //     ,templet: function(d){
-                //         return d.role_status === 0 ? '正常' : '禁用';
-                //     }
-                // }
-                ,{toolbar: '#role_bar'}
-            ]]
+         admin.post({
+            api: 'getsupplylist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="0">选择供应商</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    });
+                    $("#supply").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
         });
-        // 添加角色添加
+
+
+        admin.post({
+            api: 'getcontactlist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="0">选择联系人</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    });
+                    $("#contact").html(html);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+
+      
         form.on('submit(add-product)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
+
+
+                    var subox = [];
+
+                    $(".newsu").each(function(){
+                    var boxp = {};
+
+                    var supplyname = $(this).find("select[t='supply_id']").val();
+                    var supplytype = $(this).find("input[t='supply_type']").val();
+                    var contactname =  $(this).find("select[t='contact_id']").val();
+                    var contactphone =  $(this).find("input[t='contact_phone']").val();
+
+                    var price =  $(this).find("input[t='price']").val();
+                    var time =  $(this).find("input[t='time']").val();
+                    var numbers =  $(this).find("input[t='numbers']").val();
+                    var priceinfo =  $(this).find("input[t='priceinfo']").val();
+                    var address  = $(this).find("input[t='address']").val();
+                    boxp['supplyname'] = supplyname;
+                    boxp['supplytype'] = supplytype;
+                    boxp['contactname'] = contactname;
+                    boxp['contactphone'] = contactphone;
+                    boxp['price'] = price;
+                    boxp['priceinfo'] = priceinfo;
+                    boxp['time'] = time;
+                    boxp['numbers'] = numbers;
+                    boxp['address'] = address;
+
+                    subox.push(boxp);
+                   
+                    
+                   });
+
+                    console.log(subox);
+
                     admin.post({
                         api: "addproduct",
-                        data: data.field,
+                        data: {"data":data.field,'subox':subox},
                         success:function (res) {
                             layer.alert("添加产品成功",{
                                 yes:function () {
@@ -169,8 +320,6 @@
             return false;
         });
 
-        formSelects.render();
-        form.render();
 
         //监听工具条
         table.on('tool(role_table)', function(obj){
@@ -216,13 +365,65 @@
             }
         });
 
-        // 恢复编辑面板为添加
-        $('body').on('click', '#reset_add_role', function () {
-            $('#rolebd_status').html("添加角色");
-            rolebd_status_value = 'add';
-            $("input[name=role_name]").val('');
-            formSelects.value('role_auth', []);
-            form.render();
+
+form.on('select(selectsu)', function (data) {
+            var suid = $("#supply").val();
+
+
+              admin.post({
+            api: 'getsupplyone',
+                data: {
+                        id:suid,
+                    },
+            success:function (res) {
+                if (res.result != null){
+        
+                   
+                    $("#type").val(res.result.type);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+        });
+
+
+
+         form.on('select(conse)', function (data) {
+            var suid = $("#contact").val();
+
+              admin.post({
+            api: 'getcontactone',
+                data: {
+                        id:suid,
+                    },
+            success:function (res) {
+                if (res.result != null){
+        
+                   
+                    $("#contactphone").val(res.result.phone);
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
+        });
+
+
+
+        
+        $('body').on('click', '#addbtn', function () {
+            
+    
+
+            $("#boxsu").append($("#addsubox").html());
+
+
+
+
+
         })
 
     });

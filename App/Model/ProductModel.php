@@ -62,7 +62,7 @@ class ProductModel extends AbstractModel
 		string $remark,
 		string $sameitem,
 		string $createtime
-	): self {
+	): int {
 		$data = [
 		    'name'=>$name,
 		    'cas'=>$cas,
@@ -79,8 +79,8 @@ class ProductModel extends AbstractModel
 		    'createtime'=>$createtime,
 		];
 		$model = new self($data);
-		$model->save();
-		return $model;
+		
+		return $model->save();
 	}
 }
 

@@ -45,7 +45,11 @@ class Supply extends AnnotationController
 	 */
 	public function add()
 	{
-		$param = $this->request()->getRequestParam();
+		$datas = $this->request()->getRequestParam();
+
+
+		$param = $datas['data'];
+
 
 		$data = [
 		    'name'=>$param['name'],
@@ -62,22 +66,22 @@ class Supply extends AnnotationController
 		$model = new SupplyModel($data);
 		$model->save();
 		$conmodel = new ContactorModel();
-		$itemmodel = new ItemContactorModel();
-		$con_names = $param['conname'];
-		$con_phones = $param['conphone'];
-		$items = $param['item'];
-		$size = count($con_phones);
-		if ($size>0) {
+
+		$lxrs = $datas['lxrarr'];
+
+
+
+		if (count($lxrs)>0) {
 			$conmodel = new ContactorModel();
-				for ($i=0; $i < $size; $i++) { 
+
+				foreach ($lxrs as $key => $value) {
+					if (array_key_exists("items", $value)) {
+						
 					
-					$contacrid = $conmodel->addData($con_names[$i],$con_phones[$i],time());
-					var_dump($contacrid);
-					$iteminfo = explode(",", $items[$i]);
-					for ($j=0; $j < count($iteminfo); $j++) { 
-						$itemmodel->addData($contacrid, intval($iteminfo[$j]), time());
-					}
+					$contacrid = $conmodel->addData($value['name'],implode(",",$value['items']),$value['phone'],time());
+					
 				}
+			}
 
 		}
 

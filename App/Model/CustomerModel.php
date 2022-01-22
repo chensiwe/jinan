@@ -5,20 +5,17 @@ namespace App\Model;
 use EasySwoole\ORM\AbstractModel;
 
 /**
- * CustomerItemPriceModel
- * Class CustomerItemPriceModel
+ * CustomerModel
+ * Class CustomerModel
  * Create With ClassGeneration
  * @property int $id //
- * @property int $pid //
- * @property string $name //
- * @property int $numbers //
- * @property float $price //
- * @property string $buytime //
+ * @property string $time //
+ * @property string $info //
  * @property int $customer_id //
  */
-class CustomerItemPriceModel extends AbstractModel
+class CustomerModel extends AbstractModel
 {
-	protected $tableName = 'siam_customer_item_price';
+	protected $tableName = 'siam_customerlog';
 
 
 	public function getList(int $page = 1, int $pageSize = 10, string $field = '*'): array
@@ -41,14 +38,11 @@ class CustomerItemPriceModel extends AbstractModel
 	}
 
 
-	public function addData(int $pid, string $name, int $numbers, float $price, string $buytime, int $customer_id): self
+	public function addData(string $time, string $info, int $customer_id): self
 	{
 		$data = [
-		    'pid'=>$pid,
-		    'name'=>$name,
-		    'numbers'=>$numbers,
-		    'price'=>$price,
-		    'buytime'=>$buytime,
+		    'time'=>$time,
+		    'info'=>$info,
 		    'customer_id'=>$customer_id,
 		];
 		$model = new self($data);
