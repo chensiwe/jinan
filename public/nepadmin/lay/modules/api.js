@@ -93,6 +93,7 @@ layui.define([], function (exports) {
         addcustomer:'Customers/add',
         getcustomerss:'Customers/getList',
         delcustomer:'Customers/delete',
+        editSupply:'Supply/edit',
 
     });
 });

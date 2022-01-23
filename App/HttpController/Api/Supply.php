@@ -64,7 +64,7 @@ class Supply extends AnnotationController
 		    'donemunber'=>$param['donemunber'],
 		];
 		$model = new SupplyModel($data);
-		$model->save();
+		$supplyid = $model->save();
 		$conmodel = new ContactorModel();
 
 		$lxrs = $datas['lxrarr'];
@@ -78,7 +78,7 @@ class Supply extends AnnotationController
 					if (array_key_exists("items", $value)) {
 						
 					
-					$contacrid = $conmodel->addData($value['name'],implode(",",$value['items']),$value['phone'],time());
+					$contacrid = $conmodel->addData($value['name'],implode(",",$value['items']),$value['phone'],time(),$supplyid);
 					
 				}
 			}
@@ -87,6 +87,72 @@ class Supply extends AnnotationController
 
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public function edit()
+	{
+		$datas = $this->request()->getRequestParam();
+
+		$param = $datas['data'];
+
+		$data = [
+		    'name'=>$param['name'],
+		    'contactor'=>$param['contactor'],
+		    'phone'=>$param['phone'],
+		    'address'=>$param['address'],
+		    'remark'=>$param['remark'],
+		    'info'=>$param['info'],
+		    'type'=>$param['type'],
+		    'createtime'=>time(),
+		    'status'=>1,
+		    'donemunber'=>$param['donemunber'],
+		];
+
+		$model = new SupplyModel($data);
+	    $model->update($data,['id'=>intval($param['supplyid'])]);
+
+		$conmodel = new ContactorModel();
+
+		$lxrs = $datas['lxrarr'];
+
+
+		if (count($lxrs)>0) {
+			$conmodel = new ContactorModel();
+
+				foreach ($lxrs as $key => $value) {
+
+					if (array_key_exists("items", $value)) {
+							
+							if (array_key_exists('cid', $value)) {
+								
+								$conmodel->update(['name'=>$value['name'],'phone'=>$value['phone'],'items'=>implode($value['items'], ",")],['id'=>intval($value['cid'])]);
+							}else{
+
+					
+					$conmodel->addData($value['name'],implode(",",$value['items']),$value['phone'],time(),intval($param['supplyid']));
+				}
+					
+				}
+			}
+
+		}
+
+		$this->writeJson(Status::CODE_OK, $model->toArray(), "update成功");
+	}
+
+
 
 
 	/**

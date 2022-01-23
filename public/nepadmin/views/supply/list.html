@@ -187,6 +187,32 @@
 
             } else if(layEvent === 'edit'){
 
+                var id = data.id;
+                
+
+                if(! window.localStorage){
+                    alert("浏览器不支持localstorage");
+                    return false;
+                }else{
+                    //主逻辑业务
+
+                    console.log(data);
+                    var localStorage = window.localStorage;
+                    localStorage.setItem('data',JSON.stringify(data));
+
+                    var index=layer.open({
+
+                        title:'编辑供应商',
+                        type:2,
+                        shade:0.2,
+                        maxmin:true,
+                        area:['100%','100%'],
+                        content:['index.html#/supply/editsupply','yes']
+                    });
+
+                 }
+
+
             }
         });
 

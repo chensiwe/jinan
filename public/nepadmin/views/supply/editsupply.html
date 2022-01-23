@@ -12,6 +12,7 @@
                         <div class="layui-input-block">
                         <input type="text" name="name" placeholder="供应商名称" autocomplete="off" lay-verify="required" class="layui-input">
                     </div>
+                    <input type="hidden" name="supplyid">
                     </div>
                     <div class="layui-col-md8">
                          <label class="layui-form-label">地址</label>
@@ -99,7 +100,7 @@
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="add-supply">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="edit-supply">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -116,8 +117,6 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-
-
 
 
 
@@ -191,7 +190,7 @@
 
   
 
-        form.on('submit(add-supply)', function (data) {
+        form.on('submit(edit-supply)', function (data) {
           
                     files2 = [];
                     jsdata = {};
@@ -212,8 +211,12 @@
 
                     var name = $(this).find("input[t='name']").val();
                     var phone = $(this).find("input[t='phone']").val();
+                    var cusid = $(this).find("input[t='cusid']").val();
+
+
                     boxp['name'] = name;
                     boxp['phone'] = phone;
+                    boxp['cid'] = cusid;
                     var pitem = [];
                     $(this).find(".conitembox").each(function(k,obj){
                         pitem.push($(obj).val());
@@ -227,7 +230,7 @@
                 console.log(lxrarr);
 
                     admin.post({
-                        api: "addSupply",
+                        api: "editSupply",
                         data: {"data":data.field,"lxrarr":lxrarr},
                         success:function (res) {
                             layer.alert("添加供应商成功",{
@@ -311,5 +314,115 @@
 
 
 
+
+
+
+
+
+         var editdata = JSON.parse(window.localStorage.getItem('data'));
+
+
+         console.log(editdata);
+
+         if (editdata) {
+
+console.log(editdata.name);
+      
+
+            $("input[name='name']").val(editdata.name);
+            $("input[name='address']").val(editdata.address);
+            $("input[name='contactor']").val(editdata.contactor);
+            $("input[name='phone']").val(editdata.phone);
+             $("input[name='info']").val(editdata.info);
+
+             $("input[name='supplyid']").val(editdata.id);
+
+            $("input[name='donemunber']").val(editdata.donemunber);
+            $("select[name='type']").val(editdata.type);
+
+            $("textarea[name='remark']").val(editdata.remark);
+
+
+             
+               $.ajax({
+                url:'/api/Contactor/getOneBySupplyid?suid='+editdata.id,
+                type:'GET',
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+             
+
+                    var contactarr=``;
+                    $.each(data.result,function(k,obj){
+
+
+                               console.log(obj);
+
+
+                        var itemsatt=``;
+
+
+                        console.log(obj.itemarr.length);
+                        if (obj.itemarr.length>0) {
+                        $.each(obj.itemarr,function(i,val){
+
+                                itemsatt+=`<div class="layui-input-inline" style="width: 100px;">
+      <input style="border-color:#2e2929" type="text" value=`+val+` autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
+    </div>`;
+
+
+                        });
+                    }
+
+            contactarr+=`<div class="layui-form-item">
+ <div class="boxlxr">
+ <input type='hidden' name='cid[]' t="cusid" value=`+obj.id+`>
+  <div class="layui-inline">
+    <label class="layui-form-label">联系人</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="text" name="conname[]" t='name' value=`+obj.name+` placeholder="..." autocomplete="off" class="layui-input">
+    </div>
+    
+  </div>
+
+  <div class="layui-inline">
+    <div class="layui-form-mid">手机号</div>
+    <div class="layui-input-inline" style="width: 150px;">
+      <input type="text" name="conphone[]" t='phone' value=`+obj.phone+` placeholder="188..." autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+
+<a class="layui-btn-danger layui-btn additem">添加产品</a>
+  <div class="layui-inline">
+      
+`+itemsatt+`
+
+   
+  </div>
+  
+
+
+  </div>
+</div>
+`;
+
+
+
+
+                    });
+
+
+                    $("#lxr").append(contactarr);
+
+                }
+ 
+         })
+
+}
+
         });
 </script>
+

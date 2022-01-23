@@ -13,6 +13,7 @@ use EasySwoole\ORM\AbstractModel;
  * @property string $items //
  * @property string $phone //
  * @property string $addtime //
+ * @property int $supplyid //
  */
 class ContactorModel extends AbstractModel
 {
@@ -39,13 +40,14 @@ class ContactorModel extends AbstractModel
 	}
 
 
-	public function addData(string $name, string $items, string $phone, string $addtime): self
+	public function addData(string $name, string $items, string $phone, string $addtime, int $supplyid): self
 	{
 		$data = [
 		    'name'=>$name,
 		    'items'=>$items,
 		    'phone'=>$phone,
 		    'addtime'=>$addtime,
+		    'supplyid'=>$supplyid,
 		];
 		$model = new self($data);
 		$model->save();

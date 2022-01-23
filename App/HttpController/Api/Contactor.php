@@ -44,6 +44,7 @@ class Contactor extends AnnotationController
 	 * @Param(name="items",lengthMax="150",required="")
 	 * @Param(name="phone",lengthMax="12",required="")
 	 * @Param(name="addtime",lengthMax="16",required="")
+	 * @Param(name="supplyid",lengthMax="11",required="")
 	 */
 	public function add()
 	{
@@ -53,6 +54,7 @@ class Contactor extends AnnotationController
 		    'items'=>$param['items'],
 		    'phone'=>$param['phone'],
 		    'addtime'=>$param['addtime'],
+		    'supplyid'=>$param['supplyid'],
 		];
 		$model = new ContactorModel($data);
 		$model->save();
@@ -75,6 +77,7 @@ class Contactor extends AnnotationController
 	 * @Param(name="items",lengthMax="150",optional="")
 	 * @Param(name="phone",lengthMax="12",optional="")
 	 * @Param(name="addtime",lengthMax="16",optional="")
+	 * @Param(name="supplyid",lengthMax="11",optional="")
 	 */
 	public function update()
 	{
@@ -91,6 +94,7 @@ class Contactor extends AnnotationController
 		$updateData['items']=$param['items'] ?? $info->items;
 		$updateData['phone']=$param['phone'] ?? $info->phone;
 		$updateData['addtime']=$param['addtime'] ?? $info->addtime;
+		$updateData['supplyid']=$param['supplyid'] ?? $info->supplyid;
 		$info->update($updateData);
 		$this->writeJson(Status::CODE_OK, $info, "更新数据成功");
 	}
@@ -112,12 +116,27 @@ class Contactor extends AnnotationController
 	 * @ApiSuccessParam(name="result.items",description="")
 	 * @ApiSuccessParam(name="result.phone",description="")
 	 * @ApiSuccessParam(name="result.addtime",description="")
+	 * @ApiSuccessParam(name="result.supplyid",description="")
 	 */
 	public function getOne()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$model = new ContactorModel();
 		$info = $model->get(['id' => $param['id']]);
+		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
+	}
+
+
+	public function getOneBySupplyid()
+	{
+		$param =  $this->request()->getRequestParam();
+		var_dump($param);
+		$model = new ContactorModel();
+		$info = $model->all(['supplyid' => intval($param['suid'])]);
+		for ($i=0; $i < count($info); $i++) { 
+			$info[$i]['itemarr'] =  explode(",", $info[$i]['items']);
+		}
+	
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
 
@@ -139,6 +158,7 @@ class Contactor extends AnnotationController
 	 * @ApiSuccessParam(name="result[].items",description="")
 	 * @ApiSuccessParam(name="result[].phone",description="")
 	 * @ApiSuccessParam(name="result[].addtime",description="")
+	 * @ApiSuccessParam(name="result[].supplyid",description="")
 	 */
 	public function getList()
 	{
