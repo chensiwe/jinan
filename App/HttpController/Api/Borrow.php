@@ -384,7 +384,7 @@ public function exportCsv(){
 
         ];
     }
-    $title = [['编号', '用户',['银行'],['信贷'],['车贷'],['民间'],['金额'],['过期时间']],];
+    $title = [['编号', '用户','银行','信贷','车贷','民间','金额','过期时间'],];
     $arrData = array_merge($title, $arrData);
     $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
     // 设置单元格格式 可以省略

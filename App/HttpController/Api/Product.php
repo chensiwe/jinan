@@ -363,5 +363,68 @@ public function edit()
 
 
 
+
+
+
+
+
+
+public function exportCsv(){
+
+
+		$model = new ProductModel();
+
+		$datas = $this->request()->getRequestParam();
+		 if (isset($datas['cate']) && $datas['cate']  != '1'){
+            $model->where(['cate'=>$datas['cate']]);
+        }
+
+       if (isset($datas['name'])){
+
+             $model->where('name', "%{$datas['name']}%", 'like');
+        }
+
+
+		$all = $model->all();
+
+    foreach($all as $k=>$v){
+        $arrData[] = [
+           
+            'name' => $v['name'],
+            "cas"=>$v['cas'],
+            'chemical'=>$v['chemical'],
+            'brand'=>$v['brand'],
+            'pack'=>$v['pack'],
+            'market'=>$v['market']
+
+        ];
+    }
+    // $title = [['名称', '地址','类型','联系人','电话','信息'],];
+    $arrData = array_merge($arrData);
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    // 设置单元格格式 可以省略
+
+    $spreadsheet->getActiveSheet()->fromArray($arrData);
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+    $writer->setPreCalculateFormulas(false);
+    //这里可以写绝对路径，其他框架到这步就结束了
+    $writer->save('/easyswoole/test.xlsx');
+    //关闭连接，销毁变量
+    $spreadsheet->disconnectWorksheets();
+    unset($spreadsheet);
+    //生成文件后，使用response输出
+    $this->response()->write(file_get_contents('/easyswoole/test.xlsx'));
+    $this->response()->withHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    $this->response()->withHeader('Content-Disposition', 'attachment;filename="test.csv"');
+    $this->response()->withHeader('Cache-Control','max-age=0');
+    $this->response()->end();
+    return false;
+	}
+
+
+
+
+
+
 }
 

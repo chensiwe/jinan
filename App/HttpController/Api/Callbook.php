@@ -61,31 +61,12 @@ class Callbook extends AnnotationController
 	}
 
 
-	/**
-	 * @Api(name="update",path="/Api/Callbook/update")
-	 * @ApiDescription("更新数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 * @Param(name="id",lengthMax="11",required="")
-	 * @Param(name="name",lengthMax="20",optional="")
-	 * @Param(name="address",lengthMax="150",optional="")
-	 * @Param(name="type",lengthMax="20",optional="")
-	 * @Param(name="contact",lengthMax="20",optional="")
-	 * @Param(name="phone",lengthMax="15",optional="")
-	 * @Param(name="ramark",optional="")
-	 * @Param(name="info",lengthMax="300",optional="")
-	 * @Param(name="addtime",lengthMax="11",optional="")
-	 */
 	public function update()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$param = $this->request()->getRequestParam();
+		$param = $param['data'];
 		$model = new CallbookModel();
-		$info = $model->get(['id' => $param['id']]);
+		$info = $model->get(['id' => intval($param['id'])]);
 		if (empty($info)) {
 		    $this->writeJson(Status::CODE_BAD_REQUEST, [], '该数据不存在');
 		    return false;

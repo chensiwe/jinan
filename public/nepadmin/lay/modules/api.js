@@ -96,6 +96,8 @@ layui.define([], function (exports) {
         getcustomerss:'Customers/getList',
         delcustomer:'Customers/delete',
         editSupply:'Supply/edit',
+        delcalls:'CallBook/delete',
+        editcallbook:'Callbook/update',
 
     });
 });

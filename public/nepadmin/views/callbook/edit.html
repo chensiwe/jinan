@@ -14,7 +14,7 @@
                     </div>
                     </div>
 
-
+<input type="hidden" name="id">
 
             <div class="layui-col-md12 layui-col-xs4">
                        
@@ -93,7 +93,7 @@
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="add-callbook">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="edit-callbook">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -105,11 +105,6 @@
        
     </div>
 </div>
-<!-- 角色列表bar tool -->
-<script type="text/html" id="role_bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
 
 <script>
     layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
@@ -142,7 +137,7 @@
 
 
 
-        form.on('submit(add-callbook)', function (data) {
+        form.on('submit(edit-callbook)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
                 files2 = [];
@@ -163,7 +158,7 @@
                    console.log(jsdata);
 
                     admin.post({
-                        api: "addcallbook",
+                        api: "editcallbook",
                         data: jsdata,
                         success:function (res) {
                             layer.alert("添加成功",{
@@ -242,10 +237,21 @@
 
 
 
-        
+
+ var editdata = JSON.parse(window.localStorage.getItem('data'));
 
 
+         if (editdata) { 
+            console.log(editdata);
 
+            $("input[name='address']").val(editdata.address);
+            $("input[name='contact']").val(editdata.contact);
+            $("textarea[name='info']").val(editdata.info);
+            $("input[name='name']").val(editdata.name);
+            $("input[name='phone']").val(editdata.phone);
+            $("input[name='ramark']").val(editdata.ramark);
+            $("input[name='id']").val(editdata.id);
+         }   
 
         });
 </script>

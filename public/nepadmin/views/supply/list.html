@@ -49,7 +49,7 @@
                         </div>
 
 
-                
+                <a class="layui-btn layui-btn-danger" id="export">导出</a>
                     </form>
                 </div>
             </div>
@@ -214,6 +214,18 @@
 
 
             }
+        });
+
+
+
+        $("#export").click(function(){
+
+            var type = $("select[name='type']").val();
+            var name = $("input[name='name']").val();
+
+            window.location.href="/api/Supply/exportCsv?name="+name+"&type="+type;
+            
+
         });
 
     })

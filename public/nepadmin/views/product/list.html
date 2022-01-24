@@ -53,6 +53,8 @@
 
                 
                     </form>
+
+                    <a class="layui-btn layui-btn-danger" id="export">导出</a>
                 </div>
             </div>
 
@@ -342,7 +344,7 @@
             api: 'getproducts',
             page: true,
             cols: [[
-               {title:'序号',field:'ordernum',sort:true},
+                {title:'序号',field:'ordernum',sort:true},
                 { title: '名称', field: 'name'},
                 { title: 'cas', field: 'cas'},
                 { title: '化学式', field: 'chemical'},
@@ -483,7 +485,15 @@
         });
 
 
-       
+       $("#export").click(function(){
+
+            var type = $("select[name='cate']").val();
+            var name = $("input[name='name']").val();
+
+            window.location.href="/api/Product/exportCsv?name="+name+"&cate="+type;
+            
+
+        });
        
 
     })

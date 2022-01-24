@@ -192,8 +192,21 @@
 
             } else if(layEvent === 'edit'){
 
-            }
+                var localStorage = window.localStorage;
+                    localStorage.setItem('data',JSON.stringify(data));
+
+                    var index=layer.open({
+
+                        title:'编辑tongxunlu',
+                        type:2,
+                        shade:0.2,
+                        maxmin:true,
+                        area:['100%','100%'],
+                        content:['index.html#/callbook/edit','yes']
+
         });
+                }
+    })
 
     })
 </script>
