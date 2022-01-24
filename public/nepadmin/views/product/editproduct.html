@@ -5,7 +5,7 @@
 
         <div class="layui-col-md12">
             <form class="layui-card layui-form" layui-filter="add-role">
-                <div class="layui-card-header" id="rolebd_status">添加产品</div>
+                <div class="layui-card-header" id="rolebd_status">编辑产品</div>
                 <div class="layui-card-body layui-row layui-col-space10">
                     <div class="layui-col-md6">
                         <input type="text" name="name" placeholder="名称" autocomplete="off" lay-verify="required" class="layui-input">
@@ -46,7 +46,7 @@
                         <input type="text" name="content" placeholder="含量" autocomplete="off" class="layui-input">
                     </div>
 
-                      <div class="layui-col-md6">
+                     <div class="layui-col-md6">
                         <input type="number" name="ordernum" placeholder="排序" autocomplete="off" class="layui-input">
                     </div>
 
@@ -57,6 +57,7 @@
                       <div class="layui-col-md6">
                         <input type="text" name="usefor" placeholder="用途" autocomplete="off" class="layui-input">
                     </div>
+                    <input type='hidden' name="id">
 
                           <div class="layui-col-md12">
                         <input type="text" name="remark" placeholder="备注" autocomplete="off" class="layui-input">
@@ -95,7 +96,101 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
- 
+
+
+
+<div id="addsubox" hidden>
+    <div style="padding: 10px;" class="newsu">
+        <form class="layui-form"  action="">
+
+
+              <div class="layui-col-md12">
+                <div class="layui-card-body layui-row layui-col-space10">
+             
+                    <div class="layui-col-md4">
+                            
+                            <label class="layui-form-label">供应商</label>
+                            <div class="layui-input-block">
+                              <select  id="supply" lay-search t='supply_id' lay-verify="required" lay-filter="selectsu" >
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+                    <div class="layui-col-md3">
+                            
+                            <label class="layui-form-label">供应商类别</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="supplytype" id="type"  readonly="readonly" t='supply_type' autocomplete="off"  class="layui-input">
+                            </div>
+
+                    </div>
+
+
+                    <div class="layui-col-md2">
+                            
+                            <label class="layui-form-label">联系人</label>
+                            <div class="layui-input-block">
+                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" lay-verify="required">
+                               
+                              </select>
+                            </div>
+
+                    </div>
+
+                     <div class="layui-col-md3">
+                         <label class="layui-form-label">联系人手机</label>
+                             <div class="layui-input-block">
+                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                          <label class="layui-form-label">成交日期</label>
+                           <div class="layui-input-block">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交价格</label>
+                         <div class="layui-input-block">
+                        <input type="number" t='price' value="9.00" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交数量</label>
+                        <div class="layui-input-block">
+                        <input type="number" t='numbers' value="1" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">拿货地</label>
+                        <div class="layui-input-block">
+                        <input type="text"  t='address' placeholder="拿货地" autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">价格备注</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="priceinfo" t='priceinfo' autocomplete="off" class="layui-input">
+                    </div>
+                    </div>
+
+        </form>
+
+    </div>
+</div>
+
+
 
 <script>
     layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
@@ -124,9 +219,14 @@
             }
         });
 
-    
+        
 
 
+
+
+
+
+      
         form.on('submit(add-product)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
@@ -147,6 +247,7 @@
                     var numbers =  $(this).find("input[t='numbers']").val();
                     var priceinfo =  $(this).find("input[t='priceinfo']").val();
                     var address  = $(this).find("input[t='address']").val();
+                    var id=$(this).find("input[t='sid']").val();
                     boxp['supplyname'] = supplyname;
                     boxp['supplytype'] = supplytype;
                     boxp['contactname'] = contactname;
@@ -156,7 +257,7 @@
                     boxp['time'] = time;
                     boxp['numbers'] = numbers;
                     boxp['address'] = address;
-
+                    boxp['id'] = id;
                     subox.push(boxp);
                    
                     
@@ -165,7 +266,7 @@
                     console.log(subox);
 
                     admin.post({
-                        api: "addproduct",
+                        api: "editproduct",
                         data: {"data":data.field,'subox':subox},
                         success:function (res) {
                             layer.alert("添加产品成功",{
@@ -179,73 +280,14 @@
                         }
                     });
                     break;
-                case 'edit':
-                    admin.post({
-                        api: "ediRole",
-                        data: data.field,
-                        success:function (res) {
-                            layer.alert("编辑角色成功",{
-                                yes:function () {
-                                    layui.view.tab.refresh();
-                                    layer.closeAll();
-                                    formSelects.render();
-                                    form.render();
-                                }
-                            })
-                        }
-                    });
-                    break;
+               
             }
 
             return false;
         });
 
 
-        //监听工具条
-        table.on('tool(role_table)', function(obj){
-            let data = obj.data;
-            let layEvent = obj.event;
-            let tr = obj.tr;
-
-            if(layEvent === 'detail'){
-                //do somehing
-            } else if(layEvent === 'del'){
-                layer.confirm('真的删除行么?用户权限会失效的!', function(index){
-                    admin.post({
-                        api: "delRole",
-                        data: data,
-                        success:function (res) {
-                            layer.alert("删除角色成功",{
-                                yes:function () {
-                                    layui.view.tab.refresh();
-                                    layer.closeAll();
-                                    formSelects.render();
-                                    form.render();
-                                }
-                            })
-                        }
-                    });
-                });
-            } else if(layEvent === 'edit'){
-                // 请求信息接口，然后打开弹窗
-                admin.post({
-                    api: 'getRoleInfo',
-                    data: {
-                        role_id:data.role_id
-                    },
-                    success:function (res) {
-                        rolebd_status_value = 'edit';
-                        $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
-                        $("input[name=role_name]").val(res.result.role_name);
-                        $("input[name=role_id]").val(res.result.role_id);
-                        form.render();
-                        formSelects.value('role_auth', res.result.role_auth.split(","));
-                    }
-                })
-            }
-        });
-
-
+        
 form.on('select(selectsu)', function (data) {
             var suid = data.value;
             console.log("choose suid is  "+suid);
@@ -291,8 +333,8 @@ form.on('select(selectsu)', function (data) {
 
 
 
-        
-        var supply_opt = "";
+
+var supply_opt = "";
           $.ajax({
             url: '/api/Supply/getList',
             async:false,
@@ -342,7 +384,7 @@ var con_opt="";
                             
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select  lay-search t='supply_id' lay-verify="required" lay-filter="selectsu" >
+                              <select  id="supply" lay-search t='supply_id' lay-verify="required" lay-filter="selectsu" >
                                `+supply_opt+`
                               </select>
                             </div>
@@ -428,6 +470,182 @@ var con_opt="";
 
 
 
+        //edit data fill
 
-    });
+         var editdata = JSON.parse(window.localStorage.getItem('data'));
+
+
+         if (editdata) {    
+
+
+         admin.post({
+            api: 'getsupplylist',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="0">选择供应商</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    });
+                    $("#supply").html(html);
+                }
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+         $("input[name='id']").val(editdata.id);
+            $("input[name='name']").val(editdata.name);
+            $("input[name='cas']").val(editdata.cas);
+            $("input[name='chemical']").val(editdata.chemical);
+             $("select[name='cate']").val(editdata.cate);
+            $("input[name='brand']").val(editdata.brand);
+             $("input[name='pack']").val(editdata.pack);
+             $("input[name='market']").val(editdata.market);
+            $("input[name='properties']").val(editdata.properties);
+            $("input[name='content']").val(editdata.content);
+             $("input[name='usefor']").val(editdata.usefor);
+
+             $("input[name='ordernum']").val(editdata.ordernum);
+
+             $("input[name='aliasname']").val(editdata.aliasname);
+            $("input[name='remark']").val(editdata.remark);
+               $.ajax({
+                url:'/api/SupplyProductRelate/getmany?pid='+editdata.id,
+                type:'GET',
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+            
+                    var contactarr=``;
+
+                    var suopt = ``;
+
+                          $.ajax({
+            url: '/api/supply/getList',
+            async:false,
+            success:function (res) {
+                if (res.result.list.length > 0){
+             
+                    $.each(res.result.list, function (index, item) {
+                        suopt += '<option value="'+item.id+'">'+item.name+'</option>';
+                    });
+                   
+                }
+
+            }
+        });
+
+
+                    $.each(data.result,function(k,obj){
+
+                        contactarr+=`<div style="padding: 10px;" class="newsu">
+        <form class="layui-form"  action="">
+<input type='hidden' t='sid' value=`+obj.id+`>
+
+              <div class="layui-col-md12">
+                <div class="layui-card-body layui-row layui-col-space10">
+             
+                    <div class="layui-col-md4">
+                            
+                            <label class="layui-form-label">供应商</label>
+                            <div class="layui-input-block">
+                              <select  id="supply" lay-search t='supply_id' lay-verify="required" value=`+obj.supplyid+` lay-filter="selectsu" >
+                               `+supply_opt+`
+                              </select>
+                            </div>
+
+                    </div>
+
+                    <div class="layui-col-md3">
+                            
+                            <label class="layui-form-label">供应商类别</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="supplytype" id="type"  readonly="readonly" t='supply_type' autocomplete="off" value=`+obj.supplytype+`  class="layui-input">
+                            </div>
+
+                    </div>
+
+
+                    <div class="layui-col-md2">
+                            
+                            <label class="layui-form-label">联系人</label>
+                            <div class="layui-input-block">
+                              <select name="contact" lay-search id="contact" t='contact_id' value=`+obj.id+` lay-filter="conse" lay-verify="required">
+                               `+con_opt+`
+                              </select>
+                            </div>
+
+                    </div>
+
+                     <div class="layui-col-md3">
+                         <label class="layui-form-label">联系人手机</label>
+                             <div class="layui-input-block">
+                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" value=`+obj.contactphone+` autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                          <label class="layui-form-label">成交日期</label>
+                           <div class="layui-input-block">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交价格</label>
+                         <div class="layui-input-block">
+                        <input type="number" t='price' autocomplete="off" value=`+obj.price+` class="layui-input">
+                    </div>
+                    </div>
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">成交数量</label>
+                        <div class="layui-input-block">
+                        <input type="number" t='numbers' autocomplete="off" value=`+obj.buynumber+` class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">拿货地</label>
+                        <div class="layui-input-block">
+                        <input type="text"  t='address' placeholder="拿货地" autocomplete="off" value=`+obj.address+` class="layui-input">
+                    </div>
+                    </div>
+
+
+                     <div class="layui-col-md3">
+                        <label class="layui-form-label">价格备注</label>
+                        <div class="layui-input-block">
+                        <input type="text" name="priceinfo" t='priceinfo' autocomplete="off" value=`+obj.priceinfo+` class="layui-input">
+                    </div>
+
+                   
+                    </div>
+
+        </form>
+
+    </div>`;
+ 
+              
+
+                   
+
+                })
+console.log(contactarr);
+     $("#boxsu").append(contactarr);
+       form.render();
+ 
+         }
+
+   
+
+})
+           }
+
+           });
 </script>

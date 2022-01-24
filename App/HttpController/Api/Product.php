@@ -60,8 +60,10 @@ class Product extends AnnotationController
 		    'content'=>$param['content'],
 		    'usefor'=>$param['usefor'],
 		    'remark'=>$param['remark'],
+		    'ordernum'=>$param['ordernum'],
+		    'aliasname'=>$param['aliasname'],
 		    'sameitem'=>$param['sameitem'],
-		    'createtime'=>time(),
+		    'createtime'=>time()
 		];
 		$model = new ProductModel($data);
 		$proid = $model->save();
@@ -281,5 +283,85 @@ class Product extends AnnotationController
 		$info->destroy();
 		$this->writeJson(Status::CODE_OK, [], "删除成功.");
 	}
+
+
+
+public function edit()
+	{
+		$datas = $this->request()->getRequestParam();
+
+		var_dump($datas);
+		$param = $datas['data'];
+
+		$data = [
+		    'name'=>$param['name'],
+		    'cas'=>$param['cas'],
+		    'chemical'=>$param['chemical'],
+		    'cate'=>$param['cate'],
+		    'brand'=>$param['brand'],
+		    'pack'=>$param['pack'],
+		    'market'=>$param['market'],
+		    'properties'=>$param['properties'],
+		    'content'=>$param['content'],
+		    'usefor'=>$param['usefor'],
+		    'remark'=>$param['remark'],
+		    'ordernum'=>$param['ordernum'],
+		    'aliasname'=>$param['aliasname'],
+		    'sameitem'=>$param['sameitem'],
+		    'createtime'=>time(),
+		];
+		$model = new ProductModel();
+		$proid = ProductModel::create()->update($data,['id'=>intval($data['id'])]);
+
+
+		$subs = $datas['subox'];
+		if (count($subs) > 0) {
+		
+			foreach ($subs as $key => $value) {
+				if ($value['time']) {
+							
+    	$contact = \App\Model\ContactorModel::create()->get(intval($value['contactname']));
+
+
+    	var_dump($contact);
+			$data = [
+		    'supplyid'=>$value['supplyname'],
+		    'supplyname'=>(\App\Model\SupplyModel::create()->get(intval($value['supplyname'])))['name'],
+		    'contactorname'=>$contact['name'],
+		    'contactphone'=>$contact['phone'],
+		    'supplytype'=>$value['supplytype'],
+		    'createtime'=>strtotime($value['time']),
+		    'price'=>$value['price'],
+		    'address'=>$value['address'],
+		    'priceinfo'=>$value['priceinfo'],
+		    'buynumber'=>$value['numbers'],
+		    'pid'=>intval($param['id']),
+		];
+		$modelss = new \App\Model\SupplyProductRelateModel($data);
+
+
+				if (array_key_exists("id", $value)) {
+
+\App\Model\SupplyProductRelateModel::create()->update($data,['id'=>intval($value['id'])]);
+
+						
+		}else{
+					
+
+
+
+		$modelss->save();
+		}
+	}
+
+
+			}
+		}
+		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
+	}
+
+
+
+
 }
 

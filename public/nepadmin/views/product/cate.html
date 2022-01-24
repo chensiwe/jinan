@@ -75,6 +75,8 @@
     </div>
 </div>
 
+
+
 <script>
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
         var view = $('#VIEW-catelist');
@@ -144,6 +146,27 @@
             return false;
         });
 
+
+
+    form.on('submit(edit-cate)', function (data) {
+            admin.post({
+                api: 'editcate',
+                data: data.field,
+                success:function (res) {
+                    layer.msg('修改成功', {
+                        icon:1,
+                        success :function (index, layero) {
+                            setTimeout(function(){
+                                layer.closeAll();
+                                layui.view.tab.refresh();
+                            },800);
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+
         // 监听筛选用户
         form.on('submit(search-cate)', function (data) {
             table.reload( 'catetab', {
@@ -162,10 +185,6 @@
             let data = obj.data;
             let layEvent = obj.event;
             let tr = obj.tr;
-
-            layer.msg('没有给你提供哦，自己尝试着开始修改本项目吧~，(ಥ﹏ಥ)~' , {
-                icon: 3
-            });
 
             if(layEvent === 'detail'){
                 //do somehing
@@ -190,6 +209,49 @@
                 });
 
             } else if(layEvent === 'edit'){
+                var con = `<div id="edit_cate_modal">
+            
+    <div style="padding: 10px;">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">Edit分类名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="editname"  value=`+data.name+` required  lay-verify="required" placeholder="请输入分类名称"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <input type="hidden" name="cateid" value=`+data.id+`>
+           
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="edit-cate">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+`;
+                layer.open({
+                     type: 1,
+                      content: con,
+                        title: '编辑产品分类',
+                        area: ['70%', '70%'],
+                        shadeClose: false,
+                       
+                });
+
+
+
+
+
+
+
+
+
+
+
+
 
             }
         });

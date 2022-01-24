@@ -34,9 +34,11 @@ layui.define([], function (exports) {
         //商品分类管理
         getcatelist:'productcate/getList',
         addcate:'productcate/add',
+        editcate:'Productcate/update',
         addproduct:'product/add',
         getproducts:'product/getList',
         delproduct:'product/delete',
+        editproduct:'Product/edit',
 
         //借贷列表
         getborrows:'borrow/getList',

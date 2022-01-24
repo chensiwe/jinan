@@ -342,7 +342,7 @@
             api: 'getproducts',
             page: true,
             cols: [[
-               
+               {title:'序号',field:'ordernum',sort:true},
                 { title: '名称', field: 'name'},
                 { title: 'cas', field: 'cas'},
                 { title: '化学式', field: 'chemical'},
@@ -422,21 +422,29 @@
                     });
                 });
             } else if(layEvent === 'edit'){
-                // 请求信息接口，然后打开弹窗
-                admin.post({
-                    api: 'getRoleInfo',
-                    data: {
-                        role_id:data.role_id
-                    },
-                    success:function (res) {
-                        rolebd_status_value = 'edit';
-                        $('#rolebd_status').html("修改角色 - " + res.result.role_name + " <div class='layui-btn layui-btn-xs' id='reset_add_role'>恢复添加</div>");
-                        $("input[name=role_name]").val(res.result.role_name);
-                        $("input[name=role_id]").val(res.result.role_id);
-                        form.render();
-                        formSelects.value('role_auth', res.result.role_auth.split(","));
-                    }
-                })
+                
+
+
+
+
+
+
+
+                 console.log(data);
+                    var localStorage = window.localStorage;
+                    localStorage.setItem('data',JSON.stringify(data));
+
+
+                    var index=layer.open({
+
+                        title:'编辑产品',
+                        type:2,
+                        shade:0.2,
+                        maxmin:true,
+                        area:['100%','100%'],
+                        content:['index.html#/product/editproduct','yes']
+                    });
+
             }else if(layEvent === 'addsu'){
                 console.log(data);
                 // 请求信息接口，然后打开弹窗

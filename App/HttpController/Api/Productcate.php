@@ -66,25 +66,21 @@ class Productcate extends AnnotationController
 	 * @ApiSuccessParam(name="msg",description="api提示信息")
 	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
 	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 * @Param(name="id",required="")
-	 * @Param(name="name",lengthMax="15",optional="")
-	 * @Param(name="createtime",lengthMax="15",optional="")
-	 * @Param(name="status",lengthMax="1",optional="",defaultValue="1")
 	 */
 	public function update()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$param = $this->request()->getRequestParam();
 		$model = new ProductcateModel();
-		$info = $model->get(['id' => $param['id']]);
+		$info = $model->get(['id' => $param['cateid']]);
 		if (empty($info)) {
 		    $this->writeJson(Status::CODE_BAD_REQUEST, [], '该数据不存在');
 		    return false;
 		}
 		$updateData = [];
 
-		$updateData['name']=$param['name'] ?? $info->name;
-		$updateData['createtime']=$param['createtime'] ?? $info->createtime;
-		$updateData['status']=$param['status'] ?? $info->status;
+		$updateData['name']=$param['editname'] ?? $info->name;
+		// $updateData['createtime']=$param['createtime'] ?? $info->createtime;
+		// $updateData['status']=$param['status'] ?? $info->status;
 		$info->update($updateData);
 		$this->writeJson(Status::CODE_OK, $info, "更新数据成功");
 	}
@@ -111,6 +107,20 @@ class Productcate extends AnnotationController
 		$param = ContextManager::getInstance()->get('param');
 		$model = new ProductcateModel();
 		$info = $model->get(['id' => $param['id']]);
+		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
+	}
+
+
+
+
+
+
+
+	public function getmany()
+	{
+		$param = $this->request()->getRequestParam();
+		$model = new ProductcateModel();
+		$info = $model->all(['id' => $param['pid']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
 

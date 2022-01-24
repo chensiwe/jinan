@@ -156,6 +156,19 @@ class SupplyProductRelate extends AnnotationController
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
 
+	
+
+public function getmany()
+	{
+		$param = $this->request()->getRequestParam();
+		$model = new SupplyProductRelateModel();
+		$info = $model->all(['pid' => intval($param['pid'])]);
+		for ($i=0; $i < count($info); $i++) { 
+				$info[$i]['createtime']= strtotime("Y-m-d",$info[$i]['createtime']);
+		}
+		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
+	}
+
 
 	/**
 	 * @Api(name="getList",path="/Api/SupplyProductRelate/getList")

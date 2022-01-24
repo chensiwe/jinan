@@ -61,7 +61,9 @@ class ProductModel extends AbstractModel
 		string $usefor,
 		string $remark,
 		string $sameitem,
-		string $createtime
+		string $createtime,
+		int $ordernum,
+		string $aliasname
 	): int {
 		$data = [
 		    'name'=>$name,
@@ -77,6 +79,8 @@ class ProductModel extends AbstractModel
 		    'remark'=>$remark,
 		    'sameitem'=>$sameitem,
 		    'createtime'=>$createtime,
+		    'ordernum'=>$ordernum,
+		    'aliasname'=>$aliasname,
 		];
 		$model = new self($data);
 		
