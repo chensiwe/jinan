@@ -8,7 +8,35 @@
     </div>
   </div>
 
+
+<div class="layui-row layui-col-space10">
+  <div class="layui-col-md4">
+    <div class="layui-card">
+  <div class="layui-card-header">供应商</div>
+  <div class="layui-card-body">
+    <a href="index.html#/supply/list" id="supply">200</a>
   </div>
+</div>
+  </div>
+  <div class="layui-col-md4">
+  <div class="layui-card">
+  <div class="layui-card-header">产品</div>
+  <div class="layui-card-body">
+    <a href="index.html#/product/list" id="product">200</a>
+  </div>
+</div>
+  </div>
+  <div class="layui-col-md4">
+    <div class="layui-card">
+  <div class="layui-card-header">客户</div>
+  <div class="layui-card-body">
+    <a href="index.html#/customer/list" id="customer">200</a>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+
   <script type="text/html" id="TPL-index-params">
     {{# layui.each(d.params,function(i,item){ }}
     <span class="layui-badge-rim">{{ item.val }}</span>
@@ -34,6 +62,39 @@
       var view = $('#VIEW-chart-index');
       var siam = layui.siam;
       element.render('progress')
+
+
+    $.ajax({
+
+
+      url:'/api/Customer/getdatas',
+      success:function(res){
+
+        console.log(res);
+
+        $("#supply").html(res.result.supply);
+         $("#customer").html(res.result.customers);
+          $("#product").html(res.result.items);
+
+      }
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       createChart()
 

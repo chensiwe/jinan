@@ -72,10 +72,14 @@
                     </div>
                     </div>
                 
-                     <div class="layui-col-md12">
-        <label><input type="file" multiple="multiple" class="add-item-up-file"   name="file[]" id="file" /></label>
+                       <div class="layui-form-item">
+                            
+                            <button type="button" class="layui-btn" id="test1">
+  <i class="layui-icon">&#xe67c;</i>上传文件
+</button>
                            
                         </div>
+
 
 <div class="layui-col-md12" id="filebox2">
     
@@ -160,7 +164,7 @@
 
 
 <script>
-    layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
+    layui.use(['admin', 'table', 'form','upload', 'jquery', 'laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
         var element = layui.element;
         var laytpl = layui.laytpl;
@@ -168,7 +172,7 @@
         var table = layui.table;
         var rolebd_status_value = 'add';
         var form = layui.form;
-
+        var upload = layui.upload;
        
         admin.post({
             api: 'getsupplytypes',
@@ -231,7 +235,7 @@
 
                     admin.post({
                         api: "editSupply",
-                        data: {"data":data.field,"lxrarr":lxrarr},
+                        data: {"data":data.field,"lxrarr":lxrarr,'file':files2},
                         success:function (res) {
                             layer.alert("添加供应商成功",{
                                 yes:function () {
@@ -248,43 +252,27 @@
         });
 
 
-        $("#file").change(function(){
-            //创建FormData对象
-            var data = new FormData();
-            //为FormData对象添加数据
-            $.each($('#file')[0].files, function(i, file) {
-                data.append('upload_file'+i, file);
-            });
+       upload.render({
+  elem: '#test1'
+  ,url: '/api/upload/do',
+  accept:'file'
+  ,multiple: true
+  ,allDone: function(obj){ //当文件全部被提交后，才触发
+    console.log(obj.total); //得到总文件数
+    console.log(obj.successful); //请求成功的文件数
+    console.log(obj.aborted); //请求失败的文件数
+  }
+  ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
+    var file = res.result;
+            $.each(file,function(k,v){
+                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+                    </div>`;   
+                            $("#filebox2").append(resfile);
+                  });
 
-           console.log(data);
+        }
 
-        $.ajax({
-                url:'/api/upload/do',
-                type:'POST',
-                data:data,
-                cache: false,
-                contentType: false, //不可缺参数
-                processData: false,     //不可缺参数
-                success:function(data){
-                    console.log(data);
-
-               var res = ""; 
-            $.each(data.result,function(k,v){
-                res+= `<div class="add-item-files-span">`+k+`：`+v+`<span class="close" onclick="removefile(this)">X</span><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
-            </div>`;    
-
-            });
-
-               $("#filebox2").append(res);
-
-                },
-                error:function(){
-                    alert('上传出错');
-                    $(".loading").hide();   //加载失败移除加载图片
-                }
-            });
-        });
-
+});
 
 
 
@@ -326,7 +314,6 @@
 
          if (editdata) {
 
-console.log(editdata.name);
       
 
             $("input[name='name']").val(editdata.name);
@@ -341,6 +328,48 @@ console.log(editdata.name);
             $("select[name='type']").val(editdata.type);
 
             $("textarea[name='remark']").val(editdata.remark);
+
+
+
+
+            var fileopt = "";
+
+             $.ajax({
+                url:'/api/Files/getfiles?spid='+editdata.id+"&type=1",
+                type:'GET',
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+
+                  console.log(data);
+                  $.each(data.result,function(k,v){
+                      fileopt+=`<div class="layui-col-md2"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re"></i>
+                    </div>`; 
+                  });
+                    
+                           
+                  $("#filebox2").append(fileopt);
+
+             }
+
+           })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
              

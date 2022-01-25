@@ -71,13 +71,17 @@
                     </div>
                     </div>
                 
-                     <div class="layui-col-md12">
-        <label><input type="file" multiple="multiple" class="add-item-up-file"   name="file[]" id="file" /></label>
+                     <div class="layui-form-item">
+                            
+                            <button type="button" class="layui-btn" id="test1">
+  <i class="layui-icon">&#xe67c;</i>上传文件
+</button>
                            
                         </div>
 
 <div class="layui-col-md12" id="filebox2">
-    
+
+   
 
 </div>
                         <div class="layui-form-item">
@@ -111,14 +115,6 @@
        
     </div>
 </div>
-<!-- 角色列表bar tool -->
-<script type="text/html" id="role_bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-
-
-
 
 
 
@@ -161,7 +157,7 @@
 
 
 <script>
-    layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
+    layui.use(['admin', 'table', 'form', 'jquery','upload', 'laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
         var element = layui.element;
         var laytpl = layui.laytpl;
@@ -169,6 +165,7 @@
         var table = layui.table;
         var rolebd_status_value = 'add';
         var form = layui.form;
+        var upload = layui.upload;
 
        
         admin.post({
@@ -228,7 +225,7 @@
 
                     admin.post({
                         api: "addSupply",
-                        data: {"data":data.field,"lxrarr":lxrarr},
+                        data: {"data":data.field,"lxrarr":lxrarr,'files':files2},
                         success:function (res) {
                             layer.alert("添加供应商成功",{
                                 yes:function () {
@@ -245,55 +242,12 @@
         });
 
 
-        $("#file").change(function(){
-            //创建FormData对象
-            var data = new FormData();
-            //为FormData对象添加数据
-            $.each($('#file')[0].files, function(i, file) {
-                data.append('upload_file'+i, file);
-            });
-
-           console.log(data);
-
-        $.ajax({
-                url:'/api/upload/do',
-                type:'POST',
-                data:data,
-                cache: false,
-                contentType: false, //不可缺参数
-                processData: false,     //不可缺参数
-                success:function(data){
-                    console.log(data);
-
-               var res = ""; 
-            $.each(data.result,function(k,v){
-                res+= `<div class="add-item-files-span">`+k+`：`+v+`<span class="close" onclick="removefile(this)">X</span><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
-            </div>`;    
-
-            });
-
-               $("#filebox2").append(res);
-
-                },
-                error:function(){
-                    alert('上传出错');
-                    $(".loading").hide();   //加载失败移除加载图片
-                }
-            });
-        });
-
-
-
-
-
+        
 
          $('body').on('click', '.addcon', function () {
       
                     $("#lxr").append($("#boxlxr").html());
-
         })
-
-
 
          $('body').on('click', '.additem', function (event) {
             var con = "";
@@ -302,14 +256,31 @@
             con+=`<div class="layui-input-inline" style="width: 100px;">
       <input style="border-color:#2e2929" type="text" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
     </div>`;
-                  
-
                 $(this).next().append(con);
-
-
             });
 
+upload.render({
+  elem: '#test1'
+  ,url: '/api/upload/do',
+  accept:'file'
+  ,multiple: true
+  ,allDone: function(obj){ //当文件全部被提交后，才触发
+    console.log(obj.total); //得到总文件数
+    console.log(obj.successful); //请求成功的文件数
+    console.log(obj.aborted); //请求失败的文件数
+  }
+  ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
+    var file = res.result;
+            $.each(file,function(k,v){
+                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+                    </div>`;   
+                            $("#filebox2").append(resfile);
+                  });
+
+        }
+
+});
 
 
-        });
+});
 </script>

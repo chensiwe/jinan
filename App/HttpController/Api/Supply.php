@@ -85,6 +85,11 @@ class Supply extends AnnotationController
 
 		}
 
+
+
+		\App\Libs\Util::savefiles($datas['file'],$supplyid,1);
+
+
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
@@ -148,6 +153,9 @@ class Supply extends AnnotationController
 			}
 
 		}
+
+
+		\App\Libs\Util::savefiles($datas['file'],intval($param['supplyid']),1);
 
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "update成功");
 	}
@@ -331,9 +339,6 @@ class Supply extends AnnotationController
 
 
 		$all = $model->all();
-
-
-
 
     foreach($all as $k=>$v){
         $arrData[] = [

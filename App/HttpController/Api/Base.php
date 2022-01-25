@@ -29,6 +29,8 @@ abstract class Base extends \EasySwoole\Http\AbstractInterface\Controller
 	}
 
 
+
+
 	public function onRequest(?string $action): ?bool
 	{
 		if (!parent::onRequest($action)) {
