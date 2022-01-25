@@ -67,6 +67,21 @@
                         <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
+
+
+                     <div class="layui-form-item">
+                            
+                            <button type="button" class="layui-btn" id="test1">
+  <i class="layui-icon">&#xe67c;</i>上传文件
+</button>
+                           
+                        </div>
+
+<div class="layui-col-md12" id="filebox2">
+    
+
+</div>
+
 <a class="layui-btn layui-btn-danger" id="editaddbtn">添加供应商</a>
 
            
@@ -193,7 +208,7 @@
 
 
 <script>
-    layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
+    layui.use(['admin', 'table', 'form', 'upload','jquery', 'laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
         var element = layui.element;
         var laytpl = layui.laytpl;
@@ -201,6 +216,7 @@
         var table = layui.table;
         var rolebd_status_value = 'add';
         var form = layui.form;
+        var upload = layui.upload;
 
         // 加载权限列表
         admin.post({
@@ -220,6 +236,28 @@
         });
 
         
+           upload.render({
+  elem: '#test1'
+  ,url: '/api/upload/do',
+  accept:'file'
+  ,multiple: true
+  ,allDone: function(obj){ //当文件全部被提交后，才触发
+    console.log(obj.total); //得到总文件数
+    console.log(obj.successful); //请求成功的文件数
+    console.log(obj.aborted); //请求失败的文件数
+  }
+  ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
+    var file = res.result;
+            $.each(file,function(k,v){
+                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    </div>`;   
+                            $("#filebox2").append(resfile);
+                  });
+
+        }
+
+});
+
 
 
 
@@ -236,6 +274,7 @@
 
                     $(".newsu").each(function(){
                     var boxp = {};
+         
 
                     var supplyname = $(this).find("select[t='supply_id']").val();
                     var supplytype = $(this).find("input[t='supply_type']").val();
@@ -263,11 +302,18 @@
                     
                    });
 
+            var files = [];
+                $(".filebox2").each(function(){
+                        var filepath = $(this).attr("value");
+                        var filename = $(this).attr("name");
+                        files.push({"filename":filename,"filepath":filepath});
+                       });
+
                     console.log(subox);
 
                     admin.post({
                         api: "editproduct",
-                        data: {"data":data.field,'subox':subox},
+                        data: {"data":data.field,'subox':subox,'files':files},
                         success:function (res) {
                             layer.alert("添加产品成功",{
                                 yes:function () {
@@ -474,8 +520,6 @@ var con_opt="";
 
         });
 
-
-
         //edit data fill
 
          var editdata = JSON.parse(window.localStorage.getItem('data'));
@@ -499,12 +543,45 @@ var con_opt="";
             }
         });
 
+         var cateeditopt = "";
+          $.ajax({
+            url: '/api/Productcate/getList',
+            async:false,
+            success:function (res) {
+                if (res.result.list.length > 0){
+                   
+                    $.each(res.result.list, function (index, item) {
+
+                        if (item.name==editdata.cate) {
+
+                                  cateeditopt += '<option selected="selected" value="'+item.id+'">'+item.name+'</option>';
+
+                        }else{
+  cateeditopt += '<option value="'+item.id+'">'+item.name+'</option>';
+                        }
+                      
+                    });
+                    
+                }
+
+            }
+        });
+
+
+           console.log(cateeditopt);
+
+        $("#cate").html(cateeditopt);
+
+              
+        form.render();
+
+
 
          $("input[name='id']").val(editdata.id);
             $("input[name='name']").val(editdata.name);
             $("input[name='cas']").val(editdata.cas);
             $("input[name='chemical']").val(editdata.chemical);
-             $("select[name='cate']").val(editdata.cate);
+             //$("select[name='cate']").val(editdata.cate);
             $("input[name='brand']").val(editdata.brand);
              $("input[name='pack']").val(editdata.pack);
              $("input[name='market']").val(editdata.market);
@@ -535,6 +612,7 @@ var con_opt="";
                 if (res.result.list.length > 0){
              
                     $.each(res.result.list, function (index, item) {
+
                         suopt += `<option value=`+item.id+`>`+item.name+`</option>`;
                     });
                    
@@ -544,7 +622,93 @@ var con_opt="";
         });
 
 
+
+
+var fileopt = "";
+
+             $.ajax({
+                url:'/api/Files/getfiles?spid='+editdata.id+"&type=2",
+                type:'GET',
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+
+                  console.log(data);
+                  $.each(data.result,function(k,v){
+                      fileopt+=`<div class="layui-col-md2"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    </div>`; 
+                  });
+                    
+                           
+                  $("#filebox2").append(fileopt);
+
+             }
+
+           })
+
+
+
+
+
                     $.each(data.result,function(k,obj){
+
+
+var su_opts = `<option value="0">选择供应商</option>`;
+
+                          $.ajax({
+            url: '/api/supply/getList',
+            async:false,
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    
+                    $.each(res.result.list, function (index, item) {
+                        if (item.id == obj.supplyid) {
+
+                              su_opts += '<option selected="selected" value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                        }else{
+                              su_opts += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                        }
+                      
+                    });
+      
+                }
+            
+              
+            }
+        });
+
+
+
+var con_opts="";
+
+        $.ajax({
+            url: '/api/Contactor/getList',
+            async:false,
+            success:function (res) {
+                if (res.result.list.length > 0){
+                con_opts += `<option value="0">选择联系人</option>`;
+                    $.each(res.result.list, function (index, item) {
+
+
+                        if (obj.contactorname == item.name) {
+
+                                 con_opts += '<option selected="selected" value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+
+                        }else{
+                        con_opts += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    }
+                    });
+                  
+                }
+
+              
+            }
+        });
+
+
+
+
 
                         contactarr+=`<div style="padding: 10px;" class="newsu">
                           <i class="layui-icon layui-icon-delete re">delete</i>
@@ -559,7 +723,7 @@ var con_opt="";
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
                               <select  id="supply" lay-search t='supply_id' lay-verify="required" value=`+obj.supplyid+` lay-filter="selectsu" >
-                               `+supply_opt+`
+                               `+su_opts+`
                               </select>
                             </div>
 
@@ -575,12 +739,12 @@ var con_opt="";
                     </div>
 
 
-                    <div class="layui-col-md2">
+                    <div class="layui-col-md3">
                             
                             <label class="layui-form-label">联系人</label>
                             <div class="layui-input-block">
                               <select name="contact" lay-search id="contact" t='contact_id' value=`+obj.id+` lay-filter="conse" lay-verify="required">
-                               `+con_opt+`
+                               `+con_opts+`
                               </select>
                             </div>
 
@@ -596,7 +760,7 @@ var con_opt="";
                      <div class="layui-col-md3">
                           <label class="layui-form-label">成交日期</label>
                            <div class="layui-input-block">
-                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" value=`+obj.createtime+` autocomplete="off" class="layui-input" lay-verify="required">
                     </div>
                     </div>
 
@@ -628,7 +792,7 @@ var con_opt="";
                      <div class="layui-col-md3">
                         <label class="layui-form-label">价格备注</label>
                         <div class="layui-input-block">
-                        <input type="text" name="priceinfo" t='priceinfo' autocomplete="off" value=`+obj.priceinfo+` class="layui-input">
+        <input type="text" name="priceinfo" t='priceinfo' class="layui-input" autocomplete="off" value=`+obj.priceinfo+`>
                     </div>
 
                    

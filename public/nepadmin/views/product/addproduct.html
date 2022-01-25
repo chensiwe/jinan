@@ -66,6 +66,21 @@
                         <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
+
+
+
+                     <div class="layui-form-item">
+                            
+                            <button type="button" class="layui-btn" id="test1">
+  <i class="layui-icon">&#xe67c;</i>上传文件
+</button>
+                           
+                        </div>
+
+<div class="layui-col-md12" id="filebox2">
+    
+
+</div>
 <a class="layui-btn layui-btn-danger" id="addbtn">添加供应商</a>
 
            
@@ -98,7 +113,7 @@
  
 
 <script>
-    layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
+    layui.use(['admin', 'table', 'form', 'jquery', 'upload','laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
         var element = layui.element;
         var laytpl = layui.laytpl;
@@ -106,6 +121,7 @@
         var table = layui.table;
         var rolebd_status_value = 'add';
         var form = layui.form;
+        var upload = layui.upload;
 
         // 加载权限列表
         admin.post({
@@ -130,9 +146,15 @@
         form.on('submit(add-product)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
-
-
                     var subox = [];
+                        var files2 = [];
+                       $(".filebox2").each(function(){
+                        var filepath = $(this).attr("value");
+                        var filename = $(this).attr("name");
+                        files2.push({"filename":filename,"filepath":filepath});
+                       });
+
+
 
                     $(".newsu").each(function(){
                     var boxp = {};
@@ -166,7 +188,7 @@
 
                     admin.post({
                         api: "addproduct",
-                        data: {"data":data.field,'subox':subox},
+                        data: {"data":data.field,'subox':subox,"files":files2},
                         success:function (res) {
                             layer.alert("添加产品成功",{
                                 yes:function () {
@@ -199,6 +221,38 @@
 
             return false;
         });
+
+
+
+           upload.render({
+  elem: '#test1'
+  ,url: '/api/upload/do',
+  accept:'file'
+  ,multiple: true
+  ,allDone: function(obj){ //当文件全部被提交后，才触发
+    console.log(obj.total); //得到总文件数
+    console.log(obj.successful); //请求成功的文件数
+    console.log(obj.aborted); //请求失败的文件数
+  }
+  ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
+    var file = res.result;
+            $.each(file,function(k,v){
+                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    </div>`;   
+                            $("#filebox2").append(resfile);
+                  });
+
+        }
+
+});
+
+             $('body').on('click','.re',function(){
+                console.log("hello");
+
+
+              $(this).parent().remove();
+             });
+
 
 
         //监听工具条

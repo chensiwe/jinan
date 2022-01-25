@@ -14,7 +14,7 @@ class Util
 
 			for ($i=0; $i < count($files); $i++) { 
 				$data = [
-					"type"=>1,
+					"type"=>$type,
 					"sp_id"=>intval($spid),
 					'filename'=>$files[$i]['filename'],
 					'filepath'=>$files[$i]['filepath']

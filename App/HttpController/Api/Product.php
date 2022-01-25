@@ -110,6 +110,7 @@ class Product extends AnnotationController
 
 
 
+		\App\Libs\Util::savefiles($datas['files'],intval($proid),2);
 
 
 
@@ -311,13 +312,13 @@ public function edit()
 		    'createtime'=>time(),
 		];
 		$model = new ProductModel();
-		$proid = ProductModel::create()->update($data,['id'=>intval($data['id'])]);
+		$proid = ProductModel::create()->update($data,['id'=>intval($param['id'])]);
 
 
 		$subs = $datas['subox'];
 		if (count($subs) > 0) {
 			\App\Model\SupplyProductRelateModel::create()->where(['pid'=>intval($param['id']),])->destroy();
-			
+
 			foreach ($subs as $key => $value) {
 				if ($value['time']) {
 							
@@ -358,6 +359,10 @@ public function edit()
 
 			}
 		}
+
+
+		\App\Libs\Util::savefiles($datas['files'],intval($param['id']),2);
+
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
