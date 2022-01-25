@@ -128,7 +128,9 @@
 
 <div class="layui-form-item" id="boxlxr" hidden>
  <div class="boxlxr">
+    <i class="layui-icon layui-icon-delete re">delete</i>
   <div class="layui-inline">
+
     <label class="layui-form-label">联系人</label>
     <div class="layui-input-inline" style="width: 100px;">
       <input type="text" name="conname[]" t='name' placeholder="..." autocomplete="off" class="layui-input">
@@ -292,6 +294,7 @@
 
             con+=`<div class="layui-input-inline" style="width: 100px;">
       <input style="border-color:#2e2929" type="text" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
+      <i class="layui-icon layui-icon-delete re">delete</i>
     </div>`;
                   
 
@@ -302,6 +305,15 @@
 
 
 
+
+
+
+             $('body').on('click','.re',function(){
+                console.log("hello");
+
+
+              $(this).parent().remove();
+             });
 
 
 
@@ -344,7 +356,7 @@
 
                   console.log(data);
                   $.each(data.result,function(k,v){
-                      fileopt+=`<div class="layui-col-md2"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re"></i>
+                      fileopt+=`<div class="layui-col-md2"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
                     </div>`; 
                   });
                     
@@ -354,10 +366,6 @@
              }
 
            })
-
-
-
-
 
 
 
@@ -397,7 +405,7 @@
                         $.each(obj.itemarr,function(i,val){
 
                                 itemsatt+=`<div class="layui-input-inline" style="width: 100px;">
-      <input style="border-color:#2e2929" type="text" value=`+val+` autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
+      <input style="border-color:#2e2929" type="text" value=`+val+` autocomplete="off" class="layui-input conitembox" style="padding-left:10px;"><i class="layui-icon layui-icon-delete re">delete</i>
     </div>`;
 
 
@@ -407,10 +415,12 @@
             contactarr+=`<div class="layui-form-item">
  <div class="boxlxr">
  <input type='hidden' name='cid[]' t="cusid" value=`+obj.id+`>
+  <i class="layui-icon layui-icon-delete re">delete</i>
   <div class="layui-inline">
     <label class="layui-form-label">联系人</label>
     <div class="layui-input-inline" style="width: 100px;">
       <input type="text" name="conname[]" t='name' value=`+obj.name+` placeholder="..." autocomplete="off" class="layui-input">
+
     </div>
     
   </div>
