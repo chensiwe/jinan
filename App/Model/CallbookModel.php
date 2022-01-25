@@ -52,7 +52,7 @@ class CallbookModel extends AbstractModel
 		string $ramark,
 		string $info,
 		int $addtime
-	): self {
+	): int {
 		$data = [
 		    'name'=>$name,
 		    'address'=>$address,
@@ -64,8 +64,8 @@ class CallbookModel extends AbstractModel
 		    'addtime'=>$addtime,
 		];
 		$model = new self($data);
-		$model->save();
-		return $model;
+		
+		return $model->save();
 	}
 }
 

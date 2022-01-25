@@ -56,7 +56,11 @@ class Callbook extends AnnotationController
 		    'addtime'=>time(),
 		];
 		$model = new CallbookModel($data);
-		$model->save();
+		$id = $model->save();
+
+		\App\Libs\Util::savefiles($datas['files'],intval($id),3);
+
+
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
@@ -64,6 +68,7 @@ class Callbook extends AnnotationController
 	public function update()
 	{
 		$param = $this->request()->getRequestParam();
+		$files = $param['files'];
 		$param = $param['data'];
 		$model = new CallbookModel();
 		$info = $model->get(['id' => intval($param['id'])]);
@@ -82,6 +87,9 @@ class Callbook extends AnnotationController
 		$updateData['info']=$param['info'] ?? $info->info;
 		$updateData['addtime']=$param['addtime'] ?? $info->addtime;
 		$info->update($updateData);
+
+		var_dump($files);
+		\App\Libs\Util::savefiles($files,intval($param['id']),3);
 		$this->writeJson(Status::CODE_OK, $info, "更新数据成功");
 	}
 

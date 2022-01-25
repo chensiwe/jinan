@@ -132,6 +132,17 @@ class CustomerItemPrice extends AnnotationController
 	}
 
 
+
+	public function getlistbyid(){
+		$data = $this->request()->getRequestParam();
+		$list = CustomerItemPriceModel::create()->where(['customer_id'=>$data['id']])->all();
+
+
+		$this->writeJson(Status::CODE_OK, $list, "获取数据成功.");
+
+
+
+	}
 	/**
 	 * @Api(name="getList",path="/Api/CustomerItemPrice/getList")
 	 * @ApiDescription("获取数据列表")

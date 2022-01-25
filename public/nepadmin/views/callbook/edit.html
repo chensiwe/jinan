@@ -16,7 +16,7 @@
 
 <input type="hidden" name="id">
 
-            <div class="layui-col-md12 layui-col-xs4">
+            <div class="layui-col-md12 layui-col-xs12">
                        
                          <label class="layui-form-label">联系人类别</label>
                             <div class="layui-input-block">
@@ -77,15 +77,19 @@
 
                 
 
-                             <div class="layui-col-md12">
-                         <label><input type="file" multiple="multiple" class="add-item-up-file"   name="file[]" id="file" /></label>
+                                        <div class="layui-form-item">
+                            
+                            <button type="button" class="layui-btn" id="test1">
+  <i class="layui-icon">&#xe67c;</i>上传文件
+</button>
                            
                         </div>
 
-                        <div class="layui-col-md12" id="filebox2">
-                            
+<div class="layui-col-md12" id="filebox2">
 
-                        </div>
+   
+
+</div>
 
 
                     
@@ -107,7 +111,7 @@
 </div>
 
 <script>
-    layui.use(['admin', 'table', 'form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
+    layui.use(['admin', 'table', 'upload','form', 'jquery', 'laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
         var element = layui.element;
         var laytpl = layui.laytpl;
@@ -115,6 +119,7 @@
         var table = layui.table;
         var rolebd_status_value = 'add';
         var form = layui.form;
+        var upload = layui.upload;
 
         // 加载权限列表
         admin.post({
@@ -135,6 +140,34 @@
         });
 
 
+        upload.render({
+  elem: '#test1'
+  ,url: '/api/upload/do',
+  accept:'file'
+  ,multiple: true
+  ,allDone: function(obj){ //当文件全部被提交后，才触发
+    console.log(obj.total); //得到总文件数
+    console.log(obj.successful); //请求成功的文件数
+    console.log(obj.aborted); //请求失败的文件数
+  }
+  ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
+    var file = res.result;
+            $.each(file,function(k,v){
+                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    </div>`;   
+                            $("#filebox2").append(resfile);
+                  });
+
+        }
+
+});
+
+        $('body').on('click','.re',function(){
+                console.log("hello");
+
+
+              $(this).parent().remove();
+             });
 
 
         form.on('submit(edit-callbook)', function (data) {
@@ -161,7 +194,7 @@
                         api: "editcallbook",
                         data: jsdata,
                         success:function (res) {
-                            layer.alert("添加成功",{
+                            layer.alert("更新成功",{
                                 yes:function () {
                                     layui.view.tab.refresh();
                                     layer.closeAll();
@@ -251,6 +284,53 @@
             $("input[name='phone']").val(editdata.phone);
             $("input[name='ramark']").val(editdata.ramark);
             $("input[name='id']").val(editdata.id);
+            // $("select[name='type']").val(editdata.type);
+
+
+            var topts = "";
+
+        layui.use('form', function () {
+                            var form = layui.form;
+                            // console.log(res.data);
+                           
+                            // $("#type").val(editdata.type);
+                            console.log(editdata.type);
+                            $("#value").find("option[value='"+editdata.type+"']").attr("selected", true);
+                            form.render();
+                        });
+
+                formSelects.render();
+                form.render();
+
+
+
+            var fileopt = "";
+            $.ajax({
+                url:'/api/Files/getfiles?spid='+editdata.id+"&type=3",
+                type:'GET',
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+
+                  console.log(data);
+
+                  $.each(data.result,function(k,v){
+                      fileopt+=`<div class="layui-col-md2"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    </div>`; 
+                  });
+                    
+                           
+                  $("#filebox2").append(fileopt);
+
+             }
+
+           })
+
+
+form.render(); //更新全部
+form.render('select');
+
          }   
 
         });

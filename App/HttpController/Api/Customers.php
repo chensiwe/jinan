@@ -33,7 +33,9 @@ class Customers extends AnnotationController
 	
 	public function add()
 	{
-		$param = $this->request()->getRequestParam();
+		$datas = $this->request()->getRequestParam();
+
+		$param = $datas['data'];
 		
 		$data = [
 		    'name'=>$param['name'],
@@ -51,35 +53,38 @@ class Customers extends AnnotationController
 
 
 		$addid = $model->save();
-		$items = $param['item'];
-		$price = $param['price'];
-		$times  = $param['times'];
-		$numbers = $param['numbers'];
+		$itemarr = $datas['itemarr'];
+
 
 $priceitemmodel = new \App\Model\CustomerItemPriceModel();
-		for ($i=0; $i < count($items); $i++) { 
+		\App\Model\CustomerItemPriceModel::create()->where(['customer_id'=>$addid])->destroy();
+
+		var_dump($itemarr);
+		for ($i=0; $i < count($itemarr); $i++) { 
+
+if ($itemarr[$i]['number']) {
 
 
-			$item = \App\Model\ProductModel::create()->get($items[$i]);
+		$item = \App\Model\ProductModel::create()->get(intval($itemarr[$i]['name']));
 			
-$priceitemmodel->addData($item['id'], $item['name'],$numbers[$i], $price[$i], strtotime($times[$i]),$addid);
+      $priceitemmodel->addData($item['id'], $item['name'],$itemarr[$i]['number'], $itemarr[$i]['price'], strtotime($itemarr[$i]['time']),$addid);
 		
-
+}
 		}
 
+		$logs = $datas['logs'];
 
 		$logmodel = new \App\Model\CustomersHistoryModel();
-
-		$logdates  = $param['logdate'];
-		$loginfo = $param['logifo'];
-var_dump($loginfo);
-var_dump($param);
-		for ($i=0; $i < count($loginfo); $i++) { 
+		\App\Model\CustomersHistoryModel::create()->where(['cus_id'=>$addid])->destroy();
+		
+		for ($i=0; $i < count($logs); $i++) { 
 			
-			$logmodel->addData($addid, strtotime($logdate[$i]), $loginfo[$i]);
+			$logmodel->addData($addid, strtotime($logs[$i]['logdate']), $logs[$i]['loginfo']);
 		}
 
 
+
+		\App\Libs\Util::savefiles($datas['files'],$supplyid,4);
 
 
 
@@ -245,5 +250,84 @@ var_dump($param);
 		$info->destroy();
 		$this->writeJson(Status::CODE_OK, [], "删除成功.");
 	}
+
+
+
+
+
+
+
+
+
+
+	public function edit()
+	{
+		$datas = $this->request()->getRequestParam();
+
+		$param = $datas['data'];
+		
+		$data = [
+		    'name'=>$param['name'],
+		    'address'=>$param['address'],
+		    'type'=>$param['type'],
+		    'contact'=>$param['contact'],
+		    'phone'=>$param['phone'],
+		    'think'=>$param['think'],
+		    'fromwhere'=>$param['fromwhere'],
+		    'remark'=>$param['remark'],
+		    'info'=>$param['info'],
+		    'addtime'=>time(),
+		];
+		$model = new CustomersModel($data);
+
+
+		$model->where(['id'=>intval($param['id'])])->update($data);
+		
+
+
+		$itemarr = $datas['itemarr'];
+
+
+$priceitemmodel = new \App\Model\CustomerItemPriceModel();
+		\App\Model\CustomerItemPriceModel::create()->where(['customer_id'=>$addid])->destroy();
+		for ($i=0; $i < count($itemarr); $i++) { 
+
+
+		$item = \App\Model\ProductModel::create()->get(intval($itemarr[$i]['name']));
+			
+      $priceitemmodel->addData($item['id'], $item['name'],$itemarr[$i]['number'], $itemarr[$i]['price'], strtotime($itemarr[$i]['time']),$addid);
+		
+
+		}
+
+		$logs = $datas['logs'];
+
+		$logmodel = new \App\Model\CustomersHistoryModel();
+		\App\Model\CustomersHistoryModel::create()->where(['cus_id'=>$addid])->destroy();
+		
+		for ($i=0; $i < count($logs); $i++) { 
+			
+			$logmodel->addData($addid, strtotime($logs[$i]['logdate']), $logs[$i]['loginfo']);
+		}
+
+
+
+		\App\Libs\Util::savefiles($datas['files'],$supplyid,4);
+
+
+
+		$this->writeJson(Status::CODE_OK, $model->toArray(), "update成功");
+	}
+
+
+
+
+
+
+
+
+
+
+
 }
 

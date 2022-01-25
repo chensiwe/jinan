@@ -2,7 +2,7 @@
 <div class="layui-fluid" lay-title="客户管理">
     <div class="layui-row layui-col-space15">
 
-
+<input type="hidden" name="id">
         <div class="layui-col-md12">
             <form class="layui-card layui-form" layui-filter="add-customerss">
                 <div class="layui-card-header" id="rolebd_statuss">添加客户</div>
@@ -415,11 +415,6 @@ var  logarr = [];
         form.render();
 
 
-
-
-
-
-       
              $('body').on('click','.re',function(){
                 console.log("hello");
 
@@ -429,42 +424,173 @@ var  logarr = [];
 
 
     
-        $("#file").change(function(){
-            //创建FormData对象
-            var data = new FormData();
-            //为FormData对象添加数据
-            $.each($('#file')[0].files, function(i, file) {
-                data.append('upload_file'+i, file);
-            });
 
-           console.log(data);
 
-        $.ajax({
-                url:'/api/upload/do',
-                type:'POST',
-                data:data,
+
+
+               var editdata = JSON.parse(window.localStorage.getItem('data'));
+
+
+         console.log(editdata);
+
+         if (editdata) {
+
+      
+
+            $("input[name='name']").val(editdata.name);
+            $("input[name='address']").val(editdata.address);
+            $("input[name='contact']").val(editdata.contact);
+            $("input[name='phone']").val(editdata.phone);
+
+             $("input[name='info']").val(editdata.info);
+
+
+            $("textarea[name='remark']").val(editdata.remark);
+var fileopt = "";
+             $.ajax({
+                url:'/api/Files/getfiles?spid='+editdata.id+"&type=4",
+                type:'GET',
                 cache: false,
                 contentType: false, //不可缺参数
                 processData: false,     //不可缺参数
                 success:function(data){
-                    console.log(data);
 
-               var res = ""; 
-            $.each(data.result,function(k,v){
-                res+= `<div class="add-item-files-span">`+k+`：`+v+`<span class="close" onclick="removefile(this)">X</span><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
-            </div>`;    
+                  console.log(data);
+                  $.each(data.result,function(k,v){
+                      fileopt+=`<div class="layui-col-md2"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    </div>`; 
+                  });
+                    
+                           
+                  $("#filebox2").append(fileopt);
 
-            });
+             }
 
-               $("#filebox2").append(res);
+           })
 
-                },
-                error:function(){
-                    alert('上传出错');
-                    $(".loading").hide();   //加载失败移除加载图片
+
+
+
+
+
+
+
+             $.ajax({
+                url:'/api/CustomerItemPrice/getlistbyid?id='+editdata.id,
+                type:'GET',
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+
+                  console.log(data);
+
+
+
+                  $.each(data.result.list,function(k,v){
+
+
+                    var opt_product = "";
+
+       $.ajax({
+            url: '/api/Product/getList'
+            ,
+            async:false,
+            success:function (res) {
+                if (res.result.list.length > 0){
+        
+                    $.each(res.result.list, function (index, item) {
+
+                      if (item.id == v.pid) {
+
+                          opt_product += '<option selected="selected" value="'+item.id+'">'+item.name+'</option>';
+                      }else{
+                        opt_product += '<option value="'+item.id+'">'+item.name+'</option>';
+                      }
+
+                        
+                    });
+                    
                 }
-            });
+
+                formSelects.render();
+                form.render();
+            }
         });
+
+
+
+
+              fileopt+=`<div class="layui-col-md12 itemadd" >
+  <div class="layui-inline">
+      
+    <label class="layui-form-label">产品</label>
+    <div class="layui-input-inline" style="width: 100px;">
+          <select  name="item[]" t='item' lay-search class="name"  id="item" lay-search>
+                      
+                  `+opt_product+`    
+         </select>
+    </div>
+
+    <div class="layui-inline">
+    <label class="layui-form-label">报价</label>
+      <div class="layui-input-inline" style="width: 100px;">
+      <input type="number" t=price name="price[]"  placeholder="￥" autocomplete="off" class="layui-input price">
+    </div>
+  </div>
+
+  
+  <div class="layui-inline">
+    <label class="layui-form-label">数量</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="number" t="numbers" name="numbers[]" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+  <div class="layui-inline">
+    <label class="layui-form-label">日期</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="date" t='times' name="times[]" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+</div>
+
+<i class="layui-icon layui-icon-delete re">delete</i>
+</div>`; 
+                  });
+                    
+                           
+                  $("#filebox2").append(fileopt);
+
+             }
+
+           })
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
         });
