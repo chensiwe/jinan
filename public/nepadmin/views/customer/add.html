@@ -149,8 +149,9 @@
 
 
 <div class="layui-form-item" id="additembox" hidden="">
- 
+ <div class="layui-col-md12">
   <div class="layui-inline">
+      
     <label class="layui-form-label">产品</label>
     <div class="layui-input-inline" style="width: 100px;">
           <select  name="item[]" lay-search class="name"  id="item" lay-search>
@@ -183,6 +184,9 @@
     </div>
   </div>
 
+</div>
+
+<i class="layui-icon layui-icon-delete re">delete</i>
 </div>
 </div>
 
@@ -238,10 +242,6 @@
 
          
 
-
-
-
-
         $("#addprice").click(function(){
 
         admin.post({
@@ -256,7 +256,6 @@
 
                     $("#box").append($("#additembox").html());
                 }
-
 
                 formSelects.render();
                 form.render();
@@ -274,12 +273,14 @@ $("#addhistory").click(function(){
 
 
     var his=`<div class="layui-inline hisbox">
+      
     <label class="layui-form-label">跟踪信息</label>
       <div class="layui-input-inline" style="width: 120px;">
       <input type="date" t='logdate' name='logdate[]'  placeholder="" autocomplete="off" class="layui-input">
     </div>  <div class="layui-input-inline" style="width:700px;">
       <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input">
     </div>
+    <i class="layui-icon layui-icon-delete re">delete</i>
   </div>`;
 
 $("#hislog").append(his);
@@ -365,6 +366,12 @@ form.on('submit(add-cus)', function (data) {
 
 
        
+             $('body').on('click','.re',function(){
+                console.log("hello");
+
+
+              $(this).parent().remove();
+             });
 
 
     

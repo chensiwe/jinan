@@ -139,13 +139,15 @@
             api: 'getcustomerss',
             page: true,
             cols: [[
-                { title: '序号', field: 'id', fixed: true},
+               {title:'序号',type:'numbers',sort:true},
                 { title: '名称', field: 'name'},
+                {title:'意向度',field:'think'},
+                {title:'来源',field:'fromwhere'},
                 {title:"联系人",field:'contact'},
                 {title:"联系电话",field:'phone'},
                 { title: '地址', field: 'address'},
                 {title:'类别',field:'type'},
-                { title: '备注', field: 'ramark'},
+                { title: '备注', field: 'remark'},
             
                 { title: '', fixed: 'right', toolbar:'#cusjinan_bar'},
 

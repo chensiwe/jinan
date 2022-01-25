@@ -96,7 +96,7 @@ class Customer extends AnnotationController
 
 
         $supply = \App\Model\SupplyModel::create()->all();
-        $customers = \App\Model\SupplyProductRelateModel::create()->all();
+        $customers = \App\Model\CustomersModel::create()->all();
         $items = \App\Model\ProductModel::create()->all();
 
 

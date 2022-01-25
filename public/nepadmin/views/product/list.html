@@ -93,7 +93,7 @@
 
 <script type="text/html" id="pro_bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" lay-event="addsu">录入成交</a>
+<!--     <a class="layui-btn layui-btn-xs" lay-event="addsu">录入成交</a> -->
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -344,7 +344,7 @@
             api: 'getproducts',
             page: true,
             cols: [[
-                {title:'序号',field:'ordernum',sort:true},
+                {title:'序号',type:'numbers',sort:true},
                 { title: '名称', field: 'name'},
                 { title: 'cas', field: 'cas'},
                 { title: '化学式', field: 'chemical'},
