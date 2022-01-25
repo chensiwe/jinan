@@ -164,7 +164,7 @@ public function getmany()
 		$model = new SupplyProductRelateModel();
 		$info = $model->all(['pid' => intval($param['pid'])]);
 		for ($i=0; $i < count($info); $i++) { 
-				$info[$i]['createtime']= strtotime("Y-m-d",$info[$i]['createtime']);
+				$info[$i]['createtime']= date("Y-m-d",$info[$i]['createtime']);
 		}
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}

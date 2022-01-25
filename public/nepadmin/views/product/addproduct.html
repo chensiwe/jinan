@@ -327,11 +327,17 @@ var con_opt="";
             }
         });
 
+   $('body').on('click','.re',function(){
+                console.log("hello");
 
+
+              $(this).parent().remove();
+             });
 
         $('body').on('click', '#addbtn', function () {
         
             var suadd = `<div style="padding: 10px;" class="newsu">
+            <i class="layui-icon layui-icon-delete re">delete</i>
         <form class="layui-form"  action="">
 
 

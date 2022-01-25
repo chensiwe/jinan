@@ -67,10 +67,10 @@
                         <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
-<a class="layui-btn layui-btn-danger" id="addbtn">添加供应商</a>
+<a class="layui-btn layui-btn-danger" id="editaddbtn">添加供应商</a>
 
            
-<div id="boxsu"></div>
+<div id="boxsuedit"></div>
 
 
 
@@ -368,12 +368,18 @@ var con_opt="";
               
             }
         });
+   $('body').on('click','.re',function(){
+                console.log("hello");
 
 
+              $(this).parent().remove();
+             });
 
-        $('body').on('click', '#addbtn', function () {
+
+        $('body').on('click', '#editaddbtn', function () {
         
             var suadd = `<div style="padding: 10px;" class="newsu">
+              <i class="layui-icon layui-icon-delete re">delete</i>
         <form class="layui-form"  action="">
 
 
@@ -462,7 +468,7 @@ var con_opt="";
 
     </div>`;
     
-            $("#boxsu").append(suadd);
+            $("#boxsuedit").append(suadd);
             form.render();
 
 
@@ -505,7 +511,7 @@ var con_opt="";
             $("input[name='properties']").val(editdata.properties);
             $("input[name='content']").val(editdata.content);
              $("input[name='usefor']").val(editdata.usefor);
-
+             $("input[name='createtime']").val(editdata.createtime);
              $("input[name='ordernum']").val(editdata.ordernum);
 
              $("input[name='aliasname']").val(editdata.aliasname);
@@ -529,7 +535,7 @@ var con_opt="";
                 if (res.result.list.length > 0){
              
                     $.each(res.result.list, function (index, item) {
-                        suopt += '<option value="'+item.id+'">'+item.name+'</option>';
+                        suopt += `<option value=`+item.id+`>`+item.name+`</option>`;
                     });
                    
                 }
@@ -541,6 +547,7 @@ var con_opt="";
                     $.each(data.result,function(k,obj){
 
                         contactarr+=`<div style="padding: 10px;" class="newsu">
+                          <i class="layui-icon layui-icon-delete re">delete</i>
         <form class="layui-form"  action="">
 <input type='hidden' t='sid' value=`+obj.id+`>
 
@@ -637,7 +644,7 @@ var con_opt="";
 
                 })
 console.log(contactarr);
-     $("#boxsu").append(contactarr);
+     $("#boxsuedit").append(contactarr);
        form.render();
  
          }

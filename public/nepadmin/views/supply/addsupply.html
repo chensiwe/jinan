@@ -121,6 +121,7 @@
 
 <div class="layui-form-item" id="boxlxr" hidden>
  <div class="boxlxr">
+  <i class="layui-icon layui-icon-delete re">delete</i>
   <div class="layui-inline">
     <label class="layui-form-label">联系人</label>
     <div class="layui-input-inline" style="width: 100px;">
@@ -254,7 +255,7 @@
 
 
             con+=`<div class="layui-input-inline" style="width: 100px;">
-      <input style="border-color:#2e2929" type="text" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
+      <input style="border-color:#2e2929" type="text" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;"><i class="layui-icon layui-icon-delete re">delete</i>
     </div>`;
                 $(this).next().append(con);
             });
@@ -272,7 +273,7 @@ upload.render({
   ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
     var file = res.result;
             $.each(file,function(k,v){
-                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
                     </div>`;   
                             $("#filebox2").append(resfile);
                   });
@@ -280,6 +281,14 @@ upload.render({
         }
 
 });
+
+
+             $('body').on('click','.re',function(){
+                console.log("hello");
+
+
+              $(this).parent().remove();
+             });
 
 
 });

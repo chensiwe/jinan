@@ -316,7 +316,8 @@ public function edit()
 
 		$subs = $datas['subox'];
 		if (count($subs) > 0) {
-		
+			\App\Model\SupplyProductRelateModel::create()->where(['pid'=>intval($param['id']),])->destroy();
+			
 			foreach ($subs as $key => $value) {
 				if ($value['time']) {
 							
@@ -340,18 +341,18 @@ public function edit()
 		$modelss = new \App\Model\SupplyProductRelateModel($data);
 
 
-				if (array_key_exists("id", $value)) {
+// 				if (array_key_exists("id", $value)) {
 
-\App\Model\SupplyProductRelateModel::create()->update($data,['id'=>intval($value['id'])]);
+// \App\Model\SupplyProductRelateModel::create()->update($data,['id'=>intval($value['id'])]);
 
 						
-		}else{
+// 		}else{
 					
 
 
 
 		$modelss->save();
-		}
+
 	}
 
 
