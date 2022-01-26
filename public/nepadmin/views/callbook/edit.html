@@ -153,7 +153,7 @@
   ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
     var file = res.result;
             $.each(file,function(k,v){
-                    var  resfile= `<div class="layui-col-md1"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    var  resfile= `<div class="layui-col-md1"><a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
                     </div>`;   
                             $("#filebox2").append(resfile);
                   });
@@ -316,7 +316,7 @@
                   console.log(data);
 
                   $.each(data.result,function(k,v){
-                      fileopt+=`<div class="layui-col-md2"><a href=""><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                      fileopt+=`<div class="layui-col-md2"><a href=`+v.filepath.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
                     </div>`; 
                   });
                     
