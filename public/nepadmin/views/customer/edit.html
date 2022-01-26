@@ -7,6 +7,7 @@
             <form class="layui-card layui-form" layui-filter="add-customerss">
                 <div class="layui-card-header" id="rolebd_statuss">添加客户</div>
                 <div class="layui-card-body layui-row layui-col-space10">
+                  <input type="hidden" name="id">
                     <div class="layui-col-md6">
                         <label class="layui-form-label">名称</label>
                         <div class="layui-input-block">
@@ -206,6 +207,23 @@
         var form = layui.form;
         var upload = layui.upload;
 
+        admin.post({
+            api: 'getproducts',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                    });
+                    
+                    $("#item").html(html);
+
+                }
+
+                formSelects.render();
+                form.render();
+            }
+        });
         // 加载权限列表
         admin.post({
             api: 'getcustomertypes',
@@ -286,6 +304,7 @@ $('body').on('click','.re',function(){
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.id+'">'+item.name+'</option>';
                     });
+
                     $("#item").html(html);
 
                     $("#box").append($("#additembox").html());
@@ -295,13 +314,15 @@ $('body').on('click','.re',function(){
                 form.render();
             }
         });
-
+   formSelects.render();
+                form.render();
 
 
         });
 
 
-
+   formSelects.render();
+                form.render();
 
 $("#addhistory").click(function(){
 
@@ -387,7 +408,7 @@ var  logarr = [];
 
 
                     admin.post({
-                        api: "addcustomer",
+                        api: "editcustomer",
                         data: jsdata,
                         dataType:'json',
                         success:function (res) {
@@ -435,7 +456,7 @@ var  logarr = [];
 
          if (editdata) {
 
-      
+        $("input[name='id']").val(editdata.id);
 
             $("input[name='name']").val(editdata.name);
             $("input[name='address']").val(editdata.address);
@@ -447,6 +468,8 @@ var  logarr = [];
 
             $("textarea[name='remark']").val(editdata.remark);
 var fileopt = "";
+
+
              $.ajax({
                 url:'/api/Files/getfiles?spid='+editdata.id+"&type=4",
                 type:'GET',
@@ -469,12 +492,7 @@ var fileopt = "";
            })
 
 
-
-
-
-
-
-
+var priceadd = "";
              $.ajax({
                 url:'/api/CustomerItemPrice/getlistbyid?id='+editdata.id,
                 type:'GET',
@@ -484,10 +502,9 @@ var fileopt = "";
                 success:function(data){
 
                   console.log(data);
+                  $.each(data.result,function(k,v){
 
 
-
-                  $.each(data.result.list,function(k,v){
 
 
                     var opt_product = "";
@@ -497,31 +514,31 @@ var fileopt = "";
             ,
             async:false,
             success:function (res) {
-                if (res.result.list.length > 0){
-        
-                    $.each(res.result.list, function (index, item) {
+                          if (res.result.list.length > 0){
+                  
+                              $.each(res.result.list, function (index, item) {
 
-                      if (item.id == v.pid) {
+                                if (item.id == v.pid) {
 
-                          opt_product += '<option selected="selected" value="'+item.id+'">'+item.name+'</option>';
-                      }else{
-                        opt_product += '<option value="'+item.id+'">'+item.name+'</option>';
+                                    opt_product += '<option selected="selected" value="'+item.id+'">'+item.name+'</option>';
+                                }else{
+                                  opt_product += '<option value="'+item.id+'">'+item.name+'</option>';
+                                }
+
+                                  
+                              });
+                              
+                          }
+
+                          formSelects.render();
+                          form.render();
                       }
-
-                        
-                    });
-                    
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
+                  });
 
 
 
 
-              fileopt+=`<div class="layui-col-md12 itemadd" >
+              priceadd+=`<div class="layui-col-md12 itemadd" >
   <div class="layui-inline">
       
     <label class="layui-form-label">产品</label>
@@ -535,7 +552,7 @@ var fileopt = "";
     <div class="layui-inline">
     <label class="layui-form-label">报价</label>
       <div class="layui-input-inline" style="width: 100px;">
-      <input type="number" t=price name="price[]"  placeholder="￥" autocomplete="off" class="layui-input price">
+      <input type="number" t=price name="price[]"  placeholder="￥" autocomplete="off" value=`+v.price+` class="layui-input price">
     </div>
   </div>
 
@@ -543,7 +560,7 @@ var fileopt = "";
   <div class="layui-inline">
     <label class="layui-form-label">数量</label>
     <div class="layui-input-inline" style="width: 100px;">
-      <input type="number" t="numbers" name="numbers[]" autocomplete="off" class="layui-input">
+      <input type="number" t="numbers" name="numbers[]" autocomplete="off" value=`+v.numbers+` class="layui-input">
     </div>
   </div>
 
@@ -551,7 +568,7 @@ var fileopt = "";
   <div class="layui-inline">
     <label class="layui-form-label">日期</label>
     <div class="layui-input-inline" style="width: 100px;">
-      <input type="date" t='times' name="times[]" autocomplete="off" class="layui-input">
+      <input type="date" t='times' value=`+v.buytime+` name="times[]" autocomplete="off" class="layui-input">
     </div>
   </div>
 
@@ -563,11 +580,140 @@ var fileopt = "";
                   });
                     
                            
-                  $("#filebox2").append(fileopt);
-
+                  $("#box").append(priceadd);
+                   formSelects.render();
+                form.render();
              }
 
            })
+
+
+
+
+
+
+
+
+
+$.ajax({
+                url:'/api/CustomersHistory/getlistbyid?id='+editdata.id,
+                type:'GET',
+                cache: false,
+                contentType: false, //不可缺参数
+                processData: false,     //不可缺参数
+                success:function(data){
+
+
+
+                  $.each(data.result,function(i,obj){
+
+
+
+                      var hiss=`<div class="layui-inline hisbox">
+      
+    <label class="layui-form-label">跟踪信息</label>
+      <div class="layui-input-inline" style="width: 120px;">
+      <input type="date" t='logdate' name='logdate[]' value=`+obj.time+`  placeholder="" autocomplete="off" class="layui-input">
+    </div>  <div class="layui-input-inline" style="width:700px;">
+      <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input" value=`+obj.info+`>
+    </div>
+    <i class="layui-icon layui-icon-delete re">delete</i>
+  </div>`;
+
+$("#hislog").append(hiss);
+
+
+
+
+
+
+                  });
+
+
+
+
+
+                }
+              });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

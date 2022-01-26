@@ -145,6 +145,20 @@ class CustomersHistory extends AnnotationController
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');
 	}
 
+public function getlistbyid(){
+		$data = $this->request()->getRequestParam();
+		$list = CustomersHistoryModel::create()->where(['cus_id'=>$data['id']])->all();
+		for ($i=0; $i < count($list); $i++) { 
+			# code...
+			$list[$i]['time'] = date("Y-m-d",$list[$i]['time']);
+		}
+
+		$this->writeJson(Status::CODE_OK, $list, "获取数据成功.");
+
+
+
+	}
+
 
 	/**
 	 * @Api(name="delete",path="/Api/CustomersHistory/delete")

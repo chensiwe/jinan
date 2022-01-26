@@ -93,6 +93,7 @@ layui.define([], function (exports) {
         getcustomertypes:'CustomerType/getList',
         getcustomerfrom:'CustomerFrom/getList',
         addcustomer:'Customers/add',
+        editcustomer:'Customers/edit',
         getcustomerss:'Customers/getList',
         delcustomer:'Customers/delete',
         editSupply:'Supply/edit',

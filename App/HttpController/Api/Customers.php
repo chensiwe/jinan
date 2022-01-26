@@ -83,8 +83,7 @@ if ($itemarr[$i]['number']) {
 		}
 
 
-
-		\App\Libs\Util::savefiles($datas['files'],$supplyid,4);
+		\App\Libs\Util::savefiles($datas['files'],$addid,4);
 
 
 
@@ -255,11 +254,6 @@ if ($itemarr[$i]['number']) {
 
 
 
-
-
-
-
-
 	public function edit()
 	{
 		$datas = $this->request()->getRequestParam();
@@ -289,13 +283,16 @@ if ($itemarr[$i]['number']) {
 
 
 $priceitemmodel = new \App\Model\CustomerItemPriceModel();
-		\App\Model\CustomerItemPriceModel::create()->where(['customer_id'=>$addid])->destroy();
+		\App\Model\CustomerItemPriceModel::create()->where(['customer_id'=>intval($param['id'])])->destroy();
 		for ($i=0; $i < count($itemarr); $i++) { 
 
+if ($itemarr[$i]['price']) {
+	
 
 		$item = \App\Model\ProductModel::create()->get(intval($itemarr[$i]['name']));
 			
-      $priceitemmodel->addData($item['id'], $item['name'],$itemarr[$i]['number'], $itemarr[$i]['price'], strtotime($itemarr[$i]['time']),$addid);
+      $priceitemmodel->addData($item['id'], $item['name'],intval($itemarr[$i]['number']), floatval($itemarr[$i]['price']), strtotime($itemarr[$i]['time']),intval($param['id']));
+  }
 		
 
 		}
@@ -303,16 +300,14 @@ $priceitemmodel = new \App\Model\CustomerItemPriceModel();
 		$logs = $datas['logs'];
 
 		$logmodel = new \App\Model\CustomersHistoryModel();
-		\App\Model\CustomersHistoryModel::create()->where(['cus_id'=>$addid])->destroy();
+		\App\Model\CustomersHistoryModel::create()->where(['cus_id'=>$param['id']])->destroy();
 		
 		for ($i=0; $i < count($logs); $i++) { 
 			
-			$logmodel->addData($addid, strtotime($logs[$i]['logdate']), $logs[$i]['loginfo']);
+			$logmodel->addData($param['id'], strtotime($logs[$i]['logdate']), $logs[$i]['loginfo']);
 		}
 
-
-
-		\App\Libs\Util::savefiles($datas['files'],$supplyid,4);
+		\App\Libs\Util::savefiles($datas['files'],intval($param['id']),4);
 
 
 

@@ -136,7 +136,10 @@ class CustomerItemPrice extends AnnotationController
 	public function getlistbyid(){
 		$data = $this->request()->getRequestParam();
 		$list = CustomerItemPriceModel::create()->where(['customer_id'=>$data['id']])->all();
-
+		for ($i=0; $i < count($list); $i++) { 
+			# code...
+			$list[$i]['buytime'] = date("Y-m-d",$list[$i]['buytime']);
+		}
 
 		$this->writeJson(Status::CODE_OK, $list, "获取数据成功.");
 
