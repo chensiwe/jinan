@@ -164,7 +164,7 @@ class Contactor extends AnnotationController
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
-		$pageSize = (int)($param['pageSize'] ?? 20);
+		$pageSize = (int)($param['pageSize'] ?? 10);
 		$model = new ContactorModel();
 
 		$data = $model->getList($page, $pageSize);

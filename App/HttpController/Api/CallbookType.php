@@ -126,7 +126,7 @@ class CallbookType extends AnnotationController
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$page = (int)($param['page'] ?? 1);
-		$pageSize = (int)($param['pageSize'] ?? 20);
+		$pageSize = (int)($param['pageSize'] ?? 100);
 		$model = new CallbookTypeModel();
 
 		$data = $model->getList($page, $pageSize);
