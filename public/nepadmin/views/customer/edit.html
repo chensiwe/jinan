@@ -301,14 +301,54 @@ $('body').on('click','.re',function(){
             api: 'getproducts',
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                    itemboxha = "";
                     $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                        itemboxha += '<option value="'+item.id+'">'+item.name+'</option>';
                     });
 
-                    $("#item").html(html);
+                   
 
-                    $("#box").append($("#additembox").html());
+                    var boxadd = `<div class="layui-col-md12 itemadd" >
+  <div class="layui-inline">
+      
+    <label class="layui-form-label">产品</label>
+    <div class="layui-input-inline" style="width: 100px;">
+          <select  name="item[]" t='item' lay-search class="name"  id="item" lay-search>
+                      `+itemboxha+`
+                      
+         </select>
+    </div>
+
+    <div class="layui-inline">
+    <label class="layui-form-label">报价</label>
+      <div class="layui-input-inline" style="width: 100px;">
+      <input type="number" t=price name="price[]"  placeholder="￥" autocomplete="off" class="layui-input price">
+    </div>
+  </div>
+
+  
+  <div class="layui-inline">
+    <label class="layui-form-label">数量</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="number" t="numbers" name="numbers[]" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+  <div class="layui-inline">
+    <label class="layui-form-label">日期</label>
+    <div class="layui-input-inline" style="width: 100px;">
+      <input type="date" t='times' name="times[]" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+
+
+</div>
+
+<i class="layui-icon layui-icon-delete re">delete</i>
+</div>`;
+
+                    $("#box").append(boxadd);
                 }
 
                 formSelects.render();
