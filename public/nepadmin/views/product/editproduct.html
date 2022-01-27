@@ -318,6 +318,7 @@
                             layer.alert("添加产品成功",{
                                 yes:function () {
                                     layui.view.tab.refresh();
+                                    layer.closeAll('page');
                                     layer.closeAll();
                                     formSelects.render();
                                     form.render();
@@ -531,7 +532,7 @@ var con_opt="";
 
          admin.post({
             api: 'getsupplylist',
-            data:{'pageSize':9999}
+            data:{'pageSize':9999},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = `<option value="0">选择供应商</option>`;

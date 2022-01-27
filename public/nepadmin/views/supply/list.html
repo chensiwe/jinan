@@ -106,6 +106,7 @@
             id: 'su',
             api: 'getsupplylist',
             page: true,
+            toolbar:true,
             cols: [[
                 { title: 'Order',type:'numbers'},
                 { title: '名称', field: 'name'},
@@ -196,12 +197,12 @@
                 }else{
                     //主逻辑业务
 
-                    console.log(data);
+                   layer.closeAll();
                     var localStorage = window.localStorage;
-                    localStorage.setItem('data',JSON.stringify(data));
+                    localStorage.setItem('data_supply',JSON.stringify(data));
 
+                    layer.closeAll();
                     var index=layer.open({
-
                         title:'编辑供应商',
                         type:2,
                         shade:0.2,

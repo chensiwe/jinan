@@ -126,8 +126,8 @@
 
 
 
-<div class="layui-form-item" id="boxlxr" hidden>
- <div class="boxlxr">
+<div class="layui-form-item" id="addboxlrx" hidden>
+ <div class="addboxlrx">
     <i class="layui-icon layui-icon-delete re">delete</i>
   <div class="layui-inline">
 
@@ -212,7 +212,7 @@
 
                    var lxrarr = [];
 
-                    $(".boxlxr").each(function(){
+                    $(".addboxlrx").each(function(){
                         var boxp = {};
 
                     var name = $(this).find("input[t='name']").val();
@@ -242,6 +242,7 @@
                             layer.alert("添加供应商成功",{
                                 yes:function () {
                                     layui.view.tab.refresh();
+                                    layer.closeAll('page');
                                     layer.closeAll();
                                     formSelects.render();
                                     form.render();
@@ -282,7 +283,11 @@
 
          $('body').on('click', '.addcon', function () {
       
-                    $("#lxr").append($("#boxlxr").html());
+                    $("#lxr").append($("#addboxlrx").html());
+
+
+
+
 
         })
 
@@ -319,7 +324,7 @@
 
 
 
-         var editdata = JSON.parse(window.localStorage.getItem('data'));
+         var editdata = JSON.parse(window.localStorage.getItem('data_supply'));
 
 
          console.log(editdata);
@@ -413,7 +418,7 @@
                     }
 
             contactarr+=`<div class="layui-form-item">
- <div class="boxlxr">
+ <div class="addboxlrx">
  <input type='hidden' name='cid[]' t="cusid" value=`+obj.id+`>
   <i class="layui-icon layui-icon-delete re">delete</i>
   <div class="layui-inline">

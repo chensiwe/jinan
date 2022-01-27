@@ -8,9 +8,3 @@ layui.extend({admin:'lay/modules/admin'}).define(['admin','conf'],function(expor
     layui.admin.initPage();
     exports('index',{});
 });
-
-
-if(_config.autoRefresh) {
-                     _config.elem.find('div.layui-tab-content > div').eq(tabIndex).children('iframe')[0].contentWindow.location = data.href;
-                    /*_config.elem.find('div.layui-tab-content > div').eq(tabIndex).children('iframe')[0].contentWindow.location.reload();*/
-                }

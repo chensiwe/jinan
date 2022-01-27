@@ -86,11 +86,11 @@
 </div>
                         <div class="layui-form-item">
                        
-                            <a class="layui-btn addcon" >添加联系人</a>
+                            <a class="layui-btn editcon" >添加联系人</a>
                  
                     </div>
 
-                    <div class="layui-col-md12" id="lxr">
+                    <div class="layui-col-md12" id="lxredit">
                         
 
 
@@ -158,6 +158,7 @@
 
 
 <script>
+  
     layui.use(['admin', 'table', 'form', 'jquery','upload', 'laytpl', 'formSelects'], function (admin) {
         var $ = layui.jquery;
         var element = layui.element;
@@ -245,9 +246,12 @@
 
         
 
-         $('body').on('click', '.addcon', function () {
+         $('body').on('click', '.editcon', function () {
       
-                    $("#lxr").append($("#boxlxr").html());
+
+      console.log($("#boxlxr").html());
+                    
+                    $("#lxredit").append($("#boxlxr").html());
         })
 
          $('body').on('click', '.additem', function (event) {
