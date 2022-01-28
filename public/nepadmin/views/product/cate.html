@@ -92,7 +92,8 @@
             api: 'getcatelist',
             page: true,
             cols: [[
-                { title: '分类名称', field: 'name', fixed: true},
+            {title:'order',type:'numbers'},
+                { title: '分类名称', field: 'name'},
                
                 { title: '添加时间', field: 'createtime'},
                 { title: '状态', field: 'status',templet: function(d){

@@ -3,70 +3,113 @@
     <div class="layui-row layui-col-space15">
 
 
-        <div class="layui-col-md12">
+          <div class="layui-col-md12">
             <form class="layui-card layui-form" layui-filter="add-role">
                 <div class="layui-card-header" id="rolebd_status">编辑产品</div>
                 <div class="layui-card-body layui-row layui-col-space10">
                     <div class="layui-col-md6">
+
+        <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
                         <input type="text" name="name" placeholder="名称" autocomplete="off" lay-verify="required" class="layui-input">
                     </div>
+        </div>
                     <div class="layui-col-md6">
+                         <label class="layui-form-label">cas</label>
+                <div class="layui-input-block">
                         <input type="text" name="cas" placeholder="cas" autocomplete="off" class="layui-input">
                     </div>
+                </div>
+
+
                        <div class="layui-col-md6">
+                         <label class="layui-form-label">化学式</label>
+                <div class="layui-input-block">
                         <input type="text" name="chemical" placeholder="化学式" autocomplete="off" class="layui-input">
                     </div>
+                </div>
 
                     <div class="layui-col-md6">
-                            
+                             <label class="layui-form-label">产品类别</label>
+                <div class="layui-input-block">
                             <label class="layui-form-label">类别</label>
                             <div class="layui-input-block">
                               <select name="cate" id="cate" lay-search lay-verify="required">
                                
                               </select>
                             </div>
+                        </div>
 
                     </div>
 
                      <div class="layui-col-md6">
+                         <label class="layui-form-label">品牌
+                         </label>
+                <div class="layui-input-block">
                         <input type="text" name="brand" placeholder="品牌" autocomplete="off" class="layui-input">
                     </div>
+                </div>
                      <div class="layui-col-md6">
+                         <label class="layui-form-label">包装</label>
+                <div class="layui-input-block">
                         <input type="text" name="pack" placeholder="包装" autocomplete="off" class="layui-input">
                     </div>
+                </div>
                      <div class="layui-col-md6">
+                         <label class="layui-form-label">市场行情</label>
+                <div class="layui-input-block">
                         <input type="text" name="market" placeholder="市场行情" autocomplete="off" class="layui-input">
                     </div>
+                    </div>
 
                       <div class="layui-col-md6">
+                         <label class="layui-form-label">性状</label>
+                <div class="layui-input-block">
                         <input type="text" name="properties" placeholder="性状" autocomplete="off" class="layui-input">
                     </div>
-
+</div>
                       <div class="layui-col-md6">
+                         <label class="layui-form-label">含量</label>
+                <div class="layui-input-block">
                         <input type="text" name="content" placeholder="含量" autocomplete="off" class="layui-input">
                     </div>
+                </div>
 
-                     <div class="layui-col-md6">
+                     <!--  <div class="layui-col-md6">
+                         <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
                         <input type="number" name="ordernum" placeholder="排序" autocomplete="off" class="layui-input">
                     </div>
+                </div> -->
 
                       <div class="layui-col-md6">
-                        <input type="text" name="aliasname" placeholder="别名" autocomplete="off" class="layui-input">
+                         <label class="layui-form-label">别名</label>
+                <div class="layui-input-block">
+                        <input lay-skin="green" type="text" name="aliasname" placeholder="别名" autocomplete="off" class="layui-input">
                     </div>
+</div>
+
 
                       <div class="layui-col-md6">
+                         <label class="layui-form-label">用途</label>
+                <div class="layui-input-block">
                         <input type="text" name="usefor" placeholder="用途" autocomplete="off" class="layui-input">
                     </div>
-                    <input type='hidden' name="id">
+                </div>
 
-                          <div class="layui-col-md12">
+                    <div class="layui-col-md12">
+                         <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
                         <input type="text" name="remark" placeholder="备注" autocomplete="off" class="layui-input">
                     </div>
-
-                          <div class="layui-col-md12">
+</div>
+                        <div class="layui-col-md12">
+                             <label class="layui-form-label">相似产品</label>
+                <div class="layui-input-block">
                         <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
+</div>
 
 
                      <div class="layui-form-item">

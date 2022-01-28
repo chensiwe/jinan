@@ -98,9 +98,9 @@ class Customer extends AnnotationController
         $supply = \App\Model\SupplyModel::create()->all();
         $customers = \App\Model\CustomersModel::create()->all();
         $items = \App\Model\ProductModel::create()->all();
+        $callbooks = \App\Model\CallbookModel::create()->all();
 
-
-        $this->writeJson(200,['supply'=>count($supply),'customers'=>count($customers),'items'=>count($items)]);
+        $this->writeJson(200,['supply'=>count($supply),'customers'=>count($customers),'items'=>count($items),'callbook'=>count($callbooks)]);
     }
 
 
