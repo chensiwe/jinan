@@ -58,9 +58,9 @@
                   <i class="layui-icon layui-icon-username"></i>
               </a>
               <dl class="layui-nav-child">
-                  <!-- <dd><a>个人信息</a></dd>
-                  <dd><a>认证信息</a></dd> -->
-                  <hr/>
+                  <dd><a  href="javascript:" class="layui-btn pwd-action">修改密码</a></dd>
+                 <!--  <dd><a>认证信息</a></dd>
+ -->                  <hr/>
                   <dd><a href="javascript:void(0);" nepadmin-event="logout">退出登录</a></dd>
               </dl>
           </li>
@@ -133,3 +133,147 @@
   <!-- 主体内容 -->
   <div class="layui-body" id="app-body"></div>
 </div>
+<!-- 面板 -->
+<div id="editpwd_bd" hidden>
+    <div style="padding: 10px;">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">修改密码</label>
+                <div class="layui-input-block">
+                    <input type="text" id="pwd" required  lay-verify="required" placeholder="原始密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+             <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="pwd1" required  lay-verify="required" placeholder="新密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+             <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="pwd2" required  lay-verify="required" placeholder="确认密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+           
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="subpwd">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<script>
+  layui.use(
+    ['admin', 'echarts', 'form','element', 'helper', 'table', 'util', 'siam'],
+    function(admin, echarts, element, helper, table, util) {
+      var $ = layui.jquery
+      var view = $('#VIEW-chart-index');
+var form= layui.form;
+              $('body').on('click', '.pwd-action', function () {
+            let type = $(this).data('type');
+
+                    let addUserBd = $('#editpwd_bd');
+                    let html = addUserBd.html();
+                    if (html === ''){return false;} // 没有判断 则会因为tab的伪刷新 导致监听n多次点击按钮事件 打开n个弹窗
+                    addUserBd.html('');
+                    admin.popup({
+                        content: html,
+                        title: 'modify password',
+                        area: ['70%', '70%'],
+                        shadeClose: false,
+                        cancel: function(index, layero){
+                            $("#editpwd_bd").html(this.content);
+                        }
+                    });
+       
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+form.on('submit(subpwd)', function (data) {
+
+
+  var old = $("#pwd").val();
+  var pwd1 = $("#pwd1").val();
+  var pwd2 = $("#pwd2").val();
+
+
+  if (pwd1 != pwd2) {
+    alert("两次密码输入不一致");
+    return false;
+  }
+
+
+
+
+
+
+
+            admin.post({
+                api: 'modifypwd',
+                data:{"pwd1":pwd1,'u_password':old},
+                success:function (res) {
+                  console.log(res);
+
+                  if (res.result.code==200) {
+
+
+                         layer.alert("修改成功",{
+                                yes:function () {
+                                    layui.view.tab.refresh();
+                                    layer.closeAll('page');
+                                    layer.closeAll();
+                                   
+                                }
+                            });
+
+                  }else{
+                       
+                        
+                    
+                         layer.alert(res.result.msg,{
+                                yes:function () {
+                                   
+                                    layer.closeAll('page');
+                                    layer.closeAll();
+                                   
+                                }
+                            })
+
+
+
+                  }
+                
+                }
+            });
+            return false;
+        });
+
+
+
+})
+</script>

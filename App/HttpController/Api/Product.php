@@ -60,7 +60,7 @@ class Product extends AnnotationController
 		    'content'=>$param['content'],
 		    'usefor'=>$param['usefor'],
 		    'remark'=>$param['remark'],
-		    'ordernum'=>$param['ordernum'],
+		    'ordernum'=>0,
 		    'aliasname'=>$param['aliasname'],
 		    'sameitem'=>$param['sameitem'],
 		    'createtime'=>time()
@@ -239,7 +239,7 @@ class Product extends AnnotationController
 		$model = new ProductModel();
 		$datas = $this->request()->getRequestParam();
 		 if (isset($datas['name'])){
-            $model->where('name', "%{$datas['keyword']}%", 'like');
+            $model->where('name', "%{$datas['name']}%", 'like')->where('cas', "%{$datas['name']}%", 'like', 'OR')->where('chemical', "%{$datas['name']}%", 'like', 'OR')->where('brand', "%{$datas['name']}%", 'like', 'OR')->where('pack', "%{$datas['name']}%", 'like', 'OR')->where('market', "%{$datas['name']}%", 'like', 'OR')->where('properties', "%{$datas['name']}%", 'like', 'OR')->where('usefor', "%{$datas['name']}%", 'like', 'OR');
         }
 
         if (isset($datas['cate']) && $datas['cate'] != '1'){

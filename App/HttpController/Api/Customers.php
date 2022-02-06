@@ -217,7 +217,7 @@ if ($itemarr[$i]['number']) {
 
         if (isset($datas['name'])){
 
-             $model->where('name', "%{$datas['name']}%", 'like');
+             $model->where('name', "%{$datas['name']}%", 'like')->where('address', "%{$datas['name']}%", 'like', 'OR')->where('type', "%{$datas['name']}%", 'like', 'OR')->where('contact', "%{$datas['name']}%", 'like', 'OR')->where('phone', "%{$datas['name']}%", 'like', 'OR')->where('think', "%{$datas['name']}%", 'like', 'OR')->where('fromwhere', "%{$datas['name']}%", 'like', 'OR')->where('remark', "%{$datas['name']}%", 'like', 'OR')->where('info', "%{$datas['name']}%", 'like', 'OR');
         }
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');

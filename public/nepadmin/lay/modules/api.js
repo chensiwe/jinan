@@ -99,6 +99,7 @@ layui.define([], function (exports) {
         editSupply:'Supply/edit',
         delcalls:'Callbook/delete',
         editcallbook:'Callbook/update',
+        modifypwd:'Users/editpwd',
 
     });
 });

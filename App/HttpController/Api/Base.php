@@ -178,5 +178,23 @@ abstract class Base extends \EasySwoole\Http\AbstractInterface\Controller
     {
         return $validate->validate($this->request()->getRequestParam());
     }
+
+
+
+    public function getcurrentUser(){
+        $config    = Config::getInstance();
+            $jwtConfig = $config->getConf('JWT');
+
+            $jwtObject = Jwt::getInstance()->setSecretKey($jwtConfig['key'])->decode($this->request()->getHeader('token')[0]);
+            $status = $jwtObject->getStatus();
+            // 如果encode设置了秘钥,decode 的时候要指定
+
+          
+      
+            $token = $jwtObject->getData();
+
+            return $token;
+            
+    }
 }
 

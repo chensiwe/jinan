@@ -159,7 +159,7 @@ class Callbook extends AnnotationController
 
         if (isset($datas['name'])){
 
-             $model->where('name', "%{$datas['name']}%", 'like');
+             $model->where('name', "%{$datas['name']}%", 'like')->where('address', "%{$datas['name']}%", 'like', 'OR')->where('contact', "%{$datas['name']}%", 'like', 'OR')->where('phone', "%{$datas['name']}%", 'like', 'OR')->where('remark', "%{$datas['name']}%", 'like', 'OR')->where('info', "%{$datas['name']}%", 'like', 'OR');
         }
 
 		$data = $model->getList($page, $pageSize);

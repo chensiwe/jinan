@@ -283,7 +283,7 @@ var_dump($lxrs);
 
         if (isset($datas['name'])){
 
-             $model->where('name', "%{$datas['name']}%", 'like');
+             $model->where('name', "%{$datas['name']}%", 'like')->where('contactor', "%{$datas['name']}%", 'like', 'OR')->where('phone', "%{$datas['name']}%", 'like', 'OR')->where('address', "%{$datas['name']}%", 'like', 'OR')->where('remark', "%{$datas['name']}%", 'like', 'OR')->where('info', "%{$datas['name']}%", 'like', 'OR');
         }
 
 

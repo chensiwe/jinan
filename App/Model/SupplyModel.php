@@ -33,6 +33,10 @@ class SupplyModel extends AbstractModel
 		    ->field($field)
 		    ->page($page, $pageSize)
 		    ->all();
+
+		   for ($i=0; $i < count($list); $i++) { 
+		   		$list[$i]['itemnumbers'] = 10;
+		   }
 		$total = $this->lastQueryResult()->getTotalCount();
 		$data = [
 		    'page'=>$page,

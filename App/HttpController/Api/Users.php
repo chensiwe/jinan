@@ -70,7 +70,7 @@ class Users extends Base
         ]);
 
         $data  = [
-            'u_password'      => $param['u_password'] ?? 'e10adc3949ba59abbe56e057f20f883e',
+            'u_password'      => md5($param['u_password']) ?? 'e10adc3949ba59abbe56e057f20f883e',
             'u_name'          => $param['u_name'] ?? '',
             'u_account'       => $param['u_account'] ?? $account,
             'p_u_id'          => $param['p_u_id'] ?? '',
@@ -151,7 +151,7 @@ class Users extends Base
         $updateData = [];
 
         $updateData['u_id']            = $param['u_id'] ?? $info->u_id;
-        $updateData['u_password']      = $param['u_password'] ?? $info->u_password;
+        $updateData['u_password']      = md5($param['u_password']) ?? $info->u_password;
         $updateData['u_name']          = $param['u_name'] ?? $info->u_name;
         $updateData['u_account']       = $param['u_account'] ?? $info->u_account;
         $updateData['p_u_id']          = $param['p_u_id'] ?? $info->p_u_id;
@@ -288,7 +288,7 @@ class Users extends Base
     public function login()
     {
         $user = UserModel::create()->get([
-            'u_account' => $this->request()->getRequestParam('u_account'),
+            'u_account' => $this->request()->getRequestParam('u_account'),"u_password"=> md5($this->request()->getRequestParam('u_password'))
         ]);
 
         if ($user === NULL) {
@@ -329,5 +329,37 @@ class Users extends Base
             'authList' => $user->getAuth(),
         ], '登陆成功');
     }
+
+
+
+
+
+
+    public function editpwd(){
+
+         $param = $this->request()->getRequestParam();
+
+
+        $current = $this->getcurrentUser();
+
+        
+        $user = UserModel::create()->get([
+            'u_id' => $current['u_id']]);
+
+       
+        if ($user['u_password'] != md5($param['u_password'])) {
+             $this->writeJson(Status::CODE_OK, ['code'=>500,'msg'=>'密码错误']);
+             return false;
+        }
+
+        $model = new UserModel();
+        $info  = $model->get(['u_id' => $current['u_id']]);
+        $info->u_password = md5($param['pwd1']);
+        $info->update();
+         $this->writeJson(Status::CODE_OK, ['code'=>200,'msg'=>'密码修改成功']);
+
+    }
+
+
 }
 

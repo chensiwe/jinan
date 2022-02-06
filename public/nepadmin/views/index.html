@@ -78,6 +78,26 @@
       var siam = layui.siam;
       element.render('progress')
 
+function pwdedit(){
+console.log(12);
+    let addUserBd = $('#editpwd_bd');
+                    let html = addUserBd.html();
+                    if (html === ''){return false;} // 没有判断 则会因为tab的伪刷新 导致监听n多次点击按钮事件 打开n个弹窗
+                    addUserBd.html('');
+                    admin.popup({
+                        content: html,
+                        title: '添加产品分类',
+                        area: ['70%', '70%'],
+                        shadeClose: false,
+                        cancel: function(index, layero){
+                            $("#editpwd_bd").html(this.content);
+                        }
+                    });
+
+
+}
+
+
 
     $.ajax({
 

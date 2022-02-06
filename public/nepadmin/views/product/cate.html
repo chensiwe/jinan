@@ -6,7 +6,63 @@
 </style>
 <div class="layui-fluid" id="VIEW-catelist" lay-title="产品分类列表">
     <div class="layui-row layui-col-space10">
-        <div class="layui-col-md10">
+
+
+
+
+
+ <div class="layui-col-md12">
+           
+                    <form class="layui-row layui-col-space10 layui-form">
+                        
+
+
+
+
+  
+                <div class="layui-col-md3 layui-col-xs4">
+                    
+                          <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                            </div>
+             </div>
+
+
+
+
+
+  <div class="layui-col-md3 layui-col-xs12">
+                            <div class="layui-row layui-col-space10">
+                                <div class="layui-col-xs6">
+                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-cate">筛选</div>
+                                </div>
+                                <div class="layui-col-xs6">
+                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                      
+                    </form>
+               
+
+          
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body nepadmin-pad-l10 nepadmin-pad-r10">
                     <div class="layui-btn-container">
@@ -19,31 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md2">
-            <div class="layui-card">
-                <div class="layui-card-header">筛选数据</div>
-                <div class="layui-card-body">
-                    <form class="layui-row layui-col-space10 layui-form">
-                        <div class="layui-col-md12 layui-col-xs4">
-                            <input type="text" class="layui-input" name="name" placeholder="用户名" >
-                        </div>
-                        <div class="layui-col-md12 layui-col-xs12">
-                            <div class="layui-row layui-col-space10">
-                                <div class="layui-col-xs6">
-                                    <div class="layui-btn layui-btn-sm layui-btn-fluid" lay-submit lay-filter="search-cate">筛选</div>
-                                </div>
-                                <div class="layui-col-xs6">
-                                    <button type="reset" class="layui-btn layui-btn-sm layui-btn-fluid layui-btn-primary">重置</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-          
-
-        </div>
+       
     </div>
 </div>
 
@@ -92,14 +124,14 @@
             api: 'getcatelist',
             page: true,
             cols: [[
-            {title:'order',type:'numbers'},
-                { title: '分类名称', field: 'name'},
+            {title:'order',type:'numbers',minWidth:80},
+                { title: '分类名称', field: 'name',minWidth:100},
                
-                { title: '添加时间', field: 'createtime'},
-                { title: '状态', field: 'status',templet: function(d){
+                { title: '添加时间', field: 'createtime',minWidth:80},
+                { title: '状态', minWidth:80, field: 'status',templet: function(d){
                     return d.status == 1 ? '正常' : '禁用';
                 }},
-                { title: '', fixed: 'right', toolbar:'#cate_bar'},
+                { title: '', fixed: 'right', toolbar:'#cate_bar',minWidth:120},
 
             ]]
         });
