@@ -35,7 +35,8 @@ class SupplyModel extends AbstractModel
 		    ->all();
 
 		   for ($i=0; $i < count($list); $i++) { 
-		   		$list[$i]['itemnumbers'] = 10;
+		   		$items = SupplyProductRelateModel::create()->all(['supplyid'=>$list[$i]['id']]);
+		   		$list[$i]['itemnumbers'] = count($items);
 		   }
 		$total = $this->lastQueryResult()->getTotalCount();
 		$data = [

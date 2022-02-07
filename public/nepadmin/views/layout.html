@@ -58,7 +58,7 @@
                   <i class="layui-icon layui-icon-username"></i>
               </a>
               <dl class="layui-nav-child">
-                  <dd><a  href="javascript:" class="layui-btn pwd-action">修改密码</a></dd>
+                  <dd><a   class="layui-btn pwd-action">修改密码</a></dd>
                  <!--  <dd><a>认证信息</a></dd>
  -->                  <hr/>
                   <dd><a href="javascript:void(0);" nepadmin-event="logout">退出登录</a></dd>
@@ -256,12 +256,12 @@ form.on('submit(subpwd)', function (data) {
                         
                     
                          layer.alert(res.result.msg,{
-                                yes:function () {
+                                // yes:function () {
                                    
-                                    layer.closeAll('page');
-                                    layer.closeAll();
+                                //     layer.closeAll('page');
                                    
-                                }
+                                   
+                                // }
                             })
 
 

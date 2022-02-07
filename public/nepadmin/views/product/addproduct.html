@@ -391,7 +391,7 @@ form.on('select(selectsu)', function (data) {
         
         var supply_opt = "";
           $.ajax({
-            url: '/api/Supply/getList?pageSize=9999',
+            url: '/api/Supply/getList?limit=9999',
 
             async:false,
             success:function (res) {
@@ -410,7 +410,7 @@ form.on('select(selectsu)', function (data) {
 var con_opt="";
 
         $.ajax({
-            url: '/api/Contactor/getList?pageSize=9999',
+            url: '/api/Contactor/getList?limit=9999',
             async:false,
             success:function (res) {
                 if (res.result.list.length > 0){

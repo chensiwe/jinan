@@ -197,9 +197,9 @@ if ($itemarr[$i]['number']) {
 	 */
 	public function getList()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$param =  $this->request()->getRequestParam();
 		$page = (int)($param['page'] ?? 1);
-		$pageSize = (int)($param['pageSize'] ?? 10);
+		$pageSize = (int)($param['limit'] ?? 10);
 		$model = new CustomersModel();
 		$datas = $this->request()->getRequestParam();
 		 if (isset($datas['type']) && $datas['type']  != '1'){

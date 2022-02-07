@@ -280,7 +280,7 @@ $('body').on('click','.re',function(){
 
         admin.post({
             api: 'getproducts',
-            data:{"pageSize":9999},
+            data:{"limit":9999},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";

@@ -427,7 +427,7 @@ form.on('select(selectsu)', function (data) {
 
 var supply_opt = "";
           $.ajax({
-            url: '/api/Supply/getList?pageSize=9999',
+            url: '/api/Supply/getList?limit=9999',
 
             async:false,
             success:function (res) {
@@ -446,7 +446,7 @@ var supply_opt = "";
 var con_opt="";
 
         $.ajax({
-            url: '/api/Contactor/getList?pageSize=9999',
+            url: '/api/Contactor/getList?limit=9999',
             async:false,
             success:function (res) {
                 if (res.result.list.length > 0){
@@ -576,7 +576,7 @@ var con_opt="";
 
          admin.post({
             api: 'getsupplylist',
-            data:{'pageSize':9999},
+            data:{'limit':9999},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = `<option value="0">选择供应商</option>`;

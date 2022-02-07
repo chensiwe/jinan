@@ -233,9 +233,9 @@ class Product extends AnnotationController
 	 */
 	public function getList()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$param =  $this->request()->getRequestParam();
 		$page = (int)($param['page'] ?? 1);
-		$pageSize = (int)($param['pageSize'] ?? 10);
+		$pageSize = (int)($param['limit'] ?? 10);
 		$model = new ProductModel();
 		$datas = $this->request()->getRequestParam();
 		 if (isset($datas['name']) && $datas['name'] != ""){

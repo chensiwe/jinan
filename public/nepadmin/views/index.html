@@ -1,11 +1,11 @@
 <div class="layui-fluid" id="VIEW-index" lay-title="首页">
   <div class="nepadmin-pad-tb20">
     <h1 class="nepadmin-lead">客户管理系统</h1>
-    <div class="nepadmin-ignore nepadmin-pad-tb10">
+  <!--   <div class="nepadmin-ignore nepadmin-pad-tb10">
       <p>欢迎来到Chemical化学管理系统</p>
       <p>如有问题，随时交流</p>
       <p>本项目主要提供了【后台管理】中的权限、角色、用户管理，供销商，客户，联系人，产品。</p>
-    </div>
+    </div> -->
   </div>
 
 
@@ -119,110 +119,7 @@ console.log(12);
 
 
 
-
-
-
-
-
-      createChart()
-
-      var tableObj = table.render({
-        size: 'nob',
-        elem: '[lay-filter="index-tableOrder"]',
-        api: 'getGoods',
-        height: 400,
-        cols: [
-          [
-            {
-              title: '状态',
-              fixed: true,
-              templet: '#TPL-index-status',
-              width: 80
-            },
-            { field: 'title', title: '商品名称', minWidth: 300 },
-            { title: '商品参数', templet: '#TPL-index-params', minWidth: 240 },
-            {
-              title: '商品单价',
-              templet: '<p><b class="nepadmin-c-red">￥{{d.price}}</b></p>',
-              align: 'center',
-              width: 90
-            },
-            {
-              title: '购买数量',
-              templet:
-                '<p><b>{{d.buycount}}</b> <span class="nepadmin-c-gray">件</span></p>',
-              align: 'center',
-              width: 90
-            },
-            {
-              field: 'time',
-              title: '操作时间',
-              templet:
-                '<p><span title="{{d.time}}" class="nepadmin-c-gray">{{ layui.util.timeAgo(d.time)}}</span></p>',
-              align: 'center',
-              width: 170
-            }
-          ]
-        ]
-      })
-
-      element.on('tab(index-order)', function(data) {
-        tableObj.reload()
-      })
-
-      element.on('tab(index-chart)', function(data) {
-        createChart()
-      })
-
-      function createChart() {
-        var seriesData = []
-        var xAxisData = []
-        for (var i = 1; i <= 12; i++) {
-          var val = helper.rand(8000, 10000)
-          seriesData.push(val)
-          xAxisData.push((i < 10 ? '0' + i : i) + ':00')
-        }
-        var option = {
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: { type: 'cross' }
-          },
-          xAxis: {
-            type: 'category',
-            data: xAxisData
-          },
-          yAxis: {
-            max: function(val) {
-              return val.max + 400
-            },
-            min: function(val) {
-              return val.min - 400
-            },
-            type: 'value',
-            axisLabel: { formatter: '￥{value}' },
-            axisPointer: { snap: true }
-          },
-          series: [
-            {
-              name: '时段销售额',
-              type: 'line',
-              symbolSize: 12,
-              lineStyle: {
-                normal: {
-                  width: 5,
-                  shadowColor: '#5a8bff',
-                  shadowBlur: 40,
-                  shadowOffsetY: 10
-                }
-              },
-              data: seriesData
-            }
-          ]
-        }
-        echarts
-          .init(document.getElementById('index-echartLine'), 'blue')
-          .setOption(option)
-      }
+      
     }
   )
 </script>
