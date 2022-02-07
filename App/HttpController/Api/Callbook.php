@@ -157,7 +157,7 @@ class Callbook extends AnnotationController
             $model->where(['type'=>$datas['type']]);
         }
 
-        if (isset($datas['name'])){
+        if (isset($datas['name']) && $datas['name'] != ""){
 
              $model->where('name', "%{$datas['name']}%", 'like')->where('address', "%{$datas['name']}%", 'like', 'OR')->where('contact', "%{$datas['name']}%", 'like', 'OR')->where('phone', "%{$datas['name']}%", 'like', 'OR')->where('ramark', "%{$datas['name']}%", 'like', 'OR')->where('info', "%{$datas['name']}%", 'like', 'OR');
         }

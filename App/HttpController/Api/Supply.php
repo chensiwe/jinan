@@ -281,7 +281,7 @@ var_dump($lxrs);
             $model->where(['type'=>$datas['type']]);
         }
 
-        if (isset($datas['name'])){
+        if (isset($datas['name']) && $datas['name'] != ""){
 
              $model->where('name', "%{$datas['name']}%", 'like')->where('contactor', "%{$datas['name']}%", 'like', 'OR')->where('phone', "%{$datas['name']}%", 'like', 'OR')->where('address', "%{$datas['name']}%", 'like', 'OR')->where('remark', "%{$datas['name']}%", 'like', 'OR')->where('info', "%{$datas['name']}%", 'like', 'OR');
         }

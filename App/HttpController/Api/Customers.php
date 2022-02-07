@@ -215,7 +215,7 @@ if ($itemarr[$i]['number']) {
             $model->where(['think'=>$datas['think']]);
         }
 
-        if (isset($datas['name'])){
+        if (isset($datas['name']) && $datas['name'] != ""){
 
              $model->where('name', "%{$datas['name']}%", 'like')->where('address', "%{$datas['name']}%", 'like', 'OR')->where('type', "%{$datas['name']}%", 'like', 'OR')->where('contact', "%{$datas['name']}%", 'like', 'OR')->where('phone', "%{$datas['name']}%", 'like', 'OR')->where('think', "%{$datas['name']}%", 'like', 'OR')->where('fromwhere', "%{$datas['name']}%", 'like', 'OR')->where('remark', "%{$datas['name']}%", 'like', 'OR')->where('info', "%{$datas['name']}%", 'like', 'OR');
         }

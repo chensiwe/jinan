@@ -238,7 +238,7 @@ class Product extends AnnotationController
 		$pageSize = (int)($param['pageSize'] ?? 10);
 		$model = new ProductModel();
 		$datas = $this->request()->getRequestParam();
-		 if (isset($datas['name'])){
+		 if (isset($datas['name']) && $datas['name'] != ""){
             $model->where('name', "%{$datas['name']}%", 'like')->where('cas', "%{$datas['name']}%", 'like', 'OR')->where('chemical', "%{$datas['name']}%", 'like', 'OR')->where('brand', "%{$datas['name']}%", 'like', 'OR')->where('pack', "%{$datas['name']}%", 'like', 'OR')->where('market', "%{$datas['name']}%", 'like', 'OR')->where('properties', "%{$datas['name']}%", 'like', 'OR')->where('usefor', "%{$datas['name']}%", 'like', 'OR');
         }
 
