@@ -83,6 +83,13 @@
 
    
 
+
+
+ 
+
+
+
+
 </div>
                         <div class="layui-form-item">
                        
@@ -277,8 +284,22 @@ upload.render({
   ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
     var file = res.result;
             $.each(file,function(k,v){
-                    var  resfile= `<div class="layui-col-md1"><a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
-                    </div>`;   
+                    // var  resfile= `<div class="layui-col-md1"><a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    // </div>`;   
+
+
+                    var resfile=` <div class="layui-col-md3">
+    <div class="layui-panel">
+      <i class="layui-icon layui-icon-delete re">delete</i>
+      <div style="padding: 30px;">
+        <a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+
+      </div>
+    
+    </div>   
+</div>`;
+
+
                             $("#filebox2").append(resfile);
                   });
 
