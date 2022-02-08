@@ -137,7 +137,7 @@
                    
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="add-product">立即提交</button>
+                            <button class="layui-btn" lay-submit lay-filter="edit-product">立即提交</button>
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
@@ -308,7 +308,7 @@
 
 
       
-        form.on('submit(add-product)', function (data) {
+        form.on('submit(edit-product)', function (data) {
             switch (rolebd_status_value) {
                 case 'add':
 
@@ -356,7 +356,7 @@
 
                     admin.post({
                         api: "editproduct",
-                        data: {"data":data.field,'subox':subox,'files':files},
+                        data: {"data":data.field,'subox':subox,'files':files,"id":editdata.id},
                         success:function (res) {
                             layer.alert("添加产品成功",{
                                 yes:function () {
@@ -425,6 +425,18 @@ form.on('select(selectsu)', function (data) {
 
 
 
+   $('body').on('click','.re',function(){
+                console.log("hello");
+
+
+              $(this).parent().remove();
+             });
+
+
+        $('body').on('click', '#editaddbtn', function () {
+
+
+
 var supply_opt = "";
           $.ajax({
             url: '/api/Supply/getList?limit=9999',
@@ -460,15 +472,6 @@ var con_opt="";
               
             }
         });
-   $('body').on('click','.re',function(){
-                console.log("hello");
-
-
-              $(this).parent().remove();
-             });
-
-
-        $('body').on('click', '#editaddbtn', function () {
         
             var suadd = `<div style="padding: 10px;" class="newsu">
               <i class="layui-icon layui-icon-delete re">delete</i>
@@ -574,21 +577,21 @@ var con_opt="";
          if (editdata) {    
 
 
-         admin.post({
-            api: 'getsupplylist',
-            data:{'limit':9999},
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = `<option value="0">选择供应商</option>`;
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
-                    });
-                    $("#supply").html(html);
-                }
-                formSelects.render();
-                form.render();
-            }
-        });
+        //  admin.post({
+        //     api: 'getsupplylist',
+        //     data:{'limit':9999},
+        //     success:function (res) {
+        //         if (res.result.list.length > 0){
+        //             let html = `<option value="0">选择供应商</option>`;
+        //             $.each(res.result.list, function (index, item) {
+        //                 html += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+        //             });
+        //             $("#supply").html(html);
+        //         }
+        //         formSelects.render();
+        //         form.render();
+        //     }
+        // });
 
          var cateeditopt = "";
           $.ajax({
@@ -636,7 +639,9 @@ var con_opt="";
 
              $("input[name='aliasname']").val(editdata.aliasname);
             $("input[name='remark']").val(editdata.remark);
-               $.ajax({
+        
+
+         $.ajax({
                 url:'/api/SupplyProductRelate/getmany?pid='+editdata.id,
                 type:'GET',
                 cache: false,
@@ -702,17 +707,17 @@ var fileopt = "";
 var su_opts = `<option value="0">选择供应商</option>`;
 
                           $.ajax({
-            url: '/api/supply/getList',
+            url: '/api/supply/getList?limti=999999',
             async:false,
             success:function (res) {
                 if (res.result.list.length > 0){
                     
                     $.each(res.result.list, function (index, item) {
                         if (item.id == obj.supplyid) {
-
-                              su_opts += '<option selected="selected" value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+console.log(item);
+                          su_opts += '<option selected="true" value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
                         }else{
-                              su_opts += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                              su_opts += '<option sb="ss" value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
                         }
                       
                     });
@@ -723,6 +728,9 @@ var su_opts = `<option value="0">选择供应商</option>`;
             }
         });
 
+
+console.log("111111111111111111111");
+console.log(su_opts);
 
 
 var con_opts="";
@@ -767,7 +775,7 @@ var con_opts="";
                             
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select  id="supply" lay-search t='supply_id' lay-verify="required" value=`+obj.supplyid+` lay-filter="selectsu" >
+                              <select  id="supply" lay-search t='supply_id' lay-verify="required"  lay-filter="selectsu">
                                `+su_opts+`
                               </select>
                             </div>
@@ -829,7 +837,7 @@ var con_opts="";
                      <div class="layui-col-md3">
                         <label class="layui-form-label">拿货地</label>
                         <div class="layui-input-block">
-                        <input type="text"  t='address' placeholder="拿货地" autocomplete="off" value=`+obj.address+` class="layui-input">
+                        <input type="text"  t='address' placeholder="拿货地" autocomplete="off" value="`+obj.address+`" class="layui-input">
                     </div>
                     </div>
 
@@ -842,7 +850,8 @@ var con_opts="";
 
                    
                     </div>
-
+                    </div>
+</div>
         </form>
 
     </div>`;
@@ -854,7 +863,7 @@ var con_opts="";
                 })
 console.log(contactarr);
      $("#boxsuedit").append(contactarr);
-       form.render();
+       form.render('select');
  
          }
 

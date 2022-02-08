@@ -303,18 +303,17 @@ public function edit()
 		    'content'=>$param['content'],
 		    'usefor'=>$param['usefor'],
 		    'remark'=>$param['remark'],
-		    'ordernum'=>$param['ordernum'],
 		    'aliasname'=>$param['aliasname'],
 		    'sameitem'=>$param['sameitem'],
 		    'createtime'=>time(),
 		];
 		$model = new ProductModel();
-		$proid = ProductModel::create()->update($data,['id'=>intval($param['id'])]);
+		$proid = ProductModel::create()->update($data,['id'=>intval($datas['id'])]);
 
 
 		$subs = $datas['subox'];
 		if (count($subs) > 0) {
-			\App\Model\SupplyProductRelateModel::create()->where(['pid'=>intval($param['id']),])->destroy();
+			\App\Model\SupplyProductRelateModel::create()->where(['pid'=>intval($datas['id']),])->destroy();
 
 			foreach ($subs as $key => $value) {
 				if ($value['time']) {
@@ -334,7 +333,7 @@ public function edit()
 		    'address'=>$value['address'],
 		    'priceinfo'=>$value['priceinfo'],
 		    'buynumber'=>$value['numbers'],
-		    'pid'=>intval($param['id']),
+		    'pid'=>intval($datas['id']),
 		];
 		$modelss = new \App\Model\SupplyProductRelateModel($data);
 
@@ -358,7 +357,7 @@ public function edit()
 		}
 
 
-		\App\Libs\Util::savefiles($datas['files'],intval($param['id']),2);
+		\App\Libs\Util::savefiles($datas['files'],intval($datas['id']),2);
 
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
