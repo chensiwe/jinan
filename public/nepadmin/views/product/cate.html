@@ -114,7 +114,6 @@
         var view = $('#VIEW-catelist');
 
         var formSelects = layui.formSelects;
-   
 
         var tableFilter = 'catelist';
         form.render();
@@ -181,6 +180,29 @@
 
 
 
+
+
+        form.on('submit(edit-cate)', function (data) {
+            admin.post({
+                api: 'editcate',
+                data: data.field,
+                success:function (res) {
+                    layer.msg('更新成功', {
+                        icon:1,
+                        success :function (index, layero) {
+                            setTimeout(function(){
+                                layer.closeAll();
+                                layui.view.tab.refresh();
+                            },800);
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+
+
+
     
 
 
@@ -226,9 +248,7 @@
                 });
 
             } else if(layEvent === 'edit'){
-                var con = `<div id="edit_cate_modal">
-            
-    <div style="padding: 10px;">
+                var con = `<div id="edit_cate_modal"><div style="padding: 10px;">
         <form class="layui-form" action="">
             <div class="layui-form-item">
                 <label class="layui-form-label">Edit分类名称</label>
