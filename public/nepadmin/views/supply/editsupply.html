@@ -176,22 +176,6 @@
         var form = layui.form;
         var upload = layui.upload;
        
-        admin.post({
-            api: 'getsupplytypes',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#type").html(html);
-                }
-
-                formSelects.render();
-                form.render();
-            }
-        });
-
 
 
   
@@ -351,9 +335,44 @@
              $("input[name='supplyid']").val(editdata.id);
 
             $("input[name='donemunber']").val(editdata.donemunber);
-            $("select[name='type']").val(editdata.type);
+      
 
             $("textarea[name='remark']").val(editdata.remark);
+
+            var opt=``;
+          admin.post({
+            api: 'getsupplytypes',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                   
+                    $.each(res.result.list, function (index, item) {
+
+                      if (item.name==editdata.type) {
+
+                          opt += '<option selected="true" value="'+item.name+'">'+item.name+'</option>';
+
+
+                      }else{
+                        opt += '<option value="'+item.name+'">'+item.name+'</option>';
+                      }
+                        
+                   
+                    });
+                    $("#type").html(opt);
+                      form.render('select');
+                      }
+                }
+
+               
+              
+                
+            }
+        );
+
+
+
+
+
 
 
 

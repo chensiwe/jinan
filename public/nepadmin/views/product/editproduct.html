@@ -262,21 +262,21 @@
         var upload = layui.upload;
 
         // 加载权限列表
-        admin.post({
-            api: 'getcatelist',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.id+'">'+item.name+'</option>';
-                    });
-                    $("#cate").html(html);
-                }
+        // admin.post({
+        //     api: 'getcatelist',
+        //     success:function (res) {
+        //         if (res.result.list.length > 0){
+        //             let html = "";
+        //             $.each(res.result.list, function (index, item) {
+        //                 html += '<option value="'+item.id+'">'+item.name+'</option>';
+        //             });
+        //             $("#cate").html(html);
+        //         }
 
-                formSelects.render();
-                form.render();
-            }
-        });
+        //         formSelects.render();
+        //         form.render();
+        //     }
+        // });
 
         
            upload.render({
@@ -601,7 +601,7 @@ var con_opt="";
 
                         if (item.name==editdata.cate) {
 
-                                  cateeditopt += '<option selected="selected" value="'+item.id+'">'+item.name+'</option>';
+                                  cateeditopt += '<option selected="true" value="'+item.id+'">'+item.name+'</option>';
 
                         }else{
   cateeditopt += '<option value="'+item.id+'">'+item.name+'</option>';
@@ -617,13 +617,9 @@ var con_opt="";
 
            console.log(cateeditopt);
 
-        $("#cate").html(cateeditopt);
-
-              
-        form.render();
-
-
-
+        $("#cate").append(cateeditopt);
+        form.render('select')
+            
          $("input[name='id']").val(editdata.id);
             $("input[name='name']").val(editdata.name);
             $("input[name='cas']").val(editdata.cas);

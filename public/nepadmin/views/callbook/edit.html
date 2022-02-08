@@ -122,22 +122,7 @@
         var upload = layui.upload;
 
         // 加载权限列表
-        admin.post({
-            api: 'getcalltypes',
-            success:function (res) {
-                if (res.result.list.length > 0){
-                    let html = "";
-                    $.each(res.result.list, function (index, item) {
-                        html += '<option value="'+item.name+'">'+item.name+'</option>';
-                    });
-                    $("#type").html(html);
-                }
-
-
-                formSelects.render();
-                form.render();
-            }
-        });
+      
 
 
         upload.render({
@@ -288,6 +273,43 @@
 
 
             var topts = "";
+
+              admin.post({
+            api: 'getcalltypes',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = "";
+                    $.each(res.result.list, function (index, item) {
+
+                            if (item.name==editdata.type) {
+                                    html += '<option selected="selected" value="'+item.name+'">'+item.name+'</option>';
+
+                            }else{
+                                html += '<option value="'+item.name+'">'+item.name+'</option>';
+                            }
+                        
+                    
+                    });
+                    $("#type").html(html);
+                    formSelects.render();
+                form.render();
+
+                }
+
+
+                
+            }
+        });
+
+
+
+
+
+
+
+
+
+
 
         layui.use('form', function () {
                             var form = layui.form;
