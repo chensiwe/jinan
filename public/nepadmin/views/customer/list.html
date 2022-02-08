@@ -47,11 +47,9 @@
                        
                          <label class="layui-form-label">成交意向</label>
                             <div class="layui-input-block">
-                              <select  lay-search name="think">
+                              <select  lay-search name="think" id="think">
                                 
-                                <option value="已成交">已成交</option>
-                                  <option value="很高">很高</option>
-
+                                
 
                               </select>
                             </div>
@@ -152,6 +150,44 @@
 
             ]]
         });
+
+
+
+
+
+
+
+
+    admin.post({
+            api: 'getthink',
+            success:function (res) {
+                if (res.result.list.length > 0){
+                    let html = `<option value="1">全部</option>`;
+                    $.each(res.result.list, function (index, item) {
+                        html += '<option value="'+item.name+'">'+item.name+'</option>';
+                    });
+                    $("#think").html(html);
+                }
+
+
+                formSelects.render();
+                form.render();
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -39,7 +39,7 @@ layui.define([], function (exports) {
         getproducts:'product/getList',
         delproduct:'product/delete',
         editproduct:'Product/edit',
-
+        getthink:'Think/getList',
         //借贷列表
         getborrows:'borrow/getList',
         addborrow:'borrow/add',
