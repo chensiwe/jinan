@@ -164,7 +164,15 @@
                 api: 'addcate',
                 data: data.field,
                 success:function (res) {
-                    layer.msg('添加成功', {
+                    if (res.code==500) {
+
+
+                            alert("分类已存在");
+
+                    }else{
+
+
+                        layer.msg('添加成功', {
                         icon:1,
                         success :function (index, layero) {
                             setTimeout(function(){
@@ -173,6 +181,12 @@
                             },800);
                         }
                     });
+
+
+
+
+                    }
+                    
                 }
             });
             return false;
@@ -187,7 +201,16 @@
                 api: 'editcate',
                 data: data.field,
                 success:function (res) {
-                    layer.msg('更新成功', {
+
+                     if (res.code==500) {
+
+
+                            alert("分类已存在");
+
+                    }else{
+
+
+                        layer.msg('添加成功', {
                         icon:1,
                         success :function (index, layero) {
                             setTimeout(function(){
@@ -196,6 +219,11 @@
                             },800);
                         }
                     });
+
+
+
+
+                    }
                 }
             });
             return false;

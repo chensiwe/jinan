@@ -50,23 +50,18 @@ class Productcate extends AnnotationController
 		    'createtime'=>time(),
 		    'status'=>1,
 		];
+
+
+		if (ProductcateModel::create()->where(['name'=>$param['name']])->get()) {
+			$this->writeJson(500, 200, "分类已存在");
+			return false;
+		}
 		$model = new ProductcateModel($data);
 		$model->save();
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
 
-	/**
-	 * @Api(name="update",path="/Api/Productcate/update")
-	 * @ApiDescription("更新数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 */
 	public function update()
 	{
 		$param = $this->request()->getRequestParam();
@@ -76,6 +71,11 @@ class Productcate extends AnnotationController
 		    $this->writeJson(Status::CODE_BAD_REQUEST, [], '该数据不存在');
 		    return false;
 		}
+		if (ProductcateModel::create()->where(['name'=>$param['editname']])->get()) {
+			$this->writeJson(500, 200, "分类已存在");
+			return false;
+		}
+
 		$updateData = [];
 
 		$updateData['name']=$param['editname'] ?? $info->name;
