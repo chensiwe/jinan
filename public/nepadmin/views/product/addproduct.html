@@ -2,8 +2,6 @@
 <div class="layui-fluid" lay-title="产品管理">
     <div class="layui-row layui-col-space15">
 
-
-        <div class="layui-col-md12">
             <form class="layui-card layui-form" layui-filter="add-role">
                 <div class="layui-card-header" id="rolebd_status">添加产品</div>
                 <div class="layui-card-body layui-row layui-col-space10">
@@ -11,9 +9,30 @@
 
         <label class="layui-form-label">名称</label>
                 <div class="layui-input-block">
-                        <input type="text" name="name" placeholder="名称" autocomplete="off" lay-verify="required" class="layui-input">
+                        <input type="text" name="name" placeholder="名称" autocomplete="off"  class="layui-input">
                     </div>
         </div>
+
+
+ <div class="layui-col-md6">
+                              <label class="layui-form-label">类别</label>
+                <div class="layui-input-block">
+                          
+                 <select name="cate" id="cate" lay-search>
+                               
+                              </select>
+                            </div>
+                     
+
+        </div>
+
+
+
+
+
+
+
+
                     <div class="layui-col-md6">
                          <label class="layui-form-label">cas</label>
                 <div class="layui-input-block">
@@ -29,18 +48,7 @@
                     </div>
                 </div>
 
-                    <div class="layui-col-md6">
-                             <label class="layui-form-label">产品类别</label>
-                <div class="layui-input-block">
-                            <label class="layui-form-label">类别</label>
-                            <div class="layui-input-block">
-                              <select name="cate" id="cate" lay-search lay-verify="required">
-                               
-                              </select>
-                            </div>
-                        </div>
-
-                    </div>
+                   
 
                      <div class="layui-col-md6">
                          <label class="layui-form-label">品牌
@@ -55,19 +63,9 @@
                         <input type="text" name="pack" placeholder="包装" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                     <div class="layui-col-md6">
-                         <label class="layui-form-label">市场行情</label>
-                <div class="layui-input-block">
-                        <input type="text" name="market" placeholder="市场行情" autocomplete="off" class="layui-input">
-                    </div>
-                    </div>
 
-                      <div class="layui-col-md6">
-                         <label class="layui-form-label">性状</label>
-                <div class="layui-input-block">
-                        <input type="text" name="properties" placeholder="性状" autocomplete="off" class="layui-input">
-                    </div>
-</div>
+
+                   
                       <div class="layui-col-md6">
                          <label class="layui-form-label">含量</label>
                 <div class="layui-input-block">
@@ -75,41 +73,53 @@
                     </div>
                 </div>
 
-                     <!--  <div class="layui-col-md6">
-                         <label class="layui-form-label">名称</label>
+                      <div class="layui-col-md6">
+                         <label class="layui-form-label">性状</label>
                 <div class="layui-input-block">
-                        <input type="number" name="ordernum" placeholder="排序" autocomplete="off" class="layui-input">
+                        <input type="text" name="properties" placeholder="性状" autocomplete="off" class="layui-input">
                     </div>
-                </div> -->
+</div>
+                    
 
+                  
                       <div class="layui-col-md6">
                          <label class="layui-form-label">别名</label>
                 <div class="layui-input-block">
                         <input lay-skin="green" type="text" name="aliasname" placeholder="别名" autocomplete="off" class="layui-input">
                     </div>
 </div>
-
-
-                      <div class="layui-col-md6">
-                         <label class="layui-form-label">用途</label>
-                <div class="layui-input-block">
-                        <input type="text" name="usefor" placeholder="用途" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-                    <div class="layui-col-md12">
-                         <label class="layui-form-label">备注</label>
-                <div class="layui-input-block">
-                        <input type="text" name="remark" placeholder="备注" autocomplete="off" class="layui-input">
-                    </div>
-</div>
-                        <div class="layui-col-md12">
+<div class="layui-col-md6">
                              <label class="layui-form-label">相似产品</label>
                 <div class="layui-input-block">
                         <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
 </div>
+
+
+
+  <div class="layui-col-md12">
+                         <label class="layui-form-label">市场行情</label>
+                <div class="layui-input-block">
+                       <textarea name="market" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                    </div>
+
+
+                      <div class="layui-col-md12">
+                         <label class="layui-form-label">用途</label>
+                <div class="layui-input-block">
+                        <textarea name="usefor" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
+                    <div class="layui-col-md12">
+                         <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                      <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+</div>
+                        
 
 
                      <div class="layui-form-item">
@@ -130,9 +140,6 @@
 <div id="boxsu"></div>
 
 
-
-
-
                    
                     <div class="layui-form-item">
                         <div class="layui-input-block">
@@ -140,15 +147,16 @@
                             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
+
+
+
                 </div>
             </form>
         </div>
-        <!-- 添加角色结束 -->
-
+        
        
     </div>
-</div>
-<!-- 角色列表bar tool -->
+
 <script type="text/html" id="role_bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -446,7 +454,7 @@ var con_opt="";
                             
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select  lay-search t='supply_id' lay-verify="required" lay-filter="selectsu" >
+                              <select  lay-search t='supply_id'  lay-filter="selectsu" >
                                `+supply_opt+`
                               </select>
                             </div>
@@ -467,7 +475,7 @@ var con_opt="";
                             
                             <label class="layui-form-label">联系人</label>
                             <div class="layui-input-block">
-                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" lay-verify="required">
+                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" >
                                `+con_opt+`
                               </select>
                             </div>
@@ -477,14 +485,14 @@ var con_opt="";
                      <div class="layui-col-md3">
                          <label class="layui-form-label">联系人手机</label>
                              <div class="layui-input-block">
-                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
                           <label class="layui-form-label">成交日期</label>
                            <div class="layui-input-block">
-                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 

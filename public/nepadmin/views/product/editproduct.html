@@ -1,3 +1,13 @@
+   <style type="text/css">
+  .nepadmin-sidebar-shrink #app-sidebar {
+    left: 0;
+    width: 0px;
+}
+
+.nepadmin-sidebar-shrink .layui-body, .nepadmin-sidebar-shrink #app-header .layui-layout-left, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-menu, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-prev {
+    left: 0px;
+}
+</style>
     <link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
 <div class="layui-fluid" lay-title="产品管理">
     <div class="layui-row layui-col-space15">
@@ -11,9 +21,26 @@
 
         <label class="layui-form-label">名称</label>
                 <div class="layui-input-block">
-                        <input type="text" name="name" placeholder="名称" autocomplete="off" lay-verify="required" class="layui-input">
+                        <input type="text" name="name" placeholder="名称" autocomplete="off"  class="layui-input">
                     </div>
         </div>
+
+
+            <div class="layui-col-md6">
+                           
+                <div class="layui-input-block">
+                            <label class="layui-form-label">类别</label>
+                            <div class="layui-input-block">
+                              <select name="cate" id="cate" lay-search >
+                               
+                              </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
                     <div class="layui-col-md6">
                          <label class="layui-form-label">cas</label>
                 <div class="layui-input-block">
@@ -29,18 +56,7 @@
                     </div>
                 </div>
 
-                    <div class="layui-col-md6">
-                             <label class="layui-form-label">产品类别</label>
-                <div class="layui-input-block">
-                            <label class="layui-form-label">类别</label>
-                            <div class="layui-input-block">
-                              <select name="cate" id="cate" lay-search lay-verify="required">
-                               
-                              </select>
-                            </div>
-                        </div>
-
-                    </div>
+                
 
                      <div class="layui-col-md6">
                          <label class="layui-form-label">品牌
@@ -49,40 +65,35 @@
                         <input type="text" name="brand" placeholder="品牌" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                     <div class="layui-col-md6">
+
+
+    <div class="layui-col-md6">
                          <label class="layui-form-label">包装</label>
                 <div class="layui-input-block">
                         <input type="text" name="pack" placeholder="包装" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                     <div class="layui-col-md6">
-                         <label class="layui-form-label">市场行情</label>
-                <div class="layui-input-block">
-                        <input type="text" name="market" placeholder="市场行情" autocomplete="off" class="layui-input">
-                    </div>
-                    </div>
 
-                      <div class="layui-col-md6">
-                         <label class="layui-form-label">性状</label>
-                <div class="layui-input-block">
-                        <input type="text" name="properties" placeholder="性状" autocomplete="off" class="layui-input">
-                    </div>
-</div>
-                      <div class="layui-col-md6">
+
+  <div class="layui-col-md6">
                          <label class="layui-form-label">含量</label>
                 <div class="layui-input-block">
                         <input type="text" name="content" placeholder="含量" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
-                     <!--  <div class="layui-col-md6">
-                         <label class="layui-form-label">名称</label>
-                <div class="layui-input-block">
-                        <input type="number" name="ordernum" placeholder="排序" autocomplete="off" class="layui-input">
-                    </div>
-                </div> -->
 
-                      <div class="layui-col-md6">
+
+<div class="layui-col-md6">
+                         <label class="layui-form-label">性状</label>
+                <div class="layui-input-block">
+                        <input type="text" name="properties" placeholder="性状" autocomplete="off" class="layui-input">
+                    </div>
+</div>
+
+
+
+ <div class="layui-col-md6">
                          <label class="layui-form-label">别名</label>
                 <div class="layui-input-block">
                         <input lay-skin="green" type="text" name="aliasname" placeholder="别名" autocomplete="off" class="layui-input">
@@ -90,26 +101,48 @@
 </div>
 
 
-                      <div class="layui-col-md6">
-                         <label class="layui-form-label">用途</label>
-                <div class="layui-input-block">
-                        <input type="text" name="usefor" placeholder="用途" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-
-                    <div class="layui-col-md12">
-                         <label class="layui-form-label">备注</label>
-                <div class="layui-input-block">
-                        <input type="text" name="remark" placeholder="备注" autocomplete="off" class="layui-input">
-                    </div>
-</div>
-                        <div class="layui-col-md12">
+      <div class="layui-col-md6">
                              <label class="layui-form-label">相似产品</label>
                 <div class="layui-input-block">
                         <input type="text" name="sameitem" placeholder="相似产品" autocomplete="off" class="layui-input">
                     </div>
 
 </div>
+
+
+
+                 
+                     <div class="layui-col-md6">
+                         <label class="layui-form-label">市场行情</label>
+                <div class="layui-input-block">
+                        <textarea name="market" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                    </div>
+
+                      
+                    
+                     <!--  <div class="layui-col-md6">
+                         <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                        <input type="number" name="ordernum" placeholder="排序" autocomplete="off" class="layui-input">
+                    </div>
+                </div> -->
+
+                     
+                      <div class="layui-col-md6">
+                         <label class="layui-form-label">用途</label>
+                <div class="layui-input-block">
+                       <textarea name="usefor" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
+                    <div class="layui-col-md12">
+                         <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                        <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+</div>
+                  
 
 
                      <div class="layui-form-item">
@@ -169,7 +202,7 @@
                             
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select  id="supply" lay-search t='supply_id' lay-verify="required" lay-filter="selectsu" >
+                              <select  id="supply" lay-search t='supply_id'  lay-filter="selectsu" >
                                
                               </select>
                             </div>
@@ -190,7 +223,7 @@
                             
                             <label class="layui-form-label">联系人</label>
                             <div class="layui-input-block">
-                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" lay-verify="required">
+                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" >
                                
                               </select>
                             </div>
@@ -200,14 +233,14 @@
                      <div class="layui-col-md3">
                          <label class="layui-form-label">联系人手机</label>
                              <div class="layui-input-block">
-                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
                           <label class="layui-form-label">成交日期</label>
                            <div class="layui-input-block">
-                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
@@ -260,7 +293,9 @@
         var rolebd_status_value = 'add';
         var form = layui.form;
         var upload = layui.upload;
+$("#app").addClass("nepadmin-sidebar-shrink");
 
+  
         // 加载权限列表
         // admin.post({
         //     api: 'getcatelist',
@@ -360,12 +395,12 @@
                         success:function (res) {
                             layer.alert("添加产品成功",{
                                 yes:function () {
-                                    layui.view.tab.refresh();
-                                    layer.closeAll('page');
+                                 
+                                    layer.close(window.localStorage.getItem('index_supply'));
                                     layer.closeAll();
-                                    formSelects.render();
-                                    form.render();
-                                    window.location.href="index.html#/product/list";
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+parent.layer.close(index); //再执行关闭
+   layui.view.tab.refresh();
                                 }
                             })
                         }
@@ -485,7 +520,7 @@ var con_opt="";
                             
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select  id="supply" lay-search t='supply_id' lay-verify="required" lay-filter="selectsu" >
+                              <select  id="supply" lay-search t='supply_id'  lay-filter="selectsu" >
                                `+supply_opt+`
                               </select>
                             </div>
@@ -506,7 +541,7 @@ var con_opt="";
                             
                             <label class="layui-form-label">联系人</label>
                             <div class="layui-input-block">
-                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" lay-verify="required">
+                              <select name="contact" lay-search id="contact" t='contact_id' lay-filter="conse" >
                                `+con_opt+`
                               </select>
                             </div>
@@ -516,14 +551,14 @@ var con_opt="";
                      <div class="layui-col-md3">
                          <label class="layui-form-label">联系人手机</label>
                              <div class="layui-input-block">
-                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
                           <label class="layui-form-label">成交日期</label>
                            <div class="layui-input-block">
-                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
@@ -775,7 +810,7 @@ var con_opts="";
                             
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
-                              <select  id="supply" lay-search t='supply_id' lay-verify="required"  lay-filter="selectsu">
+                              <select  id="supply" lay-search t='supply_id'   lay-filter="selectsu">
                                `+su_opts+`
                               </select>
                             </div>
@@ -796,7 +831,7 @@ var con_opts="";
                             
                             <label class="layui-form-label">联系人</label>
                             <div class="layui-input-block">
-                              <select name="contact" lay-search id="contact" t='contact_id' value=`+obj.id+` lay-filter="conse" lay-verify="required">
+                              <select name="contact" lay-search id="contact" t='contact_id' value=`+obj.id+` lay-filter="conse" >
                                `+con_opts+`
                               </select>
                             </div>
@@ -806,14 +841,14 @@ var con_opts="";
                      <div class="layui-col-md3">
                          <label class="layui-form-label">联系人手机</label>
                              <div class="layui-input-block">
-                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" value=`+obj.contactphone+` autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" value=`+obj.contactphone+` autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
                           <label class="layui-form-label">成交日期</label>
                            <div class="layui-input-block">
-                        <input type="date" name="createtime" t='time' placeholder="成交日期" value=`+obj.createtime+` autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="date" name="createtime" t='time' placeholder="成交日期" value=`+obj.createtime+` autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 

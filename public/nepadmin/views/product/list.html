@@ -429,13 +429,6 @@
             } else if(layEvent === 'edit'){
                 
 
-
-
-
-
-
-
-                 layui.view.tab.refresh();
                     var localStorage = window.localStorage;
                     localStorage.setItem('data',JSON.stringify(data));
 
@@ -444,9 +437,7 @@
 
                         title:'编辑产品',
                         type:2,
-                        shade:0.2,
-                        maxmin:true,
-                        area:['100%','100%'],
+                        area:['80%','80%'],
                         content:['index.html#/product/editproduct','yes']
                     });
 

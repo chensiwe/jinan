@@ -1,3 +1,13 @@
+   <style type="text/css">
+  .nepadmin-sidebar-shrink #app-sidebar {
+    left: 0;
+    width: 0px;
+}
+
+.nepadmin-sidebar-shrink .layui-body, .nepadmin-sidebar-shrink #app-header .layui-layout-left, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-menu, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-prev {
+    left: 0px;
+}
+</style>
 <link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
 <div class="layui-fluid" lay-title="客户管理">
     <div class="layui-row layui-col-space15">
@@ -25,10 +35,11 @@
 
 
 
-            <div class="layui-col-md4 layui-col-xs4">
+            <div class="layui-col-md6">
                        
                          <label class="layui-form-label">客户类别</label>
                             <div class="layui-input-block">
+                              
                               <select  lay-search name="type" id="type">
                                 
 
@@ -41,7 +52,7 @@
 
 
 
-                    <div class="layui-col-md3">
+                    <div class="layui-col-md6">
                         <label class="layui-form-label">联系人</label>
                         <div class="layui-input-block">
                         <input type="text" name="contact" placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
@@ -51,7 +62,7 @@
 
 
 
-                <div class="layui-col-md5">
+                <div class="layui-col-md6">
                         <label class="layui-form-label">电话</label>
                         <div class="layui-input-block">
                         <input type="text" name="phone" placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
@@ -59,10 +70,15 @@
                 </div>
 
 
-            <div class="layui-col-md4 layui-col-xs4">
+
+
+
+
+            <div class="layui-col-md6">
                        
-                         <label class="layui-form-label">客户来源</label>
+                          <label class="layui-form-label">客户来源</label>
                             <div class="layui-input-block">
+                             
                               <select lay-search name="fromwhere" id="fromwhere">
                                 
 
@@ -73,10 +89,11 @@
 
 
 
-            <div class="layui-col-md4 layui-col-xs4">
+            <div class="layui-col-md6">
                        
-                         <label class="layui-form-label">成交意向</label>
+                          <label class="layui-form-label">成交意向</label>
                             <div class="layui-input-block">
+                             
                               <select  lay-search name="think" id="think">
                                 
                                 <option value="已成交">已成交</option>
@@ -92,7 +109,7 @@
                     <div class="layui-col-md12">
                         <label class="layui-form-label">备注</label>
                         <div class="layui-input-block">
-                        <input type="text" name="remark" placeholder="" autocomplete="off" lay-verify="required" class="layui-input">
+                          <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
                     </div>
                     </div>
 
@@ -206,6 +223,7 @@
         var rolebd_status_value = 'add';
         var form = layui.form;
         var upload = layui.upload;
+$("#app").addClass("nepadmin-sidebar-shrink");
 
         admin.post({
             api: 'getproducts',
@@ -427,11 +445,12 @@ var  logarr = [];
                         success:function (res) {
                             layer.alert("添加成功",{
                                 yes:function () {
-                                    layui.view.tab.refresh();
+                                      
+                                    layer.close(window.localStorage.getItem('index_supply'));
                                     layer.closeAll();
-                                    formSelects.render();
-                                    form.render();
-                                    window.location.href="index.html#/customer/list";
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+parent.layer.close(index); //再执行关闭
+   layui.view.tab.refresh();
                                 }
                             })
                         }

@@ -89,7 +89,6 @@
 </script>
 
 
-
 <script>
     layui.use(['admin', 'table', 'form', 'dropdown', 'jquery', 'formSelects'], function (admin, table, form, dropdown, $) {
         var view = $('#VIEW-sulist');
@@ -97,8 +96,8 @@
         var formSelects = layui.formSelects;
         var roleName = [];
         var authList = [];
-  
-
+  console.log("lololo");
+        layer.closeAll();
         var tableFilter = 'sulist';
         form.render();
         admin.renderTable({
@@ -107,13 +106,13 @@
             api: 'getsupplylist',
             page: true,
             cols: [[
-                { title: 'Order',type:'numbers',minWidth:60},
-                { title: '名称', field: 'name',minWidth:310},
-                {title:"供应商类别",field:'type',minWidth:150},
-                {title:"成交",field:'donemunber',minWidth:100},
-                { title: '地址', field: 'address',filter:true,minWidth:420},
-                {title:'产品数',field:'itemnumbers',minWidth:100},
-                { title: '备注', field: 'remark',minWidth:450},
+                { title: 'Order',type:'numbers',width:"10%"},
+                { title: '名称', field: 'name',width:"20%"},
+                {title:"供应商类别",field:'type',width:"5%"},
+                {title:"成交",field:'donemunber',width:"5%"},
+                { title: '地址', field: 'address',filter:true,width:"30%"},
+                {title:'产品数',field:'itemnumbers',minWidth:"10%"},
+                { title: '备注', field: 'remark',width:450},
                 { title: '', fixed: 'right', toolbar:'#supply_bar',minWidth:130},
 
             ]]
@@ -188,28 +187,30 @@
             } else if(layEvent === 'edit'){
 
                 var id = data.id;
-                
 
                 if(! window.localStorage){
                     alert("浏览器不支持localstorage");
                     return false;
                 }else{
                     //主逻辑业务
-
-                   layer.closeAll();
+                    layer.closeAll();
                     var localStorage = window.localStorage;
                     localStorage.setItem('data_supply',JSON.stringify(data));
-
-                    layer.closeAll();
                     var index=layer.open({
                         title:'编辑供应商',
                         type:2,
-                        shade:0.2,
-                        maxmin:true,
-                        area:['100%','100%'],
-                        content:['index.html#/supply/editsupply','yes']
+                                     
+                        area:['80%','80%'],
+                        content:["index.html#/supply/editsupply",'yes'],
+                        end:function(){
+                            layer.closeAll();
+                        }
                     });
 
+                    localStorage.setItem('index_supply',index);
+
+
+                    // layer.close(index);
                  }
 
 

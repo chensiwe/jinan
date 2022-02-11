@@ -1,8 +1,17 @@
-<!-- <style type="text/css">
-  #app-sidebar, #app-sidebar .layui-side-scroll, #app-sidebar .layui-nav-tree, #app-sidebar .layui-logo {
-    width: 192px;
+<style type="text/css">
+
+#app-sidebar, #app-sidebar .layui-side-scroll, #app-sidebar .layui-nav-tree, #app-sidebar .layui-logo {
+  width: 200px;}
+
+  #app-sidebar .layui-side-scroll {
+  padding-right: 0px;
 }
-</style> -->
+
+
+.layui-body, #app-header .layui-layout-left, .nepadmin-tabs-wrap .nepadmin-tabs-menu, .nepadmin-tabs-wrap .nepadmin-tabs-action {
+  left: 200px;}
+
+</style>
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header" id="app-header">
     <script
@@ -113,7 +122,7 @@
                         if (child.childs){
                             child.auth_rules == '';
                         }
-                        html += '<dd><a style="padding-left:'+(index == 0 ? 50 : 50 + index * 20)+'px" target="'+(child.target||'')+'" lay-href="'+ (child.auth_rules||'') +'">' + child.auth_name + '</a>';
+                        html += '<dd><a layadmin-event="refresh" style="padding-left:'+(index == 0 ? 50 : 50 + index * 20)+'px" target="'+(child.target||'')+'" lay-href="'+ (child.auth_rules||'') +'">' + child.auth_name + '</a>';
                         if(child.childs) html += __createSlidebar(child.childs,index+1);
                         html += '</dd>';
                     });

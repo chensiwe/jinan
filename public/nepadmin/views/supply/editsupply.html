@@ -1,3 +1,13 @@
+<style type="text/css">
+  .nepadmin-sidebar-shrink #app-sidebar {
+    left: 0;
+    width: 0px;
+}
+
+.nepadmin-sidebar-shrink .layui-body, .nepadmin-sidebar-shrink #app-header .layui-layout-left, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-menu, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-prev {
+    left: 0px;
+}
+</style>
 <link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
 <div class="layui-fluid" lay-title="供应商管理">
     <div class="layui-row layui-col-space15">
@@ -7,31 +17,20 @@
             <form class="layui-card layui-form" layui-filter="add-supply_form">
                 <div class="layui-card-header" id="rolebd_status">添加供应商</div>
                 <div class="layui-card-body layui-row layui-col-space10">
-                    <div class="layui-col-md4">
+                    <div class="layui-col-md6">
                         <label class="layui-form-label">名称</label>
                         <div class="layui-input-block">
-                        <input type="text" name="name" placeholder="供应商名称" autocomplete="off" lay-verify="required" class="layui-input">
+                        <input type="text" name="name" placeholder="供应商名称" autocomplete="off" class="layui-input">
                     </div>
                     <input type="hidden" name="supplyid">
                     </div>
-                    <div class="layui-col-md8">
-                         <label class="layui-form-label">地址</label>
-                        <div class="layui-input-block">
-                        <input type="text" name="address" placeholder="地址" autocomplete="off" class="layui-input" lay-verify="required">
-                    </div>
-                    </div>
-                      <!--  <div class="layui-col-md4">
-                         <label class="layui-form-label">联系人</label>
-                        <div class="layui-input-block">
-                        <input type="text" name="contactor" placeholder="联系人" autocomplete="off" class="layui-input" lay-verify="required">
-                    </div>
-                    </div> -->
 
-                     <div class="layui-col-md4">
+
+                     <div class="layui-col-md6">
                             
                             <label class="layui-form-label">供应商分类</label>
                             <div class="layui-input-block">
-                              <select name="type" lay-search id="type" lay-verify="required">
+                              <select name="type" lay-search id="type">
                                
                               </select>
                             </div>
@@ -39,16 +38,29 @@
                     </div>
 
 
-                    <!--  <div class="layui-col-md4">
-                         <label class="layui-form-label">电话</label>
+
+
+
+
+                    <div class="layui-col-md6">
+                         <label class="layui-form-label">地址</label>
                         <div class="layui-input-block">
-                        <input type="text" name="phone" placeholder="phonr number" autocomplete="off" class="layui-input" lay-verify="required">
+                        <input type="text" name="address" placeholder="地址" autocomplete="off" class="layui-input">
                     </div>
-                    </div> -->
+                    </div>
+              
+                <div class="layui-col-md6">
+                         <label class="layui-form-label">成交数</label>
+                        <div class="layui-input-block">
+                        <input type="number" name='donemunber' value="1" autocomplete="off" class="layui-input" lay-verify="required">
+                    </div>
+                    </div>
+                    
+
                      <div class="layui-col-md12">
                          <label class="layui-form-label">开票资料</label>
                         <div class="layui-input-block">
-                        <input type="text" name="info" placeholder="info" autocomplete="off" class="layui-input" lay-verify="required">
+                        <textarea name="info" placeholder="请输入内容" class="layui-textarea"></textarea>
                     </div>
                     </div>
 
@@ -65,12 +77,6 @@
                     
 
 
-                <div class="layui-col-md12">
-                         <label class="layui-form-label">成交数</label>
-                        <div class="layui-input-block">
-                        <input type="number" name='donemunber' value="1" autocomplete="off" class="layui-input" lay-verify="required">
-                    </div>
-                    </div>
                 
                        <div class="layui-form-item">
                             
@@ -176,7 +182,7 @@
         var form = layui.form;
         var upload = layui.upload;
        
-
+$("#app").addClass("nepadmin-sidebar-shrink");
 
   
 
@@ -225,12 +231,12 @@
                         success:function (res) {
                             layer.alert("添加供应商成功",{
                                 yes:function () {
-                                    layui.view.tab.refresh();
-                                    layer.closeAll('page');
+                                    layer.close(window.localStorage.getItem('index_supply'));
                                     layer.closeAll();
-                                    formSelects.render();
-                                    form.render();
-                                    window.location.href="index.html#/supply/list";
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+parent.layer.close(index); //再执行关闭
+                                  
+                                   
                                 }
                             })
                         }
@@ -410,19 +416,6 @@
              }
 
            })
-
-
-
-
-
-
-
-
-
-
-
-
-
 
              
                $.ajax({
