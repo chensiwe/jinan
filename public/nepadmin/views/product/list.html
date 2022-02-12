@@ -319,7 +319,7 @@
 
 
          admin.post({
-            api: 'getproducttype',
+            api: 'getproducttype?limit=999',
             success:function (res) {
                 if (res.result.list.length > 0){
                      let html = `<option value="1">全部</option>`;
