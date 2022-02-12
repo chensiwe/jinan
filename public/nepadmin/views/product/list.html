@@ -250,7 +250,8 @@
 
           // 加载权限列表
         admin.post({
-            api: 'getcatelist?limit=9999',
+            api: 'getcatelist',
+            data:{"limit":999},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";
@@ -319,7 +320,8 @@
 
 
          admin.post({
-            api: 'getproducttype?limit=999',
+            api: 'getproducttype',
+            data:{"limit":999},
             success:function (res) {
                 if (res.result.list.length > 0){
                      let html = `<option value="1">全部</option>`;
