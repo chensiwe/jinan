@@ -250,7 +250,7 @@
 
           // 加载权限列表
         admin.post({
-            api: 'getcatelist',
+            api: 'getcatelist?limit=9999',
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";
