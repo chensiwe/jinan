@@ -327,7 +327,19 @@ $("#app").addClass("nepadmin-sidebar-shrink");
   ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
     var file = res.result;
             $.each(file,function(k,v){
-                    var  resfile= `<div class="layui-col-md1"><a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
+                    var  resfile= `<div class="layui-col-md2" style="border: antiquewhite;
+    border-style: dashed;margin:5px 5px;">
+     <i class="layui-icon layui-icon-delete re" style="float:right">delete</i>
+
+    <div class="layui-panel">
+     
+      <div style="padding: 20px;">
+        <a href=`+v.replace(/uploadfiles/,"files")+`><i style="float:right" class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+
+      </div>
+    
+    </div>   
+</div>="layui-icon layui-icon-delete re">delete</i>
                     </div>`;   
                             $("#filebox2").append(resfile);
                   });
@@ -721,8 +733,17 @@ var fileopt = "";
                   $.each(data.result,function(k,v){
 
                     var dpath = v.filepath;
-                      fileopt+=`<div class="layui-col-md2"><a href=`+v.filepath.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
-                    </div>`; 
+                      fileopt+=`<div class="layui-col-md2" style="border: antiquewhite;
+    border-style: dashed;">
+     <i class="layui-icon layui-icon-delete re" style="float:right">delete</i>
+    <div class="layui-panel">
+     
+      <div style="padding: 30px;">
+        <a href=`+v.filepath.replace(/uploadfiles/,"files")+`><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'>
+      </div>
+    
+    </div>   
+</div>`; 
                   });
                     
                            

@@ -259,9 +259,12 @@ parent.layer.close(index); //再执行关闭
   ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
     var file = res.result;
             $.each(file,function(k,v){
-                    var  resfile= `<div class="layui-col-md3">
+                    var  resfile= `<div class="layui-col-md2" style="border: antiquewhite;
+    border-style: dashed;">
+     <i class="layui-icon layui-icon-delete re" style="float:right">delete</i>
+
     <div class="layui-panel">
-      <i class="layui-icon layui-icon-delete re">delete</i>
+     
       <div style="padding: 30px;">
         <a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
 
@@ -336,7 +339,7 @@ parent.layer.close(index); //再执行关闭
             $("input[name='address']").val(editdata.address);
             $("input[name='contactor']").val(editdata.contactor);
             $("input[name='phone']").val(editdata.phone);
-             $("input[name='info']").val(editdata.info);
+             $("textarea[name='info']").val(editdata.info);
 
              $("input[name='supplyid']").val(editdata.id);
 
@@ -399,9 +402,11 @@ parent.layer.close(index); //再执行关闭
 
 
 
-                    fileopt+=`<div class="layui-col-md3">
+                    fileopt+=`<div class="layui-col-md2" style="border: antiquewhite;
+    border-style: dashed;">
+     <i class="layui-icon layui-icon-delete re" style="float:right">delete</i>
     <div class="layui-panel">
-      <i class="layui-icon layui-icon-delete re">delete</i>
+     
       <div style="padding: 30px;">
         <a href=`+v.filepath.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'>
       </div>

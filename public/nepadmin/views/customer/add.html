@@ -166,7 +166,7 @@
   <div class="layui-inline">
       
     <label class="layui-form-label">产品</label>
-    <div class="layui-input-inline" style="width: 100px;">
+    <div class="layui-input-inline" style="width: 200px;">
           <select  name="item[]" t='item' lay-search class="name"  id="item" lay-search>
                       
                       
@@ -175,7 +175,7 @@
 
     <div class="layui-inline">
     <label class="layui-form-label">报价</label>
-      <div class="layui-input-inline" style="width: 100px;">
+      <div class="layui-input-inline" style="width: 200px;">
       <input type="number" t=price name="price[]"  placeholder="￥" autocomplete="off" class="layui-input price">
     </div>
   </div>
@@ -183,7 +183,7 @@
   
   <div class="layui-inline">
     <label class="layui-form-label">数量</label>
-    <div class="layui-input-inline" style="width: 100px;">
+    <div class="layui-input-inline" style="width: 200px;">
       <input type="number" t="numbers" name="numbers[]" autocomplete="off" class="layui-input">
     </div>
   </div>
@@ -191,7 +191,7 @@
 
   <div class="layui-inline">
     <label class="layui-form-label">日期</label>
-    <div class="layui-input-inline" style="width: 140px;">
+    <div class="layui-input-inline" style="width: 180px;">
       <input type="date" t='times' name="times[]" autocomplete="off" class="layui-input">
     </div>
   </div>
@@ -294,8 +294,19 @@ upload.render({
   ,done: function(res, index, upload){ //每个文件提交一次触发一次。详见“请求成功的回调”
     var file = res.result;
             $.each(file,function(k,v){
-                    var  resfile= `<div class="layui-col-md1"><a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'><i class="layui-icon layui-icon-delete re">delete</i>
-                    </div>`;   
+                    var  resfile= `<div class="layui-col-md2" style="border: antiquewhite;
+    border-style: dashed;margin:5px 5px;">
+     <i class="layui-icon layui-icon-delete re" style="float:right">delete</i>
+
+    <div class="layui-panel">
+     
+      <div style="padding: 20px;">
+        <a href=`+v.replace(/uploadfiles/,"files")+`><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+
+      </div>
+    
+    </div>   
+</div>`;   
                             $("#filebox2").append(resfile);
                   });
 
@@ -366,10 +377,10 @@ $("#addhistory").click(function(){
 
     var his=`<div class="layui-inline hisbox">
       
-    <label class="layui-form-label">跟踪信息</label>
-      <div class="layui-input-inline" style="width: 140px;">
+    
+      <div class="layui-input-inline" style="width: 180px;">
       <input type="date" t='logdate' name='logdate[]'  placeholder="" autocomplete="off" class="layui-input">
-    </div>  <div class="layui-input-inline" style="width:700px;">
+    </div>  <div class="layui-input-inline" style="width:800px;">
       <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input">
     </div>
     <i class="layui-icon layui-icon-delete re">delete</i>
