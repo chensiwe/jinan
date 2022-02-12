@@ -28,14 +28,14 @@
 
             <div class="layui-col-md6">
                            
-                <div class="layui-input-block">
+               
                             <label class="layui-form-label">类别</label>
                             <div class="layui-input-block">
                               <select name="cate" id="cate" lay-search >
                                
                               </select>
                             </div>
-                        </div>
+                        
 
                     </div>
 
@@ -642,7 +642,7 @@ var con_opt="";
 
          var cateeditopt = "";
           $.ajax({
-            url: '/api/Productcate/getList?limit=9999',
+            url: '/api/Productcate/getList?limit=9999 ',
             async:false,
             success:function (res) {
                 if (res.result.list.length > 0){
