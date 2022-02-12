@@ -131,7 +131,7 @@
   <div class="layui-inline">
     <div class="layui-form-mid">手机号</div>
     <div class="layui-input-inline" style="width: 150px;">
-      <input type="text" name="conphone[]" t='phone' placeholder="188..." autocomplete="off" class="layui-input">
+      <input type="text" name="conphone[]" t='phone' placeholder="" autocomplete="off" class="layui-input">
     </div>
   </div>
 
@@ -247,15 +247,16 @@
       
 
       console.log($("#boxlxr").html());
+      var conslxr=$("#boxlxr").html();
                     
-                    $("#lxredit").append($("#boxlxr").html());
+                    $("#lxredit").append(conslxr);
         })
 
          $('body').on('click', '.additem', function (event) {
             var con = "";
 
 
-            con+=`<div class="layui-input-inline" style="width: 100px;">
+            con+=`<div class="layui-input-inline" style="width: 150px;margin-right:5px;">
       <input style="border-color:#2e2929" type="text" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;"><i class="layui-icon layui-icon-delete re">delete</i>
     </div>`;
                 $(this).next().append(con);
