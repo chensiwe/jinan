@@ -109,15 +109,15 @@
             api: 'getcalls',
             page: true,
             cols: [[
-                {title:'序号',type:'numbers'},
-                { title: '名称', field: 'name'},
-                {title:"联系人",field:'contact'},
-                {title:"联系电话",field:'phone'},
-                { title: '地址', field: 'address'},
-                {title:'类别',field:'type'},
-                { title: '备注', field: 'ramark'},
+                {title:'序号',type:'numbers',minWidth:50},
+                { title: '名称', field: 'name',minWidth:300},
+                {title:"联系人",field:'contact',minWidth:110},
+                {title:"联系电话",field:'phone',minWidth:200},
+                { title: '地址', field: 'address',minWidth:320},
+                {title:'类别',field:'type',minWidth:230},
+                { title: '备注', field: 'ramark',minWidth:350},
             
-                { title: '', fixed: 'right', toolbar:'#call_bar'},
+                { title: '', fixed: 'right', toolbar:'#call_bar',minWidth:130},
 
             ]]
         });

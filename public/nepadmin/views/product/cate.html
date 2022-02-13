@@ -124,10 +124,10 @@
             page: true,
             cols: [[
             {title:'序号',type:'numbers',minWidth:80},
-                { title: '分类名称', field: 'name',minWidth:200},
+                { title: '分类名称', field: 'name',minWidth:500},
                
-                { title: '添加时间', field: 'createtime',minWidth:200},
-                { title: '状态', minWidth:100, field: 'status',templet: function(d){
+                { title: '添加时间', field: 'createtime',minWidth:250},
+                { title: '状态', minWidth:250, field: 'status',templet: function(d){
                     return d.status == 1 ? '正常' : '禁用';
                 }},
                 { title: '', fixed: 'right', toolbar:'#cate_bar',minWidth:150},

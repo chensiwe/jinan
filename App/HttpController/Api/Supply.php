@@ -53,18 +53,21 @@ class Supply extends AnnotationController
 		    'status'=>1,
 		    'donemunber'=>$param['donemunber'],
 		];
-
-
-
 		$exist = SupplyModel::create()->get(['name'=>$param['name']]);
-		if ($exist) {
-			$this->writeJson(200, '已存在', "error");
-			return false;
-		}
+			if ($exist) {
+				$this->writeJson(200, '已存在', "error");
+				return false;
+			}
 
-		$model = new SupplyModel($data);
-		$supplyid = $model->save();
-		$conmodel = new ContactorModel();
+
+		try{
+			//open tracition...
+			\EasySwoole\ORM\DbManager::getInstance()->startTransaction();
+
+
+    		$model = new SupplyModel($data);
+		    $supplyid = $model->save();
+	  	   $conmodel = new ContactorModel();
 
 		$lxrs = $datas['lxrarr'];
 
@@ -76,7 +79,6 @@ class Supply extends AnnotationController
 				foreach ($lxrs as $key => $value) {
 					if (array_key_exists("items", $value)) {
 						
-					
 					$contacrid = $conmodel->addData($value['name'],implode(",",$value['items']),$value['phone'],time(),$supplyid);
 					
 				}
@@ -87,6 +89,18 @@ class Supply extends AnnotationController
 
 
 		\App\Libs\Util::savefiles($datas['files'],$supplyid,1);
+
+
+
+		}catch(\Throwable  $e){
+        // 回滚事务
+        \EasySwoole\ORM\DbManager::getInstance()->rollback();
+        var_dump($e->getMessage());
+        $this->writeJson(200,['code'=>500,'msg'=>'数据库异常']);
+    }
+
+		
+		
 
 
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
