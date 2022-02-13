@@ -677,15 +677,16 @@ var con_opt="";
              //$("select[name='cate']").val(editdata.cate);
             $("input[name='brand']").val(editdata.brand);
              $("input[name='pack']").val(editdata.pack);
-             $("input[name='market']").val(editdata.market);
+             $("textarea[name='market']").val(editdata.market);
             $("input[name='properties']").val(editdata.properties);
             $("input[name='content']").val(editdata.content);
-             $("input[name='usefor']").val(editdata.usefor);
+             $("textarea[name='usefor']").val(editdata.usefor);
              $("input[name='createtime']").val(editdata.createtime);
+              $("input[name='sameitem']").val(editdata.sameitem);
              $("input[name='ordernum']").val(editdata.ordernum);
 
              $("input[name='aliasname']").val(editdata.aliasname);
-            $("input[name='remark']").val(editdata.remark);
+            $("textarea[name='remark']").val(editdata.remark);
         
 
          $.ajax({
@@ -734,7 +735,7 @@ var fileopt = "";
 
                     var dpath = v.filepath;
                       fileopt+=`<div class="layui-col-md2" style="border: antiquewhite;
-    border-style: dashed;">
+    border-style: dashed;margin-right:5px;">
      <i class="layui-icon layui-icon-delete re" style="float:right">delete</i>
     <div class="layui-panel">
      

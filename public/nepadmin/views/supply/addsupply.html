@@ -226,6 +226,10 @@
                         api: "addSupply",
                         data: {"data":data.field,"lxrarr":lxrarr,'files':files2},
                         success:function (res) {
+                          if (res.msg=='error') {
+                            alert("名称已存在");
+                            return false;
+                          }else{
                             layer.alert("添加供应商成功",{
                                 yes:function () {
                                     layui.view.tab.refresh();
@@ -234,6 +238,7 @@
                                     form.render();
                                 }
                             })
+                          }
                         }
                     });
                  return false;

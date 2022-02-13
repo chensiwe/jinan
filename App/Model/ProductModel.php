@@ -32,7 +32,8 @@ class ProductModel extends AbstractModel
 	{
 		$list = $this
 		    ->withTotalCount()
-			->order($this->schemaInfo()->getPkFiledName(), 'DESC')
+			->order("cate","ASC")
+			->order($this->schemaInfo()->getPkFiledName(), 'ASC')
 		    ->field($field)
 		    ->page($page, $pageSize)
 		    ->all();

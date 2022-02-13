@@ -337,20 +337,18 @@
         });
 
         
-
-       
         admin.renderTable({
             elem: '[lay-filter="' + tableFilter + '"]',
             id: 'plist',
             api: 'getproducts',
             page: true,
             cols: [[
-                {title:'序号',type:'numbers',sort:true},
+                {title:'序号',type:'numbers',minWidth:80},
                 { title: '名称', field: 'name',minWidth:100},
                 { title: 'cas', field: 'cas',minWidth:100},
                 { title: '化学式', field: 'chemical',minWidth:80},
                 { title: '品牌', field: 'brand',minWidth:100},
-                // {title:'分类',field:'cate',minWidth:60},
+                {title:'分类',field:'cate',minWidth:60},
                    { title: '包装', field: 'pack',minWidth:80},
                 { title: '含量',sort: true, field: 'content',minWidth:80},
                 {title:'性状',field:'properties',minWidth:100},

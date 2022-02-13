@@ -229,7 +229,16 @@ $("#app").addClass("nepadmin-sidebar-shrink");
                         api: "editSupply",
                         data: {"data":data.field,"lxrarr":lxrarr,'file':files2},
                         success:function (res) {
-                            layer.alert("添加供应商成功",{
+
+
+if (res.msg=='error') {
+
+alert("供应商已存在");
+
+return false;
+}else{
+
+ layer.alert("添加供应商成功",{
                                 yes:function () {
                                     layer.close(window.localStorage.getItem('index_supply'));
                                     layer.closeAll();
@@ -239,6 +248,18 @@ parent.layer.close(index); //再执行关闭
                                    
                                 }
                             })
+
+}
+
+                           
+
+
+
+
+
+
+
+
                         }
                     });
                  return false;
@@ -413,6 +434,7 @@ parent.layer.close(index); //再执行关闭
     
     </div>   
 </div>`;
+
                   });
                     
                            
@@ -436,7 +458,7 @@ parent.layer.close(index); //再执行关闭
                     $.each(data.result,function(k,obj){
 
 
-                               console.log(obj);
+                        console.log(obj);
 
 
                         var itemsatt=``;

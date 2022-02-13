@@ -32,17 +32,7 @@ use EasySwoole\Validate\Validate;
  */
 class Supply extends AnnotationController
 {
-	/**
-	 * @Api(name="add",path="/Api/Supply/add")
-	 * @ApiDescription("新增数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 */
+	
 	public function add()
 	{
 		$datas = $this->request()->getRequestParam();
@@ -63,6 +53,15 @@ class Supply extends AnnotationController
 		    'status'=>1,
 		    'donemunber'=>$param['donemunber'],
 		];
+
+
+
+		$exist = SupplyModel::create()->get(['name'=>$param['name']]);
+		if ($exist) {
+			$this->writeJson(200, '已存在', "error");
+			return false;
+		}
+
 		$model = new SupplyModel($data);
 		$supplyid = $model->save();
 		$conmodel = new ContactorModel();
@@ -124,6 +123,14 @@ class Supply extends AnnotationController
 		    'status'=>1,
 		    'donemunber'=>$param['donemunber'],
 		];
+
+
+
+		$exist = SupplyModel::create()->get(['name'=>$param['name']]);
+		if ($exist) {
+			$this->writeJson(200, '已存在', "error");
+			return false;
+		}
 
 		$model = new SupplyModel($data);
 	    $model->update($data,['id'=>intval($param['supplyid'])]);
