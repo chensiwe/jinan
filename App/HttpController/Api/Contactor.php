@@ -141,31 +141,17 @@ class Contactor extends AnnotationController
 	}
 
 
-	/**
-	 * @Api(name="getList",path="/Api/Contactor/getList")
-	 * @ApiDescription("获取数据列表")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"获取成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
-	 * @Param(name="page", from={GET,POST}, alias="页数", optional="")
-	 * @Param(name="pageSize", from={GET,POST}, alias="每页总数", optional="")
-	 * @ApiSuccessParam(name="result[].id",description="")
-	 * @ApiSuccessParam(name="result[].name",description="")
-	 * @ApiSuccessParam(name="result[].items",description="")
-	 * @ApiSuccessParam(name="result[].phone",description="")
-	 * @ApiSuccessParam(name="result[].addtime",description="")
-	 * @ApiSuccessParam(name="result[].supplyid",description="")
-	 */
+	
 	public function getList()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$param = $this->request()->getRequestParam();
 		$page = (int)($param['page'] ?? 1);
-		$pageSize = (int)($param['pageSize'] ?? 10);
+		$pageSize = (int)($param['limit'] ?? 10);
 		$model = new ContactorModel();
+
+		if ($param['supplyid']) {
+			$model = $model->where(['supplyid'=>$param['supplyid']]);
+		}
 
 		$data = $model->getList($page, $pageSize);
 		$this->writeJson(Status::CODE_OK, $data, '获取列表成功');

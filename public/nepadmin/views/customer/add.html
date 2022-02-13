@@ -167,11 +167,19 @@
       
     <label class="layui-form-label">产品</label>
     <div class="layui-input-inline" style="width: 200px;">
-          <select  name="item[]" t='item' lay-search class="name"  id="item" lay-search>
+          <select  name="item[]" t='item' lay-search class="name" lay-filter="selectitem"  id="item">
                       
                       
          </select>
     </div>
+
+
+<div class="layui-inline">
+    <label class="layui-form-label">品牌</label>
+      <div class="layui-input-inline" style="width: 200px;">
+      <input type="text" t='brand' disabled="disabled" name="brand[]"  autocomplete="off" class="layui-input">
+    </div>
+</div>
 
     <div class="layui-inline">
     <label class="layui-form-label">报价</label>
@@ -265,14 +273,26 @@ admin.post({
 
 
 
+form.on('select(selectitem)', function (data) {
+            var itemid = data.value;
+          
+        admin.post({
+            api: 'getproductone',
+                data: {
+                        id:itemid,
+                    },
+            success:function (res) {
+                if (res.result != null){
+        
+                   console.log(res.result);
+                    $(data.elem).parent().next().find("input").val(res.result.brand);
+                }
 
-
-
-
-
-
-
-
+                formSelects.render();
+                form.render();
+            }
+        });
+});
 
 
 
@@ -344,27 +364,29 @@ $('body').on('click','.re',function(){
 
          
 
-        $("#addprice").click(function(){
-
         admin.post({
             api: 'getproducts',
             data:{"limit":9999},
             success:function (res) {
                 if (res.result.list.length > 0){
-                    let html = "";
+                    let html = `<option value="">请选择产品</option>`;
                     $.each(res.result.list, function (index, item) {
                         html += '<option value="'+item.id+'">'+item.name+'</option>';
                     });
                     $("#item").html(html);
 
-                    $("#box").append($("#additembox").html());
                 }
 
-                formSelects.render();
-                form.render();
+               
             }
         });
 
+        $("#addprice").click(function(){
+ formSelects.render();
+                form.render();
+$("#box").append($("#additembox").html());
+ formSelects.render();
+                form.render();
 
 
         });
@@ -375,12 +397,12 @@ $('body').on('click','.re',function(){
 $("#addhistory").click(function(){
 
 
-    var his=`<div class="layui-inline hisbox">
+    var his=`<div class="layui-inline hisbox" style="margin-left:80px">
       
     
-      <div class="layui-input-inline" style="width: 180px;">
+      <div class="layui-input-inline" style="width: 150px;">
       <input type="date" t='logdate' name='logdate[]'  placeholder="" autocomplete="off" class="layui-input">
-    </div>  <div class="layui-input-inline" style="width:800px;">
+    </div>  <div class="layui-input-inline" style="width:900px;">
       <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input">
     </div>
     <i class="layui-icon layui-icon-delete re">delete</i>
@@ -420,10 +442,10 @@ form.on('submit(add-cus)', function (data) {
                     var price = $(this).find("input[t='price']").val();
                     var numbers = $(this).find("input[t='numbers']").val();
                     var time = $(this).find("input[t='times']").val();
-
+                    var brand = $(this).find("input[t='brand']").val();
                     itemone['name'] = itemname;
                     itemone['price'] = price;
-
+                    itemone['brand'] = brand;
                    itemone['number'] = numbers;
                    itemone['time'] = time;
                    itemarr.push(itemone);

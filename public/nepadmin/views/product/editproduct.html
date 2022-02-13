@@ -424,7 +424,7 @@ parent.layer.close(index); //再执行关闭
             return false;
         });
 
-
+var con_opts = ``;
         
 form.on('select(selectsu)', function (data) {
             var suid = data.value;
@@ -440,6 +440,46 @@ form.on('select(selectsu)', function (data) {
         
                    console.log($(data.elem).parent().parent());
                     $(data.elem).parent().parent().next().find("input[t='supply_type']").val(res.result.type);
+
+
+
+
+
+
+                       $.ajax({
+            url: '/api/Contactor/getList?limit=9999&supplyid='+suid,
+            async:false,
+            success:function (res) {
+                if (res.result.list.length > 0){
+              
+                    $.each(res.result.list, function (index, item) {
+                        con_opts += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                    });
+
+
+                    console.log("hello.....");
+
+console.log($(data.elem));
+                     $(data.elem).parent().parent().next().next().find("select[t='contact_id']").html(con_opts);
+                  
+                }
+
+              
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
 
                 formSelects.render();
@@ -529,7 +569,6 @@ var con_opt="";
                 <div class="layui-card-body layui-row layui-col-space10">
              
                     <div class="layui-col-md4">
-                            
                             <label class="layui-form-label">供应商</label>
                             <div class="layui-input-block">
                               <select  id="supply" lay-search t='supply_id'  lay-filter="selectsu" >
@@ -599,7 +638,7 @@ var con_opt="";
                     </div>
 
 
-                     <div class="layui-col-md3">
+                     <div class="layui-col-md12">
                         <label class="layui-form-label">价格备注</label>
                         <div class="layui-input-block">
                         <input type="text" name="priceinfo" t='priceinfo' autocomplete="off" class="layui-input">
@@ -899,7 +938,7 @@ var con_opts="";
                     </div>
 
 
-                     <div class="layui-col-md3">
+                     <div class="layui-col-md12">
                         <label class="layui-form-label">价格备注</label>
                         <div class="layui-input-block">
         <input type="text" name="priceinfo" t='priceinfo' class="layui-input" autocomplete="off" value=`+obj.priceinfo+`>

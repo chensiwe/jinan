@@ -37,6 +37,7 @@ layui.define([], function (exports) {
         editcate:'Productcate/update',
         addproduct:'product/add',
         getproducts:'product/getList',
+        getproductone:'product/getOne',
         delproduct:'product/delete',
         editproduct:'Product/edit',
         getthink:'Think/getList',

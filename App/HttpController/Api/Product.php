@@ -169,35 +169,10 @@ class Product extends AnnotationController
 	}
 
 
-	/**
-	 * @Api(name="getOne",path="/Api/Product/getOne")
-	 * @ApiDescription("获取一条数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"获取成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
-	 * @Param(name="id",required="")
-	 * @ApiSuccessParam(name="result.id",description="")
-	 * @ApiSuccessParam(name="result.name",description="")
-	 * @ApiSuccessParam(name="result.cas",description="")
-	 * @ApiSuccessParam(name="result.chemical",description="")
-	 * @ApiSuccessParam(name="result.cate",description="")
-	 * @ApiSuccessParam(name="result.brand",description="")
-	 * @ApiSuccessParam(name="result.pack",description="")
-	 * @ApiSuccessParam(name="result.market",description="")
-	 * @ApiSuccessParam(name="result.properties",description="")
-	 * @ApiSuccessParam(name="result.content",description="")
-	 * @ApiSuccessParam(name="result.usefor",description="")
-	 * @ApiSuccessParam(name="result.remark",description="")
-	 * @ApiSuccessParam(name="result.sameitem",description="")
-	 * @ApiSuccessParam(name="result.createtime",description="")
-	 */
+	
 	public function getOne()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$param = $this->request()->getRequestParam();
 		$model = new ProductModel();
 		$info = $model->get(['id' => $param['id']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");

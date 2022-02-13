@@ -30,20 +30,7 @@ use EasySwoole\Validate\Validate;
  */
 class Customer extends AnnotationController
 {
-	/**
-	 * @Api(name="add",path="/Api/Customer/add")
-	 * @ApiDescription("新增数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="time",lengthMax="16",required="")
-	 * @Param(name="info",lengthMax="300",required="")
-	 * @Param(name="customer_id",lengthMax="11",required="")
-	 */
+
 	public function add()
 	{
 		$param = ContextManager::getInstance()->get('param');

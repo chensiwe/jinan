@@ -67,7 +67,7 @@ if ($itemarr[$i]['number']) {
 
 		$item = \App\Model\ProductModel::create()->get(intval($itemarr[$i]['name']));
 			
-      $priceitemmodel->addData($item['id'], $item['name'],$itemarr[$i]['number'], $itemarr[$i]['price'], strtotime($itemarr[$i]['time']),$addid);
+      $priceitemmodel->addData($item['id'], $item['name'],$itemarr[$i]['number'], $itemarr[$i]['price'], strtotime($itemarr[$i]['time']),$addid,$itemarr[$i]['brand']);
 		
 }
 		}
@@ -291,7 +291,7 @@ if ($itemarr[$i]['price']) {
 
 		$item = \App\Model\ProductModel::create()->get(intval($itemarr[$i]['name']));
 			
-      $priceitemmodel->addData($item['id'], $item['name'],intval($itemarr[$i]['number']), floatval($itemarr[$i]['price']), strtotime($itemarr[$i]['time']),intval($param['id']));
+      $priceitemmodel->addData($item['id'], $item['name'],intval($itemarr[$i]['number']), floatval($itemarr[$i]['price']), strtotime($itemarr[$i]['time']),intval($param['id']),$itemarr[$i]['brand']);
   }
 		
 
