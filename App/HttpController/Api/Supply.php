@@ -77,9 +77,20 @@ class Supply extends AnnotationController
 			$conmodel = new ContactorModel();
 
 				foreach ($lxrs as $key => $value) {
-					if (array_key_exists("items", $value)) {
+
+					if (array_key_exists("phone", $value) && $value['phone'] != "") {
+							var_dump($value);
+							if ($value['items']) {
+								$items  = implode(",",$value['items']);
+							}else{
+								$items = "";
+							}
+
+
+
+
 						
-					$contacrid = $conmodel->addData($value['name'],implode(",",$value['items']),$value['phone'],time(),$supplyid);
+					$contacrid = $conmodel->addData($value['name'],$items,$value['phone'],time(),$supplyid);
 					
 				}
 			}
