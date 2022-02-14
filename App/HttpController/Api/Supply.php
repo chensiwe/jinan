@@ -89,7 +89,8 @@ class Supply extends AnnotationController
 
 
 		\App\Libs\Util::savefiles($datas['files'],$supplyid,1);
-
+		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
+		
 
 
 		}catch(\Throwable  $e){
@@ -100,10 +101,7 @@ class Supply extends AnnotationController
     }
 
 		
-		
-
-
-		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
+	
 	}
 
 
@@ -125,6 +123,10 @@ class Supply extends AnnotationController
 
 		$param = $datas['data'];
 
+		if ($param['supplyid'] <1) {
+			$this->writeJson(Status::CODE_OK,'exist', "error");
+		}
+
 		$data = [
 		    'name'=>$param['name'],
 		    'contactor'=>$param['contactor'],
@@ -140,7 +142,7 @@ class Supply extends AnnotationController
 
 
 
-		$exist = SupplyModel::create()->get(['name'=>$param['name']]);
+		$exist = SupplyModel::create()->get(['name'=>$param['name'],'id'=>[$param['supplyid'],'!=']]);
 		if ($exist) {
 			$this->writeJson(200, '已存在', "error");
 			return false;
@@ -157,19 +159,18 @@ var_dump($lxrs);
 		if (count($lxrs)>0) {
 			ContactorModel::Create()->where(['supplyid'=>$param['supplyid']])->destroy();
 			$conmodel = new ContactorModel();
-
+var_dump($param['supplyid']);
 				foreach ($lxrs as $key => $value) {
 
-					if (array_key_exists("items", $value)) {
-							
-							// if (array_key_exists('cid', $value)) {
-							// 	var_dump($value);
-							// 	$conmodel->update(['name'=>$value['name'],'phone'=>$value['phone'],'items'=>implode($value['items'], ",")],['id'=>intval($value['cid'])]);
-
-							// }else{
-
+					if (array_key_exists("phone", $value) && $value['phone'] != "") {
+							var_dump($value);
+							if ($value['items']) {
+								$items  = implode(",",$value['items']);
+							}else{
+								$items = "";
+							}
 					
-					$conmodel->addData($value['name'],implode(",",$value['items']),$value['phone'],time(),intval($param['supplyid']));
+					$conmodel->addData($value['name'],$items,$value['phone'],time(),intval($param['supplyid']));
 				}
 					
 				}

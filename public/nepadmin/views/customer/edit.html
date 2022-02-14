@@ -237,7 +237,7 @@ $("#app").addClass("nepadmin-sidebar-shrink");
 
         admin.post({
             api: 'getproducts',
-            data:{'pageSize':9999},
+            data:{'limit':9999},
             success:function (res) {
                 if (res.result.list.length > 0){
                     let html = "";
@@ -336,6 +336,7 @@ $('body').on('click','.re',function(){
 
         admin.post({
             api: 'getproducts',
+            data:{"limit":999},
             success:function (res) {
                 if (res.result.list.length > 0){
                     itemboxha = "";
@@ -731,7 +732,7 @@ var priceadd = "";
                     var opt_product = "";
 
        $.ajax({
-            url: '/api/Product/getList'
+            url: '/api/Product/getList?limit=10000'
             ,
             async:false,
             success:function (res) {
