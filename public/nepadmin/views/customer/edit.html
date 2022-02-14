@@ -336,6 +336,7 @@ $('body').on('click','.re',function(){
 
         admin.post({
             api: 'getproducts',
+            data:{"limit":999},
             success:function (res) {
                 if (res.result.list.length > 0){
                     itemboxha = "";
