@@ -43,8 +43,6 @@ class Supply extends AnnotationController
 
 		$data = [
 		    'name'=>$param['name'],
-		    'contactor'=>$param['contactor'],
-		    'phone'=>$param['phone'],
 		    'address'=>$param['address'],
 		    'remark'=>$param['remark'],
 		    'info'=>$param['info'],
@@ -68,7 +66,7 @@ class Supply extends AnnotationController
     		$model = new SupplyModel($data);
 		    $supplyid = $model->save();
 	  	   $conmodel = new ContactorModel();
-
+var_dump($datas);
 		$lxrs = $datas['lxrarr'];
 
 
@@ -87,10 +85,10 @@ class Supply extends AnnotationController
 		}
 
 
-
+		
 		\App\Libs\Util::savefiles($datas['files'],$supplyid,1);
-
-
+ \EasySwoole\ORM\DbManager::getInstance()->commit();
+ $this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 
 		}catch(\Throwable  $e){
         // 回滚事务
@@ -103,7 +101,6 @@ class Supply extends AnnotationController
 		
 
 
-		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
 
@@ -140,7 +137,7 @@ class Supply extends AnnotationController
 
 
 
-		$exist = SupplyModel::create()->get(['name'=>$param['name']]);
+		$exist = SupplyModel::create()->get(['name'=>$param['name'],'id'=>[$param[supplyid],'!=']]);
 		if ($exist) {
 			$this->writeJson(200, '已存在', "error");
 			return false;

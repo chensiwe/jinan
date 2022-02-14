@@ -56,7 +56,7 @@ class SupplyProductRelateModel extends AbstractModel
 		float $price,
 		string $address,
 		string $priceinfo,
-		int $buynumber,
+		float $buynumber,
 		int $pid
 	): self {
 		$data = [

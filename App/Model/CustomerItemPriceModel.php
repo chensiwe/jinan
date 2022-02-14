@@ -41,7 +41,7 @@ class CustomerItemPriceModel extends AbstractModel
 	}
 
 
-	public function addData(int $pid, string $name, int $numbers, float $price, string $buytime, int $customer_id,$brand): self
+	public function addData(int $pid, string $name, float $numbers, float $price, string $buytime, int $customer_id,$brand): self
 	{
 		$data = [
 		    'pid'=>$pid,

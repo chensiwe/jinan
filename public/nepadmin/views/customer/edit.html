@@ -847,7 +847,7 @@ $.ajax({
       <div class="layui-input-inline" style="width: 150px;">
       <input type="date" t='logdate' name='logdate[]' value=`+obj.time+`  placeholder="" autocomplete="off" class="layui-input">
     </div>  <div class="layui-input-inline" style="width:900px;">
-      <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input" value=`+obj.info+`>
+      <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input" value="`+obj.info.replace(/\"/g, '')+`">
     </div>
     <i class="layui-icon layui-icon-delete re">delete</i>
   </div>`;
