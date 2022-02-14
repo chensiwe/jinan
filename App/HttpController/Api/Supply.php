@@ -43,8 +43,6 @@ class Supply extends AnnotationController
 
 		$data = [
 		    'name'=>$param['name'],
-		    'contactor'=>$param['contactor'],
-		    'phone'=>$param['phone'],
 		    'address'=>$param['address'],
 		    'remark'=>$param['remark'],
 		    'info'=>$param['info'],
@@ -68,7 +66,7 @@ class Supply extends AnnotationController
     		$model = new SupplyModel($data);
 		    $supplyid = $model->save();
 	  	   $conmodel = new ContactorModel();
-
+var_dump($datas);
 		$lxrs = $datas['lxrarr'];
 
 
@@ -98,9 +96,10 @@ class Supply extends AnnotationController
 		}
 
 
-
+		
 		\App\Libs\Util::savefiles($datas['files'],$supplyid,1);
-		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
+ \EasySwoole\ORM\DbManager::getInstance()->commit();
+ $this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 		
 
 
@@ -112,7 +111,9 @@ class Supply extends AnnotationController
     }
 
 		
-	
+		
+
+
 	}
 
 

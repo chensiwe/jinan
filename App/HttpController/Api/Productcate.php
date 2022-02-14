@@ -127,7 +127,8 @@ class Productcate extends AnnotationController
 
 	public function getList()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		  $param = $this->request()->getRequestParam();
+
 		$page = (int)($param['page'] ?? 1);
 		$pageSize = (int)($param['limit'] ?? 10);
 		$model = new ProductcateModel();
