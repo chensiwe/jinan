@@ -739,10 +739,11 @@ var priceadd = "";
                           if (res.result.list.length > 0){
                   
                               $.each(res.result.list, function (index, item) {
-console.log();
-                                if (item.id == v.pid) {
 
-                                    opt_product += '<option selected="selected" value="'+item.id+'">'+item.name+'</option>';
+
+                                if (Number(item.id) === Number(v.pid)) {
+                                    opt_product += `<option selected="selected" value="`+item.id+`">`+item.name+`</option>`;
+
                                 }else{
                                   opt_product += '<option value="'+item.id+'">'+item.name+'</option>';
                                 }
@@ -752,11 +753,10 @@ console.log();
                               
                           }
 
-                          formSelects.render();
-                          form.render();
+                         // formSelects.render();
+                         // form.render();
                       }
                   });
-
 
 
 
@@ -765,9 +765,8 @@ console.log();
       
     <label class="layui-form-label">产品</label>
     <div class="layui-input-inline" style="width: 200px;">
-          <select  name="item[]" t='item' lay-search class="name" lay-filter="selectitem"  id="item" lay-search>
-                      
-                  `+opt_product+`    
+          <select  name="item[]" t='item' lay-search class="name" lay-filter="selectitem"  id="itemss" lay-search>
+                     `+opt_product+` 
          </select>
     </div>
 
