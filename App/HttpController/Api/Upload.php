@@ -38,7 +38,7 @@ class Upload extends AnnotationController
                 $filename = $file->getClientFilename();
                 $path = '/uploadfiles/'.md5(time()).substr(0,4).".".explode('.',$filename)[1];
                 $flag = $file->moveTo($path);
-                $arr[explode('.',$filename)[0]] = $path;
+                $arr[explode('.',$filename)[0].mt_rand(111,999)] = $path;
         }
         
 

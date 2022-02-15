@@ -334,7 +334,7 @@ $("#app").addClass("nepadmin-sidebar-shrink");
     <div class="layui-panel">
      
       <div style="padding: 20px;">
-        <a href=`+v.replace(/uploadfiles/,"files")+`><i style="float:right" class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+        <a href=`+v.replace(/uploadfiles/,"files")+`><i style="float:right" class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value="`+v+`" name="`+k+`" class='filebox2'>
 
       </div>
     
@@ -424,8 +424,7 @@ parent.layer.close(index); //再执行关闭
             return false;
         });
 
-var con_opts = ``;
-        
+        var con_opts = "";
 form.on('select(selectsu)', function (data) {
             var suid = data.value;
             console.log("choose suid is  "+suid);
@@ -443,6 +442,7 @@ form.on('select(selectsu)', function (data) {
 
 
 
+ con_opts=`<option value="">请选择联系人</option>`;
 
 
 
@@ -450,16 +450,13 @@ form.on('select(selectsu)', function (data) {
             url: '/api/Contactor/getList?limit=9999&supplyid='+suid,
             async:false,
             success:function (res) {
-                if (res.result.list.length > 0){
+                if (res.code==200){
               
                     $.each(res.result.list, function (index, item) {
                         con_opts += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
                     });
 
 
-                    console.log("hello.....");
-
-console.log($(data.elem));
                      $(data.elem).parent().parent().next().next().find("select[t='contact_id']").html(con_opts);
                   
                 }
@@ -779,7 +776,7 @@ var fileopt = "";
     <div class="layui-panel">
      
       <div style="padding: 30px;">
-        <a href=`+v.filepath.replace(/uploadfiles/,"files")+`><span>`+v.filename+`</span></a><input type='hidden' value=`+v.filepath+` name=`+v.filename+` class='filebox2'>
+        <a href=`+v.filepath.replace(/uploadfiles/,"files")+`><span>`+v.filename+`</span></a><input type='hidden' value="`+v.filepath+`" name="`+v.filename+`" class='filebox2'>
       </div>
     
     </div>   
@@ -825,14 +822,13 @@ console.log(item);
         });
 
 
-console.log("111111111111111111111");
-console.log(su_opts);
+
 
 
 var con_opts="";
 
         $.ajax({
-            url: '/api/Contactor/getList',
+            url: '/api/Contactor/getList?limit=999&supplyid='+obj.supplyid,
             async:false,
             success:function (res) {
                 if (res.result.list.length > 0){

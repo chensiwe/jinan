@@ -214,13 +214,15 @@
                     var supplyname = $(this).find("select[t='supply_id']").val();
                     var supplytype = $(this).find("input[t='supply_type']").val();
                     var contactname =  $(this).find("select[t='contact_id']").val();
-                    var contactphone =  $(this).find("input[t='contact_phone']").val();
+                  
+                    var contactphone =  $(this).find("select[t='contact_id']").attr("contactid");
 
                     var price =  $(this).find("input[t='price']").val();
                     var time =  $(this).find("input[t='time']").val();
                     var numbers =  $(this).find("input[t='numbers']").val();
                     var priceinfo =  $(this).find("input[t='priceinfo']").val();
                     var address  = $(this).find("input[t='address']").val();
+
                     boxp['supplyname'] = supplyname;
                     boxp['supplytype'] = supplytype;
                     boxp['contactname'] = contactname;
@@ -230,6 +232,7 @@
                     boxp['time'] = time;
                     boxp['numbers'] = numbers;
                     boxp['address'] = address;
+                   
 
                     subox.push(boxp);
                    
@@ -296,7 +299,7 @@
     <div class="layui-panel">
      
       <div style="padding: 20px;">
-        <a href=`+v.replace(/uploadfiles/,"files")+`><i style="float:right" class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value=`+v+` name=`+k+` class='filebox2'>
+        <a href=`+v.replace(/uploadfiles/,"files")+`><i style="float:right" class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value="`+v+`" name="`+k+`" class='filebox2'>
 
       </div>
     
@@ -379,23 +382,20 @@ form.on('select(selectsu)', function (data) {
                     $(data.elem).parent().parent().next().find("input[t='supply_type']").val(res.result.type);
                 
 
-
+                    con_opts=`<option value="">请选择联系人</option>`;
 
 
         $.ajax({
             url: '/api/Contactor/getList?limit=9999&supplyid='+suid,
             async:false,
             success:function (res) {
-                if (res.result.list.length > 0){
+                if (res.code== 200){
               
                     $.each(res.result.list, function (index, item) {
-                        con_opts += '<option value="'+item.id+'" data-type="'+item.type+'">'+item.name+'</option>';
+                        con_opts += '<option value="'+item.id+'" data-type="'+item.type+'"  contactid="'+item.id+'">'+item.name+'</option>';
                     });
 
 
-                    console.log("hello.....");
-
-console.log($(data.elem));
                      $(data.elem).parent().parent().next().next().find("select[t='contact_id']").html(con_opts);
                   
                 }

@@ -30,17 +30,7 @@ use EasySwoole\Validate\Validate;
  */
 class Product extends AnnotationController
 {
-	/**
-	 * @Api(name="add",path="/Api/Product/add")
-	 * @ApiDescription("新增数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 */
+	
 	public function add()
 	{
 		$datas = $this->request()->getRequestParam();
@@ -79,6 +69,22 @@ class Product extends AnnotationController
 					
 				
     	$contact = \App\Model\ContactorModel::create()->get(intval($value['contactname']));
+
+    	
+    	if ($contact['items'] == "") {
+			$items = [];
+		}else{
+			$items = explode(",", $contact['items']);
+		}
+
+   
+    	$items[] = $param['name'];
+    	var_dump($items);
+
+    	//update product info to contactor
+    	\App\Model\ContactorModel::create()->update(['items'=>implode(",",array_unique($items))],['id'=>$contact['id']]);
+
+
 
 
     	var_dump($contact);
@@ -295,8 +301,19 @@ public function edit()
 							
     	$contact = \App\Model\ContactorModel::create()->get(intval($value['contactname']));
 
+		if ($contact['items'] == "") {
+			$items = [];
+		}else{
+			$items = explode(",", $contact['items']);
+		}
 
-    	var_dump($contact);
+   
+    	$items[] = $param['name'];
+    	var_dump($items);
+
+    	//update product info to contactor
+    	\App\Model\ContactorModel::create()->update(['items'=>implode(",",array_unique($items))],['id'=>$contact['id']]);
+
 			$data = [
 		    'supplyid'=>$value['supplyname'],
 		    'supplyname'=>(\App\Model\SupplyModel::create()->get(intval($value['supplyname'])))['name'],

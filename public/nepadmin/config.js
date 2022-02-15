@@ -35,7 +35,7 @@ layui.define(function(exports) {
 
     },
     //request 基础URL 如 http://82.157.126.59:9509/api/
-    requestUrl: 'http://82.157.126.59:9509/api/',
+    requestUrl: 'http://127.0.0.1:9506/api/',
     //独立页面路由，可随意添加（无需写参数）
     indPage: [
       '/user/login', //登入页
