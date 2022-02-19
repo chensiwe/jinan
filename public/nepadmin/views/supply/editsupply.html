@@ -139,7 +139,7 @@
 
     <label class="layui-form-label">联系人</label>
     <div class="layui-input-inline" style="width: 100px;">
-      <input type="text" name="conname[]" t='name' placeholder="..." autocomplete="off" class="layui-input">
+      <input type="text" name="conname[]" t='name' placeholder="联系人" autocomplete="off" class="layui-input">
     </div>
     
   </div>
@@ -148,13 +148,13 @@
   <div class="layui-inline">
     <div class="layui-form-mid">手机号</div>
     <div class="layui-input-inline" style="width: 150px;">
-      <input type="text" name="conphone[]" t='phone' placeholder="188..." autocomplete="off" class="layui-input">
+      <input type="text" name="conphone[]" t='phone' placeholder="手机号" autocomplete="off" class="layui-input">
     </div>
   </div>
 
 
-
-<a class="layui-btn-danger layui-btn additem">添加产品</a>
+<!--
+<a class="layui-btn-danger layui-btn additem">添加产品</a> -->
   <div class="layui-inline">
       
 
@@ -287,7 +287,7 @@ parent.layer.close(index); //再执行关闭
     <div class="layui-panel">
      
       <div style="padding: 30px;">
-        <a href=`+v.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value="`+v+`" name="`+k+`" class='filebox2'>
+        <a href=`+v.replace(/uploadfiles/,"files")+` target="_blank"><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value="`+v+`" name="`+k+`" class='filebox2'>
 
       </div>
     
@@ -320,9 +320,9 @@ parent.layer.close(index); //再执行关闭
             var con = "";
 
 
-            con+=`<div class="layui-input-inline" style="width: 150px;margin-right:5px;">
+            con+=`<div class="layui-input-inline" style="width:200px;margin-right:5px;">
       <input style="border-color:#2e2929" type="text" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
-      <i class="layui-icon layui-icon-delete re">delete</i>
+      
     </div>`;
                   
 
@@ -429,7 +429,7 @@ parent.layer.close(index); //再执行关闭
     <div class="layui-panel">
      
       <div style="padding: 30px;">
-        <a href=`+v.filepath.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value="`+v.filepath+`" name="`+v.filename+`" class='filebox2'>
+        <a href=`+v.filepath.replace(/uploadfiles/,"files")+` download=`+v.filepath.replace(/uploadfiles/,"files")+`><i class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+v.filename+`</span></a><input type='hidden' value="`+v.filepath+`" name="`+v.filename+`" class='filebox2'>
       </div>
     
     </div>   
@@ -468,8 +468,8 @@ parent.layer.close(index); //再执行关闭
                         if (obj.itemarr.length>0) {
                         $.each(obj.itemarr,function(i,val){
 
-                                itemsatt+=`<div class="layui-input-inline" style="width: 150px;margin-right:5px;">
-      <input style="border-color:#2e2929" type="text" value="`+val+`" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;"><i class="layui-icon layui-icon-delete re">delete</i>
+                                itemsatt+=`<div class="layui-input-inline" style="width: 200px;margin-right:5px;">
+      <input style="border-color:#2e2929" disabled="disabled" type="text" value="`+val+`" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
     </div>`;
 
 
@@ -498,7 +498,6 @@ parent.layer.close(index); //再执行关闭
 
 
 
-<a class="layui-btn-danger layui-btn additem">添加产品</a>
   <div class="layui-inline">
       
 `+itemsatt+`

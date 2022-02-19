@@ -8,7 +8,7 @@ class Util
 {
 	
 	public static function savefiles($files,$spid,$type){
-		if (count($files)>0) {
+		if (count($files)>=0) {
 
 			\App\Model\FilesModel::create()->where(['sp_id'=>$spid,'type'=>$type])->destroy();
 

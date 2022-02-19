@@ -92,7 +92,7 @@
  <div class="layui-col-md12">
                               <label class="layui-form-label">地址</label>
                         <div class="layui-input-block">
-                        <textarea name="address" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        <textarea name="address"  placeholder="请输入内容" class="layui-textarea"></textarea>
                     </div>
                     </div>
 
@@ -397,13 +397,13 @@ $("#box").append($("#additembox").html());
 $("#addhistory").click(function(){
 
 
-    var his=`<div class="layui-inline hisbox" style="margin-left:80px">
+    var his=`<div class="layui-inline hisbox" style="width:100%;margin-left:80px">
       
     
       <div class="layui-input-inline" style="width: 150px;">
       <input type="date" t='logdate' name='logdate[]'  placeholder="" autocomplete="off" class="layui-input">
-    </div>  <div class="layui-input-inline" style="width:900px;">
-      <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input">
+    </div>  <div class="layui-input-inline" style="width:1300px;">
+      <input  type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input">
     </div>
     <i class="layui-icon layui-icon-delete re">delete</i>
   </div>`;

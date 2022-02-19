@@ -185,33 +185,6 @@ class Product extends AnnotationController
 	}
 
 
-	/**
-	 * @Api(name="getList",path="/Api/Product/getList")
-	 * @ApiDescription("获取数据列表")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"获取成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
-	 * @Param(name="page", from={GET,POST}, alias="页数", optional="")
-	 * @Param(name="pageSize", from={GET,POST}, alias="每页总数", optional="")
-	 * @ApiSuccessParam(name="result[].id",description="")
-	 * @ApiSuccessParam(name="result[].name",description="")
-	 * @ApiSuccessParam(name="result[].cas",description="")
-	 * @ApiSuccessParam(name="result[].chemical",description="")
-	 * @ApiSuccessParam(name="result[].cate",description="")
-	 * @ApiSuccessParam(name="result[].brand",description="")
-	 * @ApiSuccessParam(name="result[].pack",description="")
-	 * @ApiSuccessParam(name="result[].market",description="")
-	 * @ApiSuccessParam(name="result[].properties",description="")
-	 * @ApiSuccessParam(name="result[].content",description="")
-	 * @ApiSuccessParam(name="result[].usefor",description="")
-	 * @ApiSuccessParam(name="result[].remark",description="")
-	 * @ApiSuccessParam(name="result[].sameitem",description="")
-	 * @ApiSuccessParam(name="result[].createtime",description="")
-	 */
 	public function getList()
 	{
 		$param =  $this->request()->getRequestParam();
@@ -220,8 +193,8 @@ class Product extends AnnotationController
 		$model = new ProductModel();
 		$datas = $this->request()->getRequestParam();
 		 if (isset($datas['name']) && $datas['name'] != ""){
-            $model->where('name', "%{$datas['name']}%", 'like')->where('cas', "%{$datas['name']}%", 'like', 'OR')->where('chemical', "%{$datas['name']}%", 'like', 'OR')->where('brand', "%{$datas['name']}%", 'like', 'OR')->where('pack', "%{$datas['name']}%", 'like', 'OR')->where('market', "%{$datas['name']}%", 'like', 'OR')->where('properties', "%{$datas['name']}%", 'like', 'OR')->where('usefor', "%{$datas['name']}%", 'like', 'OR');
-        }
+            $model->where('name', "%{$datas['name']}%", 'like')->where('cas', "%{$datas['name']}%", 'like', 'OR')->where('chemical', "%{$datas['name']}%", 'like', 'OR')->where('brand', "%{$datas['name']}%", 'like', 'OR')->where('pack', "%{$datas['name']}%", 'like', 'OR')->where('market', "%{$datas['name']}%", 'like', 'OR')->where('properties', "%{$datas['name']}%", 'like', 'OR')->where('usefor', "%{$datas['name']}%", 'like', 'OR')->where('sameitem', "%{$datas['name']}%", 'like', 'OR')->where('content', "%{$datas['name']}%", 'like', 'OR')->where('aliasname', "%{$datas['name']}%", 'like', 'OR')->where('remark', "%{$datas['name']}%", 'like', 'OR');
+		 }
 
         if (isset($datas['cate']) && $datas['cate'] != '1'){
             $model->where(['cate'=>$datas['cate']]);

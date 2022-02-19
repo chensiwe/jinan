@@ -32,20 +32,23 @@ class Upload extends AnnotationController
             $this->writeJson(500,"no files found");
             return false;
         }
-  
-        $arr = [];
-        foreach($files as $file){
-                $filename = $file->getClientFilename();
-                $path = '/uploadfiles/'.md5(time()).substr(0,4).".".explode('.',$filename)[1];
-                $flag = $file->moveTo($path);
-                $arr[explode('.',$filename)[0].mt_rand(111,999)] = $path;
-        }
-        
+ 	$file = $request->getUploadedFile('file');
+var_dump($file);
 
+$arr = [];
+  $filename = $file->getClientFilename();
+                $path = '/uploadfiles/'.md5(time()).substr(0,9).mt_rand(111,9999).".".explode('.',$filename)[1];
+                $flag = $file->moveTo($path);
+                $arr[explode('.',$filename)[0].time()] = $path; 
+  //      foreach($files as $file){
+    //            $filename = $file->getClientFilename();
+      //          $path = '/uploadfiles/'.md5(time()).substr(0,9).".".explode('.',$filename)[1];
+        //        $flag = $file->moveTo($path);
+          //      $arr[explode('.',$filename)[0].time()] = $path;
+       // }
+        
             $this->writeJson(200,$arr);
         }
-
-
 
 	
 }

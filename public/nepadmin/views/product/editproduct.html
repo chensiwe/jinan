@@ -231,14 +231,14 @@
                     </div>
 
                      <div class="layui-col-md3">
-                         <label class="layui-form-label">联系人手机</label>
+                         <label class="layui-form-label">电话</label>
                              <div class="layui-input-block">
                         <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
-                          <label class="layui-form-label">成交日期</label>
+                          <label class="layui-form-label">报价时间</label>
                            <div class="layui-input-block">
                         <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" >
                     </div>
@@ -247,14 +247,14 @@
 
 
                      <div class="layui-col-md3">
-                        <label class="layui-form-label">成交价格</label>
+                        <label class="layui-form-label">报价</label>
                          <div class="layui-input-block">
                         <input type="number" t='price' value="9.00" autocomplete="off" class="layui-input">
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
-                        <label class="layui-form-label">成交数量</label>
+                        <label class="layui-form-label">报价数量</label>
                         <div class="layui-input-block">
                         <input type="number" t='numbers' value="1" autocomplete="off" class="layui-input">
                     </div>
@@ -334,7 +334,7 @@ $("#app").addClass("nepadmin-sidebar-shrink");
     <div class="layui-panel">
      
       <div style="padding: 20px;">
-        <a href=`+v.replace(/uploadfiles/,"files")+`><i style="float:right" class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value="`+v+`" name="`+k+`" class='filebox2'>
+        <a href=`+v.replace(/uploadfiles/,"files")+`  download=`+v.filepath.replace(/uploadfiles/,"files")+`><i style="float:right" class="layui-icon layui-icon-file" style="font-size: 30px; color: #1E9FFF;"></i><span>`+k+`</span></a><input type='hidden' value="`+v+`" name="`+k+`" class='filebox2'>
 
       </div>
     
@@ -597,14 +597,14 @@ var con_opt="";
                     </div>
 
                      <div class="layui-col-md3">
-                         <label class="layui-form-label">联系人手机</label>
+                         <label class="layui-form-label">电话</label>
                              <div class="layui-input-block">
                         <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
-                          <label class="layui-form-label">成交日期</label>
+                          <label class="layui-form-label">报价时间</label>
                            <div class="layui-input-block">
                         <input type="date" name="createtime" t='time' placeholder="成交日期" autocomplete="off" class="layui-input" >
                     </div>
@@ -613,14 +613,14 @@ var con_opt="";
 
 
                      <div class="layui-col-md3">
-                        <label class="layui-form-label">成交价格</label>
+                        <label class="layui-form-label">报价</label>
                          <div class="layui-input-block">
                         <input type="number" t='price' value="9.00" autocomplete="off" class="layui-input">
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
-                        <label class="layui-form-label">成交数量</label>
+                        <label class="layui-form-label">报价数量</label>
                         <div class="layui-input-block">
                         <input type="number" t='numbers' value="1" autocomplete="off" class="layui-input">
                     </div>
@@ -800,7 +800,7 @@ var fileopt = "";
 var su_opts = `<option value="0">选择供应商</option>`;
 
                           $.ajax({
-            url: '/api/supply/getList?limti=999999',
+            url: '/api/supply/getList?limit=999999',
             async:false,
             success:function (res) {
                 if (res.result.list.length > 0){
@@ -896,14 +896,14 @@ var con_opts="";
                     </div>
 
                      <div class="layui-col-md3">
-                         <label class="layui-form-label">联系人手机</label>
+                         <label class="layui-form-label">电话</label>
                              <div class="layui-input-block">
                         <input type="text" name="contactorphone[]" t='contact_phone' id="contactphone" placeholder="联系人手机" value=`+obj.contactphone+` autocomplete="off" class="layui-input" >
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
-                          <label class="layui-form-label">成交日期</label>
+                          <label class="layui-form-label">报价时间</label>
                            <div class="layui-input-block">
                         <input type="date" name="createtime" t='time' placeholder="成交日期" value=`+obj.createtime+` autocomplete="off" class="layui-input" >
                     </div>
@@ -912,14 +912,14 @@ var con_opts="";
 
 
                      <div class="layui-col-md3">
-                        <label class="layui-form-label">成交价格</label>
+                        <label class="layui-form-label">报价</label>
                          <div class="layui-input-block">
                         <input type="number" t='price' autocomplete="off" value=`+obj.price+` class="layui-input">
                     </div>
                     </div>
 
                      <div class="layui-col-md3">
-                        <label class="layui-form-label">成交数量</label>
+                        <label class="layui-form-label">报价数量</label>
                         <div class="layui-input-block">
                         <input type="number" t='numbers' autocomplete="off" value=`+obj.buynumber+` class="layui-input">
                     </div>

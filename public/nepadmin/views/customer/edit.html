@@ -7,6 +7,10 @@
 .nepadmin-sidebar-shrink .layui-body, .nepadmin-sidebar-shrink #app-header .layui-layout-left, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-menu, .nepadmin-sidebar-shrink .nepadmin-tabs-wrap .nepadmin-tabs-prev {
     left: 0px;
 }
+.layui-form-label{
+padding:9px 5px;
+width:75px;
+}
 </style>
 <link rel="stylesheet" href="./nepadmin/css/formSelects.css" media="all">
 <div class="layui-fluid" lay-title="客户管理">
@@ -29,7 +33,7 @@
                     <div class="layui-col-md6">
                               <label class="layui-form-label">地址</label>
                         <div class="layui-input-block">
-                        <input type="text" name="address" placeholder="" autocomplete="off"  class="layui-input">
+                        <input type="text" name="address" placeholder="地址" autocomplete="off"  class="layui-input">
                     </div>
                     </div>
 
@@ -55,7 +59,7 @@
                     <div class="layui-col-md6">
                         <label class="layui-form-label">联系人</label>
                         <div class="layui-input-block">
-                        <input type="text" name="contact" placeholder="" autocomplete="off"  class="layui-input">
+                        <input type="text" name="contact" placeholder="联系人" autocomplete="off"  class="layui-input">
                     </div>
                     </div>
 
@@ -65,7 +69,7 @@
                 <div class="layui-col-md6">
                         <label class="layui-form-label">电话</label>
                         <div class="layui-input-block">
-                        <input type="text" name="phone" placeholder="" autocomplete="off"  class="layui-input">
+                        <input type="text" name="phone" placeholder="电话" autocomplete="off"  class="layui-input">
                     </div>
                 </div>
 
@@ -350,7 +354,7 @@ $('body').on('click','.re',function(){
   <div class="layui-inline">
       
     <label class="layui-form-label">产品</label>
-    <div class="layui-input-inline" style="width: 200px;">
+    <div class="layui-input-inline" style="width: 100px;">
           <select  name="item[]" t='item' lay-search class="name" lay-filter="selectitem" id="item" lay-search>
                       `+itemboxha+`
                       
@@ -360,14 +364,14 @@ $('body').on('click','.re',function(){
 
     <div class="layui-inline">
     <label class="layui-form-label">品牌</label>
-      <div class="layui-input-inline" style="width: 200px;">
+      <div class="layui-input-inline" style="width: 100px;">
       <input type="number" t='brand'  disabled="disabled" name="brand[]"  autocomplete="off" class="layui-input">
     </div>
 </div>
 
     <div class="layui-inline">
     <label class="layui-form-label">报价</label>
-      <div class="layui-input-inline" style="width: 200px;">
+      <div class="layui-input-inline" style="width: 150px;">
       <input type="number" t=price name="price[]"  placeholder="￥" autocomplete="off" class="layui-input price">
     </div>
   </div>
@@ -375,7 +379,7 @@ $('body').on('click','.re',function(){
   
   <div class="layui-inline">
     <label class="layui-form-label">数量</label>
-    <div class="layui-input-inline" style="width: 200px;">
+    <div class="layui-input-inline" style="width: 100px;">
       <input type="number" t="numbers" name="numbers[]" autocomplete="off" class="layui-input">
     </div>
   </div>
@@ -430,7 +434,7 @@ $("#addhistory").click(function(){
     
       <div class="layui-input-inline" style="width: 150px;">
       <input type="date" t='logdate' name='logdate[]'  placeholder="" autocomplete="off" class="layui-input">
-    </div>  <div class="layui-input-inline" style="width:900px;">
+    </div>  <div class="layui-input-inline" style="width:1150px;">
       <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input">
     </div>
     <i class="layui-icon layui-icon-delete re">delete</i>
@@ -699,7 +703,7 @@ var fileopt = "";
     <div class="layui-panel">
      
       <div style="padding: 30px;">
-        <a href=`+v.filepath.replace(/uploadfiles/,"files")+`><span>`+v.filename+`</span></a><input type='hidden' value="`+v.filepath+`" name="`+v.filename+`" class='filebox2'>
+        <a href=`+v.filepath.replace(/uploadfiles/,"files")+`  download=`+v.filepath.replace(/uploadfiles/,"files")+`><span>`+v.filename+`</span></a><input type='hidden' value="`+v.filepath+`" name="`+v.filename+`" class='filebox2'>
       </div>
     
     </div>   
@@ -846,7 +850,7 @@ $.ajax({
   
       <div class="layui-input-inline" style="width: 150px;">
       <input type="date" t='logdate' name='logdate[]' value=`+obj.time+`  placeholder="" autocomplete="off" class="layui-input">
-    </div>  <div class="layui-input-inline" style="width:900px;">
+    </div>  <div class="layui-input-inline" style="width:1150px;">
       <input type="text" t='loginfo' name="logifo[]"  placeholder="" autocomplete="off" class="layui-input" value="`+obj.info.replace(/\"/g, '')+`">
     </div>
     <i class="layui-icon layui-icon-delete re">delete</i>
