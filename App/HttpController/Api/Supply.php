@@ -33,14 +33,12 @@ use EasySwoole\Validate\Validate;
 class Supply extends AnnotationController
 {
 	
-	public function add()
+
+
+public function add()
 	{
 		$datas = $this->request()->getRequestParam();
-
-
 		$param = $datas['data'];
-
-
 		$data = [
 		    'name'=>$param['name'],
 		    'address'=>$param['address'],
@@ -56,7 +54,6 @@ class Supply extends AnnotationController
 				$this->writeJson(200, '已存在', "error");
 				return false;
 			}
-
 
 		try{
 			//open tracition...
@@ -83,9 +80,6 @@ var_dump($datas);
 							}else{
 								$items = "";
 							}
-
-
-
 
 						
 					$contacrid = $conmodel->addData($value['name'],$items,$value['phone'],time(),$supplyid);
@@ -199,29 +193,8 @@ var_dump($param['supplyid']);
 
 
 
-	/**
-	 * @Api(name="update",path="/Api/Supply/update")
-	 * @ApiDescription("更新数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 * @Param(name="id",lengthMax="11",required="")
-	 * @Param(name="name",lengthMax="100",optional="")
-	 * @Param(name="contactor",lengthMax="10",optional="")
-	 * @Param(name="phone",lengthMax="11",optional="")
-	 * @Param(name="address",lengthMax="150",optional="")
-	 * @Param(name="remark",lengthMax="200",optional="")
-	 * @Param(name="info",optional="")
-	 * @Param(name="type",lengthMax="25",optional="")
-	 * @Param(name="createtime",lengthMax="15",optional="")
-	 * @Param(name="status",lengthMax="1",optional="")
-	 * @Param(name="donemunber",lengthMax="10",optional="",defaultValue="0")
-	 */
-	public function update()
+
+public function update()
 	{
 		$param = ContextManager::getInstance()->get('param');
 		$model = new SupplyModel();
@@ -247,36 +220,17 @@ var_dump($param['supplyid']);
 	}
 
 
-	/**
-	 * @Api(name="getOne",path="/Api/Supply/getOne")
-	 * @ApiDescription("获取一条数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"获取成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"获取失败"})
-	 * @Param(name="id",lengthMax="11",required="")
-	 * @ApiSuccessParam(name="result.id",description="")
-	 * @ApiSuccessParam(name="result.name",description="")
-	 * @ApiSuccessParam(name="result.contactor",description="")
-	 * @ApiSuccessParam(name="result.phone",description="")
-	 * @ApiSuccessParam(name="result.address",description="")
-	 * @ApiSuccessParam(name="result.remark",description="")
-	 * @ApiSuccessParam(name="result.info",description="")
-	 * @ApiSuccessParam(name="result.type",description="")
-	 * @ApiSuccessParam(name="result.createtime",description="")
-	 * @ApiSuccessParam(name="result.status",description="")
-	 * @ApiSuccessParam(name="result.donemunber",description="")
-	 */
+	
 	public function getOne()
 	{
-		$param = ContextManager::getInstance()->get('param');
+		$param =  $this->request()->getRequestParam();
 		$model = new SupplyModel();
 		$info = $model->get(['id' => $param['id']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
+
+
+
 
 
 	public function getList()
@@ -288,13 +242,16 @@ var_dump($param['supplyid']);
 		$model = new SupplyModel();
 
 		$datas = $this->request()->getRequestParam();
-		 if (isset($datas['type']) && $datas['type']  != '1'){
+		if (isset($datas['type']) && $datas['type']  != '1'){
             $model->where(['type'=>$datas['type']]);
+        
+
         }
 
         if (isset($datas['name']) && $datas['name'] != ""){
 
              $model->where('name', "%{$datas['name']}%", 'like')->where('contactor', "%{$datas['name']}%", 'like', 'OR')->where('phone', "%{$datas['name']}%", 'like', 'OR')->where('address', "%{$datas['name']}%", 'like', 'OR')->where('remark', "%{$datas['name']}%", 'like', 'OR')->where('info', "%{$datas['name']}%", 'like', 'OR');
+        
         }
 
 
@@ -303,18 +260,9 @@ var_dump($param['supplyid']);
 	}
 
 
-	/**
-	 * @Api(name="delete",path="/Api/Supply/delete")
-	 * @ApiDescription("删除数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="id",lengthMax="11",required="")
-	 */
+
+
+
 	public function delete()
 	{
 		$param = ContextManager::getInstance()->get('param');
@@ -386,5 +334,9 @@ var_dump($param['supplyid']);
     $this->response()->end();
     return false;
 	}
+
+
+
+
 }
 

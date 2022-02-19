@@ -130,11 +130,36 @@ class Contactor extends AnnotationController
 	public function getOneBySupplyid()
 	{
 		$param =  $this->request()->getRequestParam();
-		var_dump($param);
+
 		$model = new ContactorModel();
 		$info = $model->all(['supplyid' => intval($param['suid'])]);
+		
 		for ($i=0; $i < count($info); $i++) { 
-			$info[$i]['itemarr'] =  explode(",", $info[$i]['items']);
+
+			$items = explode(",",$info[$i]['items']);
+		 	$arr = null;
+
+
+
+if (count($items) >=1 && !empty($items[0])) {
+
+for ($j=0; $j < count($items); $j++) { 
+		 		var_dump($items[$j]);		 		
+		 		$arr[] = \App\Model\ProductModel::create()->where(['id'=>intval($items[$j])])->get();
+				
+}
+
+
+		    
+$info[$i]['itemsarr'] = $arr;
+		  
+}else{
+
+	$info[$i]['itemsarr'] = [];
+}
+
+  
+
 		}
 	
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");

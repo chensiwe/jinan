@@ -464,12 +464,15 @@ parent.layer.close(index); //再执行关闭
                         var itemsatt=``;
 
 
-                        console.log(obj.itemarr.length);
-                        if (obj.itemarr.length>0) {
-                        $.each(obj.itemarr,function(i,val){
+                        if (obj.itemsarr.length>0) {
+
+                          
+                        $.each(obj.itemsarr,function(i,val){
 
                                 itemsatt+=`<div class="layui-input-inline" style="width: 200px;margin-right:5px;">
-      <input style="border-color:#2e2929" disabled="disabled" type="text" value="`+val+`" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
+      <input hidden  style="border-color:#2e2929;display:none" disabled="disabled" type="text" value="`+val.id+`" autocomplete="off" class="layui-input conitembox" style="padding-left:10px;">
+
+       <input style="border-color:#2e2929" disabled="disabled" type="text" value="`+val.name+`" autocomplete="off" class="layui-input" style="padding-left:10px;">
     </div>`;
 
 

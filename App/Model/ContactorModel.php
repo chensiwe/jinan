@@ -4,17 +4,7 @@ namespace App\Model;
 
 use EasySwoole\ORM\AbstractModel;
 
-/**
- * ContactorModel
- * Class ContactorModel
- * Create With ClassGeneration
- * @property int $id //
- * @property string $name //
- * @property string $items //
- * @property string $phone //
- * @property string $addtime //
- * @property int $supplyid //
- */
+
 class ContactorModel extends AbstractModel
 {
 	protected $tableName = 'siam_contactor';
@@ -28,6 +18,8 @@ class ContactorModel extends AbstractModel
 		    ->field($field)
 		    ->page($page, $pageSize)
 		    ->all();
+
+
 		$total = $this->lastQueryResult()->getTotalCount();
 		$data = [
 		    'page'=>$page,

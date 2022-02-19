@@ -20,24 +20,17 @@ use EasySwoole\HttpAnnotation\AnnotationTag\Param;
 use EasySwoole\Http\Message\Status;
 use EasySwoole\Validate\Validate;
 
-/**
- * Product
- * Class Product
- * Create With ClassGeneration
- * @ApiGroup(groupName="/Api.Product")
- * @ApiGroupAuth(name="")
- * @ApiGroupDescription("")
- */
+
+
 class Product extends AnnotationController
 {
 	
+
+
 	public function add()
 	{
 		$datas = $this->request()->getRequestParam();
-
-
 		$param = $datas['data'];
-
 		$data = [
 		    'name'=>$param['name'],
 		    'cas'=>$param['cas'],
@@ -58,37 +51,26 @@ class Product extends AnnotationController
 		$model = new ProductModel($data);
 		$proid = $model->save();
 
-
-
-
 		$subs = $datas['subox'];
 		if (count($subs) > 0) {
 		
-			foreach ($subs as $key => $value) {
+		foreach ($subs as $key => $value) {
 				if ($value['time']) {
-					
-				
+									
     	$contact = \App\Model\ContactorModel::create()->get(intval($value['contactname']));
 
-    	
     	if ($contact['items'] == "") {
 			$items = [];
 		}else{
 			$items = explode(",", $contact['items']);
 		}
-
    
-    	$items[] = $param['name'];
-    	var_dump($items);
-
+    	$items[] = $proid;
     	//update product info to contactor
     	\App\Model\ContactorModel::create()->update(['items'=>implode(",",array_unique($items))],['id'=>$contact['id']]);
 
-
-
-
-    	var_dump($contact);
-			$data = [
+  
+		$data = [
 		    'supplyid'=>$value['supplyname'],
 		    'supplyname'=>(\App\Model\SupplyModel::create()->get(intval($value['supplyname'])))['name'],
 		    'contactorname'=>$contact['name'],
@@ -105,47 +87,19 @@ class Product extends AnnotationController
 		$modelss->save();
 }
 
-
 			}
 		}
 
-
-
-
-
 		\App\Libs\Util::savefiles($datas['files'],intval($proid),2);
-
-
 
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
 
 
-	/**
-	 * @Api(name="update",path="/Api/Product/update")
-	 * @ApiDescription("更新数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"更新成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"更新失败"})
-	 * @Param(name="id",required="")
-	 * @Param(name="name",lengthMax="50",optional="")
-	 * @Param(name="cas",lengthMax="50",optional="")
-	 * @Param(name="chemical",lengthMax="150",optional="")
-	 * @Param(name="cate",optional="")
-	 * @Param(name="brand",lengthMax="15",optional="")
-	 * @Param(name="pack",lengthMax="20",optional="")
-	 * @Param(name="market",lengthMax="20",optional="")
-	 * @Param(name="properties",lengthMax="25",optional="")
-	 * @Param(name="content",lengthMax="20",optional="")
-	 * @Param(name="usefor",lengthMax="100",optional="")
-	 * @Param(name="remark",lengthMax="100",optional="")
-	 * @Param(name="sameitem",lengthMax="150",optional="")
-	 * @Param(name="createtime",lengthMax="15",optional="")
-	 */
+
+
+
+
 	public function update()
 	{
 		$param = ContextManager::getInstance()->get('param');
@@ -175,6 +129,10 @@ class Product extends AnnotationController
 	}
 
 
+
+
+
+
 	
 	public function getOne()
 	{
@@ -183,6 +141,11 @@ class Product extends AnnotationController
 		$info = $model->get(['id' => $param['id']]);
 		$this->writeJson(Status::CODE_OK, $info, "获取数据成功.");
 	}
+
+
+
+
+
 
 
 	public function getList()
@@ -210,18 +173,7 @@ class Product extends AnnotationController
 	}
 
 
-	/**
-	 * @Api(name="delete",path="/Api/Product/delete")
-	 * @ApiDescription("删除数据")
-	 * @Method(allow={GET,POST})
-	 * @InjectParamsContext(key="param")
-	 * @ApiSuccessParam(name="code",description="状态码")
-	 * @ApiSuccessParam(name="result",description="api请求结果")
-	 * @ApiSuccessParam(name="msg",description="api提示信息")
-	 * @ApiSuccess({"code":200,"result":[],"msg":"新增成功"})
-	 * @ApiFail({"code":400,"result":[],"msg":"新增失败"})
-	 * @Param(name="id",required="")
-	 */
+	
 	public function delete()
 	{
 		$param = ContextManager::getInstance()->get('param');
@@ -234,7 +186,10 @@ class Product extends AnnotationController
 
 		$info->destroy();
 		$this->writeJson(Status::CODE_OK, [], "删除成功.");
-	}
+}
+
+
+
 
 
 
@@ -281,9 +236,8 @@ public function edit()
 		}
 
    
-    	$items[] = $param['name'];
-    	var_dump($items);
-
+    	$items[] = intval($datas['id']);
+    
     	//update product info to contactor
     	\App\Model\ContactorModel::create()->update(['items'=>implode(",",array_unique($items))],['id'=>$contact['id']]);
 
@@ -303,13 +257,6 @@ public function edit()
 		$modelss = new \App\Model\SupplyProductRelateModel($data);
 
 
-// 				if (array_key_exists("id", $value)) {
-
-// \App\Model\SupplyProductRelateModel::create()->update($data,['id'=>intval($value['id'])]);
-
-						
-// 		}else{
-					
 
 
 
@@ -326,12 +273,6 @@ public function edit()
 
 		$this->writeJson(Status::CODE_OK, $model->toArray(), "新增成功");
 	}
-
-
-
-
-
-
 
 
 
